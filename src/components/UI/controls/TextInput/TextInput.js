@@ -3,17 +3,16 @@ import TextField from '@material-ui/core/TextField';
 import classes from './TextInput.css';
 class TextInput extends Component{
 
-shouldComponentUpdate(nextProps,nextstate){
-	return this.props.value != nextProps.value;
-}
+
 	render(){
-		const {label,handleChange,value,type,helperText} = this.props;
+		const {label,input: { value, onChange },type,helperText,multiline} = this.props;
 	return (
 		 <TextField label={label} type={type || 'text'}
               className={classes.TextInput}
                          value={value}
+                         multiline={multiline}
                           margin={helperText ? 'dense' : 'normal'}
-                         onChange={handleChange} 
+                         onChange={onChange} 
                          helperText={helperText}
                          />
 		 
@@ -22,7 +21,8 @@ shouldComponentUpdate(nextProps,nextstate){
 }
 
 TextInput.defaultProps = {
-  helperText: ''
+  helperText: '',
+  multiline:false
 };
 
 export default TextInput;

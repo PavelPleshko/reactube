@@ -1,3 +1,6 @@
-export * from './user.reducer';
+import  userReducer from './user.reducer';
+
 export * from './user.selectors';
-export * from './user.actions';
+export * from './user.operations';
+
+export default userReducer;

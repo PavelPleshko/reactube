@@ -1,4 +1,4 @@
-import {getToken} from '../../helpers/localStorage';
+
 
 
 function handleErrors(response) {
@@ -36,7 +36,6 @@ const uploadVideo = (options,url,progressReport)=>{
         xhr.upload.addEventListener("progress",progressReport);
       
         xhr.onreadystatechange = function(e) {
-            
           if (xhr.readyState == 4){
              let response= JSON.parse(xhr.responseText);
             if(xhr.status == 200){
@@ -52,8 +51,99 @@ const uploadVideo = (options,url,progressReport)=>{
 }
 
 
+const create = (mediaBody)=>{
+  return fetch('/api/media/new',{
+    method:'POST',
+    headers:{
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+     credentials: 'include',
+     body: JSON.stringify(mediaBody)
+  })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
 
+
+const listPopular = () => {
+  return fetch('/api/media/popular', {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
+const listRelated = (params) => {
+  return fetch('/api/media/related/'+ params.mediaId, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  }) 
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
+const listByUser = (params) => {
+  return fetch('/api/media/by/'+ params.userId, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
+
+const read = (params) => {
+  return fetch('/api/media/' + params.mediaId, {
+    method: 'GET'
+  })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
+
+const update = (media,params) => {
+  return fetch('/api/media/' + params.mediaId, {
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include',
+    body: JSON.stringify(media)
+  })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
+const remove = (params) => {
+  return fetch('/api/media/' + params.mediaId, {
+    method: 'DELETE',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
 
 export {
-	getDirectUploadDetails,uploadVideo
+	getDirectUploadDetails,uploadVideo,
+  create,
+  listPopular,listByUser,listRelated,
+  read,
+  update,
+  remove
 }

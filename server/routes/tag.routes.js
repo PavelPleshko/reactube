@@ -1,12 +1,12 @@
 import express from 'express';
-import tagCtrl from '../controllers/tag';
+import tagCtrl from '../controllers/tag.controller';
 
 const router = express.Router();
 
-router.route('/tags/all')
-	.get(tagCtrl.getAllTags);
+router.route('/media/tag/all')
+	.get(tagCtrl.listAll);
 
-router.route('/tag/new')
-	.post(tagCtrl.createTag);
+router.route('/media/tag/new')
+	.post(tagCtrl.create);
 
 export default router;

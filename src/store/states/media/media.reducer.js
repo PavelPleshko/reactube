@@ -1,62 +1,418 @@
-import * as userActions from './user.actions';
+import types from './media.types';
+import reduceReducers from 'reduce-reducers';
+import {combineReducers} from 'redux';
 
-let isLogged = JSON.parse(localStorage.getItem('user'));
-const initialState = isLogged ? { processing:false,
-	isError:false,
-	data:isLogged} : {processing:false,
-	isError:false,
-	data:null};
 
-export function userReducer(state=initialState,action){
-	switch(action.type){
-		case userActions.LOGIN_USER_REQUEST:
+import categoryReducer from './category';
+import tagReducer from './tag';
+
+const initialState = {
+		processing:{
+			all:false,
+			popular:false,
+			related:false,
+			singleMedia:false
+		},
+		isError:{
+			all:false,
+			popular:false,
+			related:false,
+			singleMedia:false
+		},
+		all:{
+			allIds:[],
+			byId:{}
+		},
+		popular:{
+				allIds:[],
+				byId:{}
+		},
+		related:{
+				allIds:[],
+				byId:{}
+		},
+		singleMedia:null		
+	};
+
+const createMedia = (state=initialState,action) => {
+	const { type, payload } = action;
+	switch(type){
+		case types.CREATE_MEDIA_REQUEST:
 			return {
 				...state,
-				processing:true,
-				isError:null
+				processing:{
+					...state.processing,
+					all:true
+				},
+				isError:{
+					...state.isError,
+					all:null
+				}
 			}
 		break;	
-		case userActions.LOGIN_USER_SUCCESS:
-			return {
-				...state,
-				processing:false,
-				data:action.payload
-			}
-		break;
-		case userActions.LOGIN_USER_ERROR:
-			return {
-				...state,
-				processing:false,
-				isError:action.payload,
-				data:null
-			}
-		break;
-		case userActions.REGISTER_USER_REQUEST:
-			return {
-				...state,
-				processing:true,
-				isError:null
-			}
-		break;	
-		case userActions.REGISTER_USER_SUCCESS:
-			return {
-				...state,
-				processing:false,
-				data:action.payload,
-				isError:null
 
-			}
-		break;	
-		case userActions.REGISTER_USER_ERROR:
+		case types.CREATE_MEDIA_SUCCESS:
 			return {
 				...state,
-				processing:false,
-				isError:action.payload
+				processing:{
+					...state.processing,
+					all:false
+				},
+				all:{
+					allIds:[...state.all.allIds,payload._id],
+					byId:{
+						...state.all.byId,
+						[payload._id]:payload
+					}
+				}
 			}
 		break;
+
+		case types.CREATE_MEDIA_ERROR:
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					all:false
+				},
+				isError:{
+					...state.isError,
+					all:payload
+				}
+			}
+		break;	
 		default:
 			return state;
-	}
-
-	
+	}	
 }
+
+const getMediaList = (state=initialState,action) => {
+	const { type, payload } = action;
+	switch(type){
+		case types.GET_MEDIA_LIST_REQUEST:
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					all:true
+				},
+				isError:{
+					...state.isError,
+					all:null
+				}
+			}
+		break;	
+
+		case types.GET_MEDIA_LIST_SUCCESS:
+		let byIds = {};
+		payload.forEach(item=>{
+			byIds[item._id] = item
+		});
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					all:false
+				},
+				all:{
+					allIds:Object.keys(byIds),
+					byId:byIds
+				}
+			}
+		break;
+
+		case types.GET_MEDIA_LIST_ERROR:
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					all:false
+				},
+					isError:{
+					...state.isError,
+					all:payload
+				}
+			}
+		break;	
+		default:
+			return state;
+	}	
+}
+
+
+const getPopularMediaList = (state=initialState,action) => {
+	const { type, payload } = action;
+	switch(type){
+		case types.LIST_POPULAR_MEDIA_REQUEST:
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					popular:true
+				},
+				isError:{
+					...state.isError,
+					popular:null
+				}
+			}
+		break;	
+
+		case types.LIST_POPULAR_MEDIA_SUCCESS:
+		let byIds = {};
+		payload.forEach(item=>{
+			byIds[item._id] = item
+		});
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					popular:false
+				},
+				popular:{
+					allIds:Object.keys(byIds),
+					byId:byIds
+				}
+			}
+		break;
+
+		case types.LIST_POPULAR_MEDIA_ERROR:
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					popular:false
+				},
+					isError:{
+					...state.isError,
+					popular:payload
+				}
+			}
+		break;	
+		default:
+			return state;
+	}	
+}
+
+const getRelatedMediaList = (state=initialState,action) => {
+	const { type, payload } = action;
+	switch(type){
+		case types.LIST_RELATED_MEDIA_REQUEST:
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					related:true
+				},
+				isError:{
+					...state.isError,
+					related:null
+				}
+			}
+		break;	
+
+		case types.LIST_RELATED_MEDIA_SUCCESS:
+		let byIds = {};
+		payload.forEach(item=>{
+			byIds[item._id] = item
+		});
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					related:false
+				},
+				related:{
+					allIds:Object.keys(byIds),
+					byId:byIds
+				}
+			}
+		break;
+
+		case types.LIST_RELATED_MEDIA_ERROR:
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					related:false
+				},
+					isError:{
+					...state.isError,
+					related:payload
+				}
+			}
+		break;	
+		default:
+			return state;
+	}	
+}
+
+const readMedia = (state=initialState,action) => {
+	const { type, payload } = action;
+	switch(type){
+		case types.READ_MEDIA_REQUEST:
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					singleMedia:true
+				},
+				isError:{
+					...state.isError,
+					singleMedia:null
+				}
+			}
+		break;	
+
+		case types.READ_MEDIA_SUCCESS:
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					singleMedia:false
+				},
+				singleMedia:payload
+			}
+		break;
+
+		case types.READ_MEDIA_ERROR:
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					singleMedia:false
+				},
+					isError:{
+					...state.isError,
+					singleMedia:payload
+				},
+				singleMedia:null
+			}
+		break;	
+		default:
+			return state;
+	}	
+}
+
+
+const updateMedia = (state=initialState,action) => {
+	const { type, payload } = action;
+	switch(type){
+		case types.UPDATE_MEDIA_REQUEST:
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					singleMedia:true
+				},
+				isError:{
+					...state.isError,
+					singleMedia:null
+				}
+			}
+		break;	
+
+		case types.UPDATE_MEDIA_SUCCESS:
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					singleMedia:false
+				},
+				all:{
+					byId:{
+						...state.all,
+						...state.all.byId,
+						[payload._id]:payload
+					}
+				},
+				singleMedia:payload
+			}
+		break;
+
+		case types.UPDATE_MEDIA_ERROR:
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					singleMedia:false
+				},
+					isError:{
+					...state.isError,
+					singleMedia:payload
+				}
+			}
+		break;	
+		default:
+			return state;
+	}	
+}
+
+const removeMedia = (state=initialState,action) => {
+	const { type, payload } = action;
+	switch(type){
+		case types.REMOVE_MEDIA_REQUEST:
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					singleMedia:true
+				},
+				isError:{
+					...state.isError,
+					singleMedia:null
+				}
+			}
+		break;	
+
+		case types.REMOVE_MEDIA_SUCCESS:
+			let newState =  {
+				...state,
+				processing:{
+					...state.processing,
+					singleMedia:false
+				},
+				all:{
+					...state.all,
+					allIds: state.all.allIds.filter(id=>id !== payload._id),
+				},
+				singleMedia:null
+			}
+			delete newState.all.byId[payload._id];
+			return newState;
+		break;
+
+		case types.REMOVE_MEDIA_ERROR:
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					singleMedia:false
+				},
+					isError:{
+					...state.isError,
+					singleMedia:payload
+				}
+			}
+		break;	
+		default:
+			return state;
+	}	
+}
+
+const mediaReducer = reduceReducers(
+	createMedia,
+	getMediaList,
+	getPopularMediaList,
+	getRelatedMediaList,
+	readMedia,
+	updateMedia,
+	removeMedia
+	);
+
+const mainMediaReducer = combineReducers({
+	medias:mediaReducer,
+	categories:categoryReducer,
+	tags:tagReducer
+})
+	
+export default mainMediaReducer;

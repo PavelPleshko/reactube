@@ -14,9 +14,8 @@ const opts = {}
 opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = config.jwtSecret;
 const jwtInit = () => {
-passport.use('jwt',new JwtStrategy(opts, function(jwt_payload, done) {
-    console.log(jwt_payload);
-    User.findOne({_id: jwt_payload._id}, function(err, user) {
+passport.use('jwt',new JwtStrategy(opts, (jwt_payload, done)=> {
+    User.findOne({_id: jwt_payload._id}, (err, user)=> {
         if (err) {
             return done(err, false);
         }

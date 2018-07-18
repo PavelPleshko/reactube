@@ -2,11 +2,10 @@ import User from '../models/user.model';
 import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import config from './../config/config';
+import {throwIfNoResult,sendSuccess,sendError} from '../helpers/responseHandler';
 import passport from 'passport';
 
-console.log(passport,'controller');
 const requireSignin = (req,res,next)=>{
- 
     passport.authenticate('jwt',{session:false},(err,user,info)=>{
     req.user = user;
     next();
@@ -25,48 +24,32 @@ const hasAuthorization = (req, res, next) => {
 }
 
 
-const signin = (req, res) => {
-  User.findOne({
-    "email": req.body.email
-  }, (err, user) => {
-    if (err || !user)
-      return res.status(401).json({
-        status:401,
-        data:null,
-        message: "Email is not registered"
-      })
-    if (!user.authenticate(req.body.password)) {
-      return res.status(401).send({
-        status:401,
-        data:null,
-        message: "Password is incorrect."
-      })
-    }
+const signin = async (req, res) => {
+  try {
+    const user = await User.findOne({"email": req.body.email})
+    .then(throwIfNoResult(result=>!result,400,'not found','Email is not registered'));
 
-    const token = jwt.sign({
+    const doesPasswordsMatch = user.authenticate(req.body.password);
+    throwIfNoResult(result=>!result,400,'incorrect','Password is incorrect.')(doesPasswordsMatch);
+
+     const token = jwt.sign({
       _id: user._id
-    }, config.jwtSecret)
+    }, config.jwtSecret);
 
     res.cookie("jwt", token, {
       expire:60*60*1000
-    })
+    });
 
-    return res.status(200).json({
-      status:200,
-      data:{
-        token,
-        user
-      }   
-    })
-  })
+    sendSuccess(res,'User now logged in')({user,token});
+  }catch(error){
+    sendError(res)(error);
+  } 
 }
 
 
 const signout = (req, res) => {
   res.clearCookie("t")
-  return res.status('200').json({
-    message: "signed out"
-  })
+  sendSuccess(res,'Signed out')({user,token});
 }
 
 

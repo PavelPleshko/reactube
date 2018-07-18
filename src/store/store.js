@@ -27,7 +27,6 @@ return store;
 }
 
 
-
 export {
 	configStore,history
 }

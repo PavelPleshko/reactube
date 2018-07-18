@@ -1,37 +1,21 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-const ObjectId = Schema.Types.ObjectId;
+import mongoose from 'mongoose';
 
-var CategorySchema = new Schema({
- title:{
+const CategorySchema = new mongoose.Schema({
+title:{
   type:String,
-  required:true,
-  unique:true,
+  required:'Title is required',
+  unique:'Category already exists',
   lowercase:true
  },
-
 createdAt:{
   type:Date,
-  default:Date.now(),
-  required:true
-},
-
-author:{
-  type:ObjectId,
- ref:'User'
+  default:Date.now()
 }
-},{
-  toJSON: { virtuals: true },
-  toObject: { virtuals: true }
 });
 
-CategorySchema.virtual('posts', {
-  ref: 'Post',
-  localField: '_id',
-  foreignField: 'category'
-})
 
 
-module.exports = mongoose.model('Category', CategorySchema);
+
+export default mongoose.model('Category', CategorySchema);
 
 

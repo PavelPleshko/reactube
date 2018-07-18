@@ -1,4 +1,4 @@
-import * as userActions from './user.actions';
+import types from './user.types';
 
 let isLogged = JSON.parse(localStorage.getItem('user'));
 const initialState = isLogged ? { processing:false,
@@ -7,56 +7,67 @@ const initialState = isLogged ? { processing:false,
 	isError:false,
 	data:null};
 
-export function userReducer(state=initialState,action){
-	switch(action.type){
-		case userActions.LOGIN_USER_REQUEST:
+const userReducer = (state=initialState,action) => {
+	const {type,payload} = action;
+
+	switch(type){
+		case types.LOGIN_USER_REQUEST:
 			return {
 				...state,
 				processing:true,
 				isError:null
 			}
 		break;	
-		case userActions.LOGIN_USER_SUCCESS:
+
+		case types.LOGIN_USER_SUCCESS:
 			return {
 				...state,
 				processing:false,
-				data:action.payload
+				data:payload
 			}
 		break;
-		case userActions.LOGIN_USER_ERROR:
+
+		case types.LOGIN_USER_ERROR:
 			return {
 				...state,
 				processing:false,
-				isError:action.payload,
+				isError:payload,
 				data:null
 			}
 		break;
-		case userActions.REGISTER_USER_REQUEST:
+
+		case types.REGISTER_USER_REQUEST:
 			return {
 				...state,
 				processing:true,
 				isError:null
 			}
 		break;	
-		case userActions.REGISTER_USER_SUCCESS:
+
+		case types.REGISTER_USER_SUCCESS:
 			return {
 				...state,
 				processing:false,
-				data:action.payload,
+				data:payload,
 				isError:null
 
 			}
 		break;	
-		case userActions.REGISTER_USER_ERROR:
+
+		case types.REGISTER_USER_ERROR:
 			return {
 				...state,
 				processing:false,
-				isError:action.payload
+				isError:payload
 			}
 		break;
+
 		default:
 			return state;
 	}
 
 	
 }
+
+
+export default userReducer;

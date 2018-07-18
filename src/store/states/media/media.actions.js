@@ -1,91 +1,110 @@
+import types from './media.types';
 
-import {signin,signup} from './user.api';
-import * as alertActions from '../shared/alert/alert.actions';
-import { push } from 'connected-react-router'
+//creating
+const createMediaRequest = (media)=> ({
+		type:types.CREATE_MEDIA_REQUEST,
+		payload:media
+})
 
-//login
-export const LOGIN_USER_REQUEST = 'LOGIN_USER_REQUEST';
-export function loginUserRequest(user){
-	return {
-		type:LOGIN_USER_REQUEST,
-		payload:user
-	}
-}
+const createMediaSuccess = (media) => ({
+		type:types.CREATE_MEDIA_SUCCESS,
+		payload:media
+})
 
-export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
-export function loginUserSuccess(user){
-	return {
-		type:LOGIN_USER_SUCCESS,
-		payload:user
-	}
-}
-export const LOGIN_USER_ERROR = 'LOGIN_USER_ERROR';
-export function loginUserError(error){
-	return {
-		type:LOGIN_USER_ERROR,
+const createMediaError = (error) => ({
+		type:types.CREATE_MEDIA_ERROR,
 		payload:error
-	}
-}
+})
 
 
-export const login = credentials => {
-	return (dispatch)=>{
-		dispatch(loginUserRequest(credentials));
-		signin(credentials)
-		.then(response=>{
-			let user = response.data.user;
-			let token = response.data.token;
-			if(token){
-				user.token = token;
-				sessionStorage.setItem('jwtToken', token);
-			}
-			console.log(response);
-		dispatch(loginUserSuccess(user));
-		dispatch(alertActions.alertSuccess(`Authentication was successful.`));
+//listing
+//popular
+const listPopularMediaRequest = () => ({
+		type:types.LIST_POPULAR_MEDIA_REQUEST
+})
 
-		dispatch(push('/'));
-		}).catch((error) => {
-			dispatch(loginUserError(error.message));
-			dispatch(alertActions.alertError(error.message))
-		})	
-	}
-}
+const listPopularMediaSuccess = (medias) => ({
+		type:types.LIST_POPULAR_MEDIA_SUCCESS,
+		payload:medias
+})
 
-//register
-export const REGISTER_USER_REQUEST = 'REGISTER_USER_REQUEST';
-export function registerUserRequest(user){
-	return {
-		type:REGISTER_USER_REQUEST,
-		payload:user
-	}
-}
-
-export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS';
-export function registerUserSuccess(user){
-	return {
-		type:REGISTER_USER_SUCCESS,
-		payload:user
-	}
-}
-export const REGISTER_USER_ERROR = 'REGISTER_USER_ERROR';
-export function registerUserError(error){
-	return {
-		type:REGISTER_USER_ERROR,
+const listPopularMediaError = (error) => ({
+		type:types.LIST_POPULAR_MEDIA_ERROR,
 		payload:error
-	}
-}
+})
+
+//related
+const listRelatedMediaRequest = () => ({
+		type:types.LIST_RELATED_MEDIA_REQUEST
+})
+
+const listRelatedMediaSuccess = (medias) => ({
+		type:types.LIST_RELATED_MEDIA_SUCCESS,
+		payload:medias
+})
+
+const listRelatedMediaError = (error) => ({
+		type:types.LIST_RELATED_MEDIA_ERROR,
+		payload:error
+})
 
 
-export const register = (credentials) =>{
-	return (dispatch)=>{
-		dispatch(loginUserRequest(credentials));
-		signup(credentials)
-		.then(response=>{
-		dispatch(registerUserSuccess(response.data));
-		dispatch(alertActions.alertSuccess(`Registration was successful.`))
-		}).catch((error) => {
-			dispatch(registerUserError(error.message));
-			dispatch(alertActions.alertError(error.message))
-		})	
-	}
+//reading
+const readMediaRequest = () =>({
+	type:types.READ_MEDIA_REQUEST
+})
+
+const readMediaSuccess = (media) =>({
+	type:types.READ_MEDIA_SUCCESS,
+	payload:media
+})
+
+const readMediaError = (error) =>({
+	type:types.READ_MEDIA_ERROR,
+	payload:error
+})
+
+//updating
+const updateMediaRequest = () =>({
+	type:types.UPDATE_MEDIA_REQUEST
+})
+
+const updateMediaSuccess = (media) =>({
+	type:types.UPDATE_MEDIA_SUCCESS,
+	payload:media
+})
+
+const updateMediaError = (error) =>({
+	type:types.UPDATE_MEDIA_ERROR,
+	payload:error
+})
+
+//updating
+const removeMediaRequest = () =>({
+	type:types.REMOVE_MEDIA_REQUEST
+})
+
+const removeMediaSuccess = (media) =>({
+	type:types.REMOVE_MEDIA_SUCCESS,
+	payload:media
+})
+
+const removeMediaError = (error) =>({
+	type:types.REMOVE_MEDIA_ERROR,
+	payload:error
+})
+
+export default {
+	//create
+	createMediaRequest,createMediaSuccess,createMediaError,
+	//lists
+	listPopularMediaRequest,listPopularMediaSuccess,listPopularMediaError,
+
+	listRelatedMediaRequest,listRelatedMediaSuccess,listRelatedMediaSuccess,
+	//read
+	readMediaRequest,readMediaSuccess,readMediaError,
+	//update
+	updateMediaRequest,updateMediaSuccess,updateMediaError,
+	//delete
+	removeMediaRequest,removeMediaSuccess,removeMediaError,
 }

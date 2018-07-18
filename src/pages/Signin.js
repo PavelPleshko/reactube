@@ -3,10 +3,10 @@ import {Link} from 'react-router-dom';
 //redux
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as userActions from '../store/states/user/user.actions';
+import userOperations from '../store/states/user/user.operations';
 import {selectUserEmail,selectIsProcessing,selectErrorText} from '../store/states/user';
 
-import SigninForm from './signin/SigninForm/SigninForm';
+import SigninForm from './signin/SigninForm';
 
 
 class Signin extends Component{
@@ -20,14 +20,14 @@ class Signin extends Component{
     return (
     	<div>   
          <SigninForm title="Sign in" initialData={{email:this.props.email || ''}}
-          handleSubmit={this.clickSubmit} serverError={this.props.error}
+          onSubmitForm={this.clickSubmit} serverError={this.props.error}
            processing={this.props.processing} />
     </div>
     )
   }
 }
 
-const boundActionCreators = (dispatch) => bindActionCreators(userActions,dispatch);
+const boundActionCreators = (dispatch) => bindActionCreators(userOperations,dispatch);
 const mappedStateToProps = (state) =>(
 {
   processing:selectIsProcessing(state.user),

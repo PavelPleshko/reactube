@@ -4,7 +4,7 @@ import { createMuiTheme,MuiThemeProvider } from '@material-ui/core/styles';
 import {deepPurple,green,red} from '@material-ui/core/colors';
 import {BrowserRouter} from 'react-router-dom';
 
-import RootRouter from './pages/RootRouter/RootRouter';
+import RootRouter from './routes/RootRouter/RootRouter';
 import MainNav from './components/core/MainNav/MainNav';
 
 const theme = createMuiTheme({
@@ -16,10 +16,12 @@ const theme = createMuiTheme({
     contrastText: '#fff',
     error:red[500],
     errorHover:red[600],
-    success:green[500],
+    success:green[400],
     successHover:green[600],
     standard:deepPurple[500],
-    standardHover:deepPurple[600]
+    standardHover:deepPurple[600],
+    grey:'#8091a5',
+    lightGrey:'#c3cfd5'
   }
 }
 });

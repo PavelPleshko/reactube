@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 //redux
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as userActions from '../store/states/user/user.actions';
+import userOperations from '../store/states/user/user.operations';
 import {selectUserEmail,selectUserFullname,
   selectIsProcessing,selectErrorText} from '../store/states/user';
 //material ui
@@ -14,7 +14,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
-import SignupForm from './signup/SignupForm/SignupForm';
+import SignupForm from './signup/SignupForm';
 import DialogWithType from '../components/UI/dialogs/DialogWithType/DialogWithType';
 
 
@@ -35,7 +35,7 @@ clickSubmit = (formValue) => {
  render() {
     return (
     	<div>   
-         <SignupForm title="Sign up" handleSubmit={this.clickSubmit} serverError={this.state.submitted && this.props.error} />
+         <SignupForm title="Sign up" onSubmitForm={this.clickSubmit} serverError={this.state.submitted && this.props.error} />
           
           <DialogWithType open={!!(this.props.email) && this.state.submitted}
           title="Registration successful"
@@ -50,7 +50,7 @@ clickSubmit = (formValue) => {
   }
 }
 
-const boundActionCreators = (dispatch) => bindActionCreators(userActions,dispatch);
+const boundActionCreators = (dispatch) => bindActionCreators(userOperations,dispatch);
 const mappedStateToProps = (state) =>(
 {
   processing:selectIsProcessing(state.user),

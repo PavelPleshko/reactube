@@ -1,3 +1,4 @@
-export * from './user.reducer';
-export * from './user.selectors';
-export * from './user.actions';
+import mainMediaReducer from './media.reducer';
+export * from './media.selectors';
+export * from './media.operations';
+export default mainMediaReducer;

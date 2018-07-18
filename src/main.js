@@ -7,7 +7,6 @@ import {configStore,history} from './store/store';
 import { ConnectedRouter } from 'connected-react-router';
 
 const store = configStore();
-
 render(
 	<Provider store={store}>
 		<ConnectedRouter history={history}>

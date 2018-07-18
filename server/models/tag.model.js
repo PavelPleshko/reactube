@@ -1,12 +1,10 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-const ObjectId = Schema.Types.ObjectId;
+import mongoose from 'mongoose';
 
-var TagSchema = new Schema({
+const TagSchema = new mongoose.Schema({
  title:{
   type:String,
-  required:true,
-  unique:true,
+  required:'Title is required',
+  unique:'Title already exists',
   lowercase:true
  },
 
@@ -15,15 +13,7 @@ createdAt:{
   default:Date.now(),
   required:true
 }
-},{
-  toJSON: { virtuals: true },
-  toObject: { virtuals: true }
 });
 
-TagSchema.virtual('posts', {
-  ref: 'Post',
-  localField: '_id',
-  foreignField: 'tags'
-})
 
-module.exports = mongoose.model('Tag', TagSchema);
+export default mongoose.model('Tag', TagSchema);
