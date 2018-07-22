@@ -1,22 +1,29 @@
 import React from 'react';
-import classes from './SubmitButton.css';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux'
-import { submit } from 'redux-form'
+import {withStyles} from '@material-ui/core/styles';
+
+const styles = theme =>({
+  isProcessing:{
+    opacity:'.7',
+    cursor:'not-allowed'
+  }
+})
 
 const submitButton = (props)=>{
-const classes = [props.classes.submit];
-const {formName,dispatch} = props;
+const {classes,formName} = props;
+
+let btnClasses = [];
 if(props.processing){
-	classes.push(classes.isProcessing)
+	btnClasses.push(classes.isProcessing)
 }
 	return (
 		  <Button color="primary" variant="contained"
 	                  type="submit" 
-	           className={classes.join(' ')}>Submit</Button>
+	          >Submit</Button>
 		)
 
 }
 
 
-export default submitButton;
+export default withStyles(styles)(submitButton);

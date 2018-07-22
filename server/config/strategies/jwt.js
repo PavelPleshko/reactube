@@ -2,7 +2,7 @@
 import passport from 'passport';
 import {Strategy as JwtStrategy}  from 'passport-jwt';
 import config from '../config';
-import User from '../../models/user.model';
+import User from '../../app/user/user.model';
 
 const cookieExtractor = (req)=> {
   let token = null;

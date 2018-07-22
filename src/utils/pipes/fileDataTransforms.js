@@ -17,7 +17,19 @@ const transformBytes = (bytes)=>{
 }
 
 
+const formatDuration = (seconds) => {
+  const date = new Date(Number(seconds) * 1000)
+  const hh = date.getUTCHours()
+  let mm = date.getUTCMinutes()
+  const ss = ('0' + date.getUTCSeconds()).slice(-2)
+  if (hh) {
+    mm = ('0' + date.getUTCMinutes()).slice(-2) 
+    return `${hh}:${mm}:${ss}`
+  }
+  return `${mm}:${ss}`
+}
+
 
 export {
-	transformSeconds,transformBytes
+	transformSeconds,transformBytes,formatDuration
 }

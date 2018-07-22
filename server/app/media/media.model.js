@@ -32,6 +32,10 @@ const MediaSchema = new mongoose.Schema({
     required:false
   },
   views: {type: Number, default: 0},
+
+  likes:[{type: objectId, ref: 'User'}],
+  dislikes:[{type: objectId, ref: 'User'}],
+  
   postedBy: {type: objectId, ref: 'User'},
   created: {
     type: Date,

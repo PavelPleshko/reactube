@@ -29,7 +29,6 @@ const styles = theme =>({
 
 const mediaTile = (props)=>{
 	const {columns=3,items,resourceName="media",classes} = props;
-
 	return (
 		<GridList cols={columns} className={classes.gridList} cellHeight={200}>
 	

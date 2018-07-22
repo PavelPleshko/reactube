@@ -1,14 +1,22 @@
 import React, {Component} from 'react';
 import TextField from '@material-ui/core/TextField';
-import classes from './TextInput.css';
+import {withStyles} from '@material-ui/core/styles';
+
+const styles = theme =>({
+  textInput:{
+    width:'100%'
+  }
+})
+
 class TextInput extends Component{
 
 
+
 	render(){
-		const {label,input: { value, onChange },type,helperText,multiline} = this.props;
+		const {classes,label,input: { value, onChange },type,helperText,multiline} = this.props;
 	return (
 		 <TextField label={label} type={type || 'text'}
-              className={classes.TextInput}
+              className={classes.textInput}
                          value={value}
                          multiline={multiline}
                           margin={helperText ? 'dense' : 'normal'}
@@ -25,4 +33,4 @@ TextInput.defaultProps = {
   multiline:false
 };
 
-export default TextInput;
+export default withStyles(styles)(TextInput);

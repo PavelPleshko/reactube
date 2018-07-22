@@ -31,7 +31,6 @@ const sendError = (res, status, message) => error => {
   } else{
       responseStatus = status || error.code || 400;
   }
-  console.log(responseStatus,message)
   res.status(responseStatus).json({
     status:responseStatus,
     message: message || error.message, 

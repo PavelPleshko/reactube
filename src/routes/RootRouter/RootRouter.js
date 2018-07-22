@@ -3,6 +3,8 @@ import {Route,Switch} from 'react-router-dom';
 
 import PrivateRoute from '../variations/PrivateRoute/PrivateRoute';
 
+import MainNav from '../../components/core/MainNav/MainNav';
+
 //components
 import Signup from '../../pages/Signup';
 import Signin from '../../pages/Signin';
@@ -17,6 +19,8 @@ class RootRouter extends Component{
 	render(){
 
 	return (		
+		<React.Fragment>
+		<MainNav />
 		<Switch>
 			<Route exact path="/" component={Home} />
 			<Route path="/signup" component={Signup} />
@@ -26,6 +30,7 @@ class RootRouter extends Component{
 			<Route path="/media/:mediaId" component={SingleMedia} />
 			
 		</Switch>
+		</React.Fragment>
 
 	)
 	}

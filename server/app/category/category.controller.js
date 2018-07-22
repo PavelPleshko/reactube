@@ -1,7 +1,7 @@
 'use strict';
 
 import _  from 'lodash';
-import Category from '../models/category.model';
+import Category from './category.model';
 import mongoose from 'mongoose';
 const ObjectId = mongoose.Types.ObjectId;
 

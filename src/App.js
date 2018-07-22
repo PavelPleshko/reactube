@@ -2,10 +2,8 @@ import React,{Component} from 'react';
 import { hot } from 'react-hot-loader';
 import { createMuiTheme,MuiThemeProvider } from '@material-ui/core/styles';
 import {deepPurple,green,red} from '@material-ui/core/colors';
-import {BrowserRouter} from 'react-router-dom';
 
 import RootRouter from './routes/RootRouter/RootRouter';
-import MainNav from './components/core/MainNav/MainNav';
 
 const theme = createMuiTheme({
   palette: {
@@ -30,8 +28,7 @@ class App extends Component{
 render(){
 	return (	
 			    <MuiThemeProvider theme={theme}>
-			       <MainNav />
-             <RootRouter />
+                   <RootRouter />
 			    </MuiThemeProvider>
  				)
 }

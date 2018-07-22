@@ -1,7 +1,7 @@
 'use strict';
 
-import Tag from '../models/tag.model';
-import {throwIfNoResult,sendSuccess,sendError,throwError} from '../helpers/responseHandler';
+import Tag from './tag.model';
+import {throwIfNoResult,sendSuccess,sendError,throwError} from '../../helpers/responseHandler';
 
 const listAll = async (req,res,next)=>{
 	try{

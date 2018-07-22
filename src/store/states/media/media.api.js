@@ -1,5 +1,6 @@
+import config from '../../../../server/config/config';
 
-
+const serverUrl = config.serverUrl ;
 
 function handleErrors(response) {
     if (response.ok || response.statusCode == 200) {
@@ -104,7 +105,7 @@ const listByUser = (params) => {
 
 
 const read = (params) => {
-  return fetch('/api/media/' + params.mediaId, {
+  return fetch(serverUrl+'/api/media/' + params.mediaId, {
     method: 'GET'
   })
   .then(handleErrors)
@@ -139,11 +140,40 @@ const remove = (params) => {
   .then(res=>res.json())
 }
 
+const like = (params) => {
+  return fetch('/api/media/like', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify(params)
+  })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
+const dislike = (params) => {
+  return fetch('/api/media/dislike', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify(params)
+  })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
 export {
 	getDirectUploadDetails,uploadVideo,
   create,
   listPopular,listByUser,listRelated,
   read,
   update,
-  remove
+  remove,
+  like,dislike
 }

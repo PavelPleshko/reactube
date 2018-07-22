@@ -2,10 +2,15 @@ import { createStore, applyMiddleware,compose } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './states/root.reducer';
 import { connectRouter, routerMiddleware } from 'connected-react-router'
-import { createBrowserHistory } from 'history'
+import { createMemoryHistory,createBrowserHistory } from 'history'
 
-const history = createBrowserHistory();
-
+let history;
+if (typeof(window) !== 'undefined'){
+    history = createBrowserHistory();
+}
+else {
+    history = createMemoryHistory();
+}
 
 const configStore =  function(defaultState){
 

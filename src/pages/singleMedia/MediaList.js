@@ -11,11 +11,15 @@ import CardContent from '@material-ui/core/CardContent'
 import Chip from '@material-ui/core/Chip';
 
 const styles = theme => ({
-  root: theme.mixins.gutters({
-    paddingBottom: 24,
-  }),
+  root: {
+    padding: '0 2.5rem 1.5rem 2.5rem'
+  },
+  header:{
+    display:'flex',
+    justifyContent:'space-around',
+    alignItems:'center'
+  },
   title: {
-    margin: `0 ${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
     color: '#000000',
     fontSize: '1.1em'
   },
@@ -25,7 +29,9 @@ const styles = theme => ({
   },
   details: {
     display: 'inline-block',
-    width: "100%"
+    maxWidth: "100%",
+    paddingLeft:'5px',
+    marginBottom:'7px'
   },
   content: {
     flex: '1 0 auto',
@@ -36,21 +42,19 @@ const styles = theme => ({
     display:'inline-flex',
     flexDirection:'column'
   },
-  date: {
-    color: 'rgba(0, 0, 0, 0.4)'
-  },
   mediaTitle: {
-    whiteSpace: 'nowrap',
+    whiteSpace: 'normal',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     color: '#000000',
-    fontSize:'1.15rem',
+    fontSize:'1rem',
+    display: '-webkit-box',
+    '-webkit-box-orient': 'vertical',
+    '-webkit-line-clamp': 2,
     fontWeight:500,
-    marginBottom: '5px'
-  },
-  image:{
-  	padding:'.5rem',
-  	width:'320px'
+    marginBottom: '5px',
+    maxHeight: '2.2rem',
+    lineHeight: '1.1rem'
   },
   subheading: {
   	display:'flex',
@@ -59,7 +63,7 @@ const styles = theme => ({
   	overflowX:'hidden',
   	textOverflow:'ellipsis',
   	fontSize:'.9rem',
-  	fontWeight:500
+  	fontWeight:300
   },
   category:{
   	color:theme.palette.primary.light
@@ -75,29 +79,49 @@ const styles = theme => ({
   	padding:1,
   	maxHeight:'1rem',
   	fontSize:'.7rem'
+  },
+  image:{
+    backgroundSize:'cover',
+    backgroundPosition:'50% 50%',
+    height:'100%',
+    width:'100%'
+  },
+  imageWrapper:{
+    width:'170px',
+    height:'120px',
+   
   }
 })
 
-const relatedMedia = (props)=>{
- const {classes,data} = props;
+const mediaList = (props)=>{
+ const {classes,data,title} = props;
 	return (
-			 <div className={classes.root}  style={{padding: '16px'}}>
+			 <div className={classes.root}>
+       <div className={classes.header}>
           <Typography type="title" className={classes.title}>
-            Up Next
+           {title}
           </Typography>
+         
+           {props.children}
+         
+        </div>
           {data.map((item, i) => {
               return <span key={i}>
               <div className={classes.card} >
-                <div className={classes.image}>
+                <div style={{padding: '7px 7px 7px 0'}}>
               <Link to={"/media/"+item._id}>
-             <div style={{backgroundColor:'#000000'}}>
-             	 <img src={item.thumb_url} width='100%' height='100%'/>
-            </div>
+              <div className={classes.imageWrapper}>
+                <div className={classes.image} style={{backgroundImage:`url(${item.thumb_url})`}}>
+                  </div>
+              </div>
               </Link>
               </div>
                       <div className={classes.details}>
                         <CardContent className={classes.content}>
-                          <Link to={'/media/'+item._id}><Typography type="title" component="h3" className={classes.mediaTitle} color="primary">{item.title}</Typography></Link>
+                          <Link to={'/media/'+item._id}>
+                            <Typography type="title" component="h3" className={classes.mediaTitle} 
+                            color="primary">{item.title}</Typography>
+                          </Link>
                           <Typography type="subheading" className={classes.subheading}>
                             {item.postedBy.firstName+' '+item.postedBy.lastName}
                           </Typography>
@@ -126,4 +150,4 @@ const relatedMedia = (props)=>{
 
 
 
-export default withStyles(styles)(relatedMedia)
+export default withStyles(styles)(mediaList)

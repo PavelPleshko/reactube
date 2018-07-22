@@ -1,7 +1,7 @@
-import User from '../models/user.model';
+import User from './user.model';
 import _ from 'lodash';
-import errorHandler from '../helpers/dbErrorHandler';
-import config from './../config/config';
+import errorHandler from '../../helpers/dbErrorHandler';
+import config from './../../config/config';
 // import profileImage from './../../src/assets/profile-pic.png';
 import Cloudinary from 'cloudinary';
 import formidable from 'formidable';

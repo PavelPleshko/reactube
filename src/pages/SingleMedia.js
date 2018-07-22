@@ -13,8 +13,9 @@ import {selectSingleMedia,selectMedias} from '../store/states/media/media.select
 import {selectUser} from '../store/states/user/user.selectors';
 
 import MediaPlayer from './singleMedia/MediaPlayer';
-import RelatedMedia from './singleMedia/RelatedMedia';
-
+import MediaList from './singleMedia/MediaList';
+import Autoplay from './singleMedia/Autoplay';
+import CommentList from './singleMedia/CommentList';
 
 const styles = theme =>({
 	root:{
@@ -30,34 +31,63 @@ class SingleMedia extends Component{
 	state = {
 		autoplay:false,
 	}
-	loadMediaFromParams = ()=>{
-		const {mediaId} = this.props.match.params;
+	loadMedia = (mediaId,isParamChanged)=>{
 		this.props.readMedia(mediaId);
+		if(isParamChanged)
 		this.props.listRelatedMedia(mediaId);
 	}
 
 	componentDidMount = () =>{
-		this.loadMediaFromParams();
-		
+		const {mediaId} = this.props.match.params;
+		this.loadMedia(mediaId,true);	
 	}
 
 	componentDidUpdate=(prevProps)=>{
-		if(this.props.match.params.mediaId != prevProps.match.params.mediaId){
-			this.loadMediaFromParams();
+		const {mediaId} = this.props.match.params;
+
+		let isParamChanged = mediaId != prevProps.match.params.mediaId;
+		let isMediaChanged = prevProps.media && this.props.media && 
+			this.props.media._id != prevProps.media._id;
+
+		if( isParamChanged || isMediaChanged){
+			this.loadMedia(mediaId,isParamChanged);
 		}
+	}
+
+	handleAutoplay = (updateMediaControls) =>{
+		let {autoplay} = this.state;
+		let playlist = this.props.relatedMedia;
+		let media = playlist[0];
+		if(!autoplay || playlist.length == 0)
+		return updateMediaControls();
+
+	if(playlist.length > 1){
+		this.props.replaceMediaFromPlaylist(media._id);
+	}else{
+		this.props.listRelatedMedia(media._id);
+	}
+	}
+
+	autoPlayChangeHandler = (e) =>{
+		this.setState({autoplay:e.target.checked})
 	}
 
 
 
 	render(){
 		const {classes,media,relatedMedia,user} = this.props;
+		const nextUrl = relatedMedia.length > 0
+          ? `/media/${relatedMedia[0]._id}` : ''
 	return (
-		<Grid className={classes.root} container spacing={16}>
-			<Grid item sm={8} xs={12}>
-				<MediaPlayer media={media} user={user} />
+		<Grid className={classes.root} container spacing={32}>
+			<Grid item sm={7} xs={12}>
+				<MediaPlayer media={media} user={user} nextUrl={nextUrl} handleAutoplay={this.handleAutoplay} />
+				{media && <CommentList mediaId={media._id}/>}
 			</Grid>
-			<Grid item sm={4} xs={12}>
-				<RelatedMedia data={relatedMedia} />
+			<Grid item sm={5} xs={12}>
+				<MediaList data={relatedMedia} title="Up next">
+					<Autoplay autoPlay={this.state.autoplay} autoplayChange={this.autoPlayChangeHandler}/>
+				</MediaList>
 			</Grid>
 		</Grid>
 	)

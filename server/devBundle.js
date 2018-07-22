@@ -8,8 +8,8 @@ const compile = (app) => {
   if(config.env == "development"){
     const compiler = webpack(webpackConfig)
     const middleware = webpackMiddleware(compiler, {
-      publicPath: webpackConfig.output.publicPath
-    })
+      serverSideRender: true
+          })
     app.use(middleware)
     app.use(webpackHotMiddleware(compiler))
   }

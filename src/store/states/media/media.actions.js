@@ -49,6 +49,14 @@ const listRelatedMediaError = (error) => ({
 })
 
 
+const replaceMediaFromList = (mediaId) => ({
+		type:types.REPLACE_MEDIA_FROM_LIST,
+		payload:mediaId
+})
+
+
+
+
 //reading
 const readMediaRequest = () =>({
 	type:types.READ_MEDIA_REQUEST
@@ -94,6 +102,35 @@ const removeMediaError = (error) =>({
 	payload:error
 })
 
+//like dislike
+const likeMediaRequest = () =>({
+	type:types.LIKE_MEDIA_REQUEST
+})
+
+const likeMediaSuccess = (media) =>({
+	type:types.LIKE_MEDIA_SUCCESS,
+	payload:media
+})
+
+const likeMediaError = (error) =>({
+	type:types.LIKE_MEDIA_ERROR,
+	payload:error
+})
+
+const dislikeMediaRequest = () =>({
+	type:types.DISLIKE_MEDIA_REQUEST
+})
+
+const dislikeMediaSuccess = (media) =>({
+	type:types.DISLIKE_MEDIA_SUCCESS,
+	payload:media
+})
+
+const dislikeMediaError = (error) =>({
+	type:types.DISLIKE_MEDIA_ERROR,
+	payload:error
+})
+
 export default {
 	//create
 	createMediaRequest,createMediaSuccess,createMediaError,
@@ -101,10 +138,18 @@ export default {
 	listPopularMediaRequest,listPopularMediaSuccess,listPopularMediaError,
 
 	listRelatedMediaRequest,listRelatedMediaSuccess,listRelatedMediaSuccess,
+
+	//list manipulations
+	replaceMediaFromList,
 	//read
 	readMediaRequest,readMediaSuccess,readMediaError,
 	//update
 	updateMediaRequest,updateMediaSuccess,updateMediaError,
 	//delete
 	removeMediaRequest,removeMediaSuccess,removeMediaError,
+
+	//like dislike
+	likeMediaRequest,likeMediaSuccess,likeMediaError,
+	dislikeMediaRequest,dislikeMediaSuccess,dislikeMediaError,
+
 }

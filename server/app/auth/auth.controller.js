@@ -1,8 +1,8 @@
-import User from '../models/user.model';
+import User from '../user/user.model';
 import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
-import config from './../config/config';
-import {throwIfNoResult,sendSuccess,sendError} from '../helpers/responseHandler';
+import config from '../../config/config';
+import {throwIfNoResult,sendSuccess,sendError} from '../../helpers/responseHandler';
 import passport from 'passport';
 
 const requireSignin = (req,res,next)=>{

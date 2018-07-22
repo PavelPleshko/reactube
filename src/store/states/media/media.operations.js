@@ -1,5 +1,6 @@
 import { push } from 'connected-react-router'
-import {create,listPopular,listRelated,read,update,remove} from './media.api';
+import {create,listPopular,listRelated,read,update,remove,
+like,dislike} from './media.api';
 import mediaActions from './media.actions';
 
 
@@ -65,7 +66,6 @@ const updateMedia = (mediaBody,mediaId) => {
 		dispatch(mediaActions.updateMediaRequest());
 		update(mediaBody,{mediaId})
 		.then(response=>{
-			console.log(response);
 			let media = response.data.media;
 			dispatch(mediaActions.updateMediaSuccess(media));
 		})
@@ -80,7 +80,6 @@ const removeMedia = (mediaId) => {
 		dispatch(mediaActions.removeMediaRequest());
 		remove({mediaId})
 		.then(response=>{
-			console.log(response);
 			let media = response.data.mediaId;
 			dispatch(mediaActions.removeMediaSuccess(media));
 			dispatch(push('/'));
@@ -91,7 +90,43 @@ const removeMedia = (mediaId) => {
 	}
 }
 
+const likeMedia = (mediaId) => {
+	return (dispatch)=>{
+		dispatch(mediaActions.likeMediaRequest());
+		like({mediaId})
+		.then(response=>{
+			let media = response.data.media;
+			dispatch(mediaActions.likeMediaSuccess(media));
+		})
+		.catch((error)=>{
+			dispatch(mediaActions.likeMediaError(error.message));
+		})
+	}
+}
+
+const dislikeMedia = (mediaId) => {
+	return (dispatch)=>{
+		dispatch(mediaActions.dislikeMediaRequest());
+		dislike({mediaId})
+		.then(response=>{
+			let media = response.data.media;
+			dispatch(mediaActions.dislikeMediaSuccess(media));
+		})
+		.catch((error)=>{
+			dispatch(mediaActions.dislikeMediaError(error.message));
+		})
+	}
+}
+
+const replaceMediaFromPlaylist = (mediaId) => {
+	return (dispatch)=>{
+		dispatch(mediaActions.replaceMediaFromList(mediaId))
+	}
+}
+
 export {
 	createMedia,listPopularMedia,listRelatedMedia,
-	readMedia,updateMedia,removeMedia
+	readMedia,updateMedia,removeMedia,replaceMediaFromPlaylist,
+
+	likeMedia,dislikeMedia
 }

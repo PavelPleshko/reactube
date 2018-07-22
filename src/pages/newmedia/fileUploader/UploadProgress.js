@@ -24,7 +24,8 @@ import { withStyles } from '@material-ui/core/styles';
     position:'absolute',
     top: -4.5,
     left: -6,
-    zIndex: 1
+    zIndex: 1,
+    transition:'.2s'
   },
   buttonProgress :{
     color: theme.palette.primary.success,

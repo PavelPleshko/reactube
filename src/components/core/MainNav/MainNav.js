@@ -7,7 +7,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
 import CloudUpload from '@material-ui/icons/CloudUpload';
 import { withStyles } from '@material-ui/core/styles';
@@ -16,6 +15,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 //router
 import {Link, withRouter} from 'react-router-dom';
 
+import UserAvatarSmall from '../../UI/miscellaneous/UserAvatarSmall/UserAvatarSmall';
 
 const styles = {
   root: {
@@ -95,15 +95,7 @@ console.log(user);
             user && (
               user.token &&
               <React.Fragment>
-                 <IconButton
-                          aria-owns={open ? 'menu-appbar' : null}
-                          aria-haspopup="true"
-                          onClick={this.handleOpenProfileDropdown}
-                          color="inherit"
-                        >
-                        
-                          <AccountCircle />
-                          </IconButton>
+                 <UserAvatarSmall handleClick={this.handleOpenProfileDropdown} user={user}/>
                   <Menu 
                   id="menu-appbar" 
                   anchorEl={this.state.anchorEl} 
@@ -147,7 +139,7 @@ console.log(user);
 }
   
 
-function mapStateToProps(state){
+const mapStateToProps = (state)=>{
   return {
     user:selectUser(state.user)
   }

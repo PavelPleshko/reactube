@@ -1,12 +1,12 @@
-import Media from '../models/media.model';
+import Media from './media.model';
 import _ from 'lodash';
-import errorHandler from '../helpers/dbErrorHandler';
-import {sendError,sendSuccess,throwIfNoResult} from '../helpers/responseHandler';
-import config from './../config/config';
+import {sendError,sendSuccess,throwIfNoResult,throwError} from '../../helpers/responseHandler';
+import config from '../../config/config';
 import Cloudinary from 'cloudinary';
 import formidable from 'formidable';
 import path from 'path';
 import mongoose from 'mongoose';
+
 
 
 //lists 
@@ -125,13 +125,57 @@ const remove = async (req, res, next) => {
       let video_id = /(?:(upload.+))(?:\/)(.+)(?:\.(mp4|mpeg|avi|3gp))$/gm.exec(req.media.video_url)[2];
       let cloudDelete = await Cloudinary.v2.api
       .delete_resources([video_id],{...config.cloudinary,resource_type:'video'});
-      console.log(video_id,cloudDelete)
       let deletedMedia = await media.remove();
       sendSuccess(res,'Resource deleted')({media:deletedMedia});
     }catch(err){
       sendError(res)(err);
     }
 }
+
+//like dislike
+const like = async (req,res,next)=>{
+  try{
+    let media = await Media.findById(req.body.mediaId);
+    let isLiked = media.likes.indexOf(req.user._id.toString());
+    let isDisliked = media.dislikes.indexOf(req.user._id.toString());
+    if(isLiked >=0){
+      media.likes.splice(isLiked,1);
+    }else{
+      media.likes = [...media.likes,req.user._id];
+      if(isDisliked>=0)
+       media.dislikes.splice(isDisliked,1);
+    }
+     let updatedMedia = await media.save();
+      updatedMedia = await Media.populate(updatedMedia,'postedBy');
+      sendSuccess(res,'Media was evaluated')({media:updatedMedia})
+  }catch(err){
+    sendError(res)(err);
+  }
+}
+
+const dislike = async (req,res,next)=>{
+  try{
+    let media = await Media.findById(req.body.mediaId);
+    let isLiked = media.likes.indexOf(req.user._id.toString());
+    let isDisliked = media.dislikes.indexOf(req.user._id.toString());
+    if(isDisliked  >=0 ){
+      media.dislikes.splice(isDisliked,1);
+    }else{
+      media.dislikes = [...media.dislikes,req.user._id];
+       if(isLiked>=0)
+      media.likes.splice(isLiked,1); 
+    }
+    let updatedMedia = await media.save();
+    updatedMedia = await Media.populate(updatedMedia,
+      { path: 'postedBy', select: '_id firstName lastName' });
+    sendSuccess(res,'Media was disliked')({media:updatedMedia})
+  }catch(err){
+    sendError(res)(err);
+  }
+}
+
+
+
 
 const isPoster = (req, res, next) => {
   let isPoster = req.media && req.user 
@@ -160,5 +204,6 @@ export default {
   mediaByID,
   isPoster,
   update,
-  remove
+  remove,
+  like,dislike
 }

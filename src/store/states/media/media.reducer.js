@@ -246,6 +246,27 @@ const getRelatedMediaList = (state=initialState,action) => {
 	}	
 }
 
+const listManipulations = (state=initialState,action)=> {
+	const {type,payload} = action;
+	switch(type){
+		case types.REPLACE_MEDIA_FROM_LIST:
+			let newState =  {
+				...state,
+				singleMedia:state.related.byId[payload],
+				related:{
+					...state.related,
+					allIds:[...state.related.allIds.filter(id => id != payload)],
+				}
+			}
+			delete newState.related.byId[payload];
+			return newState;
+			break;
+
+			default:
+				return state;
+	}
+}
+
 const readMedia = (state=initialState,action) => {
 	const { type, payload } = action;
 	switch(type){
@@ -399,14 +420,74 @@ const removeMedia = (state=initialState,action) => {
 	}	
 }
 
+const likeDislikeMedia = (state=initialState,action) => {
+	const { type, payload } = action;
+	switch(type){
+		case types.LIKE_MEDIA_REQUEST:
+		case types.DISLIKE_MEDIA_REQUEST:
+		console.log(type);
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					singleMedia:true
+				},
+				isError:{
+					...state.isError,
+					singleMedia:null
+				}
+			}
+		break;	
+
+		case types.LIKE_MEDIA_SUCCESS:
+		case types.DISLIKE_MEDIA_SUCCESS:
+		console.log(payload);
+			return  {
+				...state,
+				processing:{
+					...state.processing,
+					singleMedia:false
+				},
+				all:{
+					...state.all,
+					byId:{
+						...state.all.byId,
+						[payload._id]:payload
+					}
+				},
+				singleMedia:payload
+			}
+		break;
+
+		case types.LIKE_MEDIA_ERROR:
+		case types.DISLIKE_MEDIA_ERROR:
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					singleMedia:false
+				},
+					isError:{
+					...state.isError,
+					singleMedia:payload
+				}
+			}
+		break;	
+		default:
+			return state;
+	}	
+}
+
 const mediaReducer = reduceReducers(
 	createMedia,
 	getMediaList,
 	getPopularMediaList,
 	getRelatedMediaList,
+	listManipulations,
 	readMedia,
 	updateMedia,
-	removeMedia
+	removeMedia,
+	likeDislikeMedia
 	);
 
 const mainMediaReducer = combineReducers({

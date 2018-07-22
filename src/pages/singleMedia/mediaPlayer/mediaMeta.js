@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Component} from 'react';
 
 import {withStyles} from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
@@ -8,7 +8,12 @@ import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 
-import PrimaryActions from './mediaMeta/PrimaryActions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
+import * as mediaOperations from '../../../store/states/media/media.operations';
+
+import LikeActions from '../../../components/UI/miscellaneous/LikeActions/LikeActions';
 import SecondaryActions from './mediaMeta/SecondaryActions';
 
 
@@ -29,8 +34,22 @@ const styles = theme =>({
   }
 
 })
-const mediaMeta = (props)=>{
-		const {media,classes,user} = props;
+
+class MediaMeta extends Component{
+
+
+
+likeMedia = () =>{
+	this.props.likeMedia(this.props.media._id);
+}
+
+dislikeMedia = () =>{
+	this.props.dislikeMedia(this.props.media._id);
+}
+
+
+	render(){
+		const {media,classes,user} = this.props;
 		return (
 			<React.Fragment>
 		   	<div className={classes.meta}>
@@ -39,7 +58,7 @@ const mediaMeta = (props)=>{
 					 <span className={classes.views}>
 					    {media.views + ' views'}
 					 </span>
-					 <PrimaryActions />
+					 <LikeActions liked={this.likeMedia} disliked={this.dislikeMedia} likes={media.likes} dislikes={media.dislikes}/>
 					 </div>
 			</div>
 					<Divider />
@@ -65,7 +84,10 @@ const mediaMeta = (props)=>{
 					</ListItem>
 					</React.Fragment>
 		)
+	}
+		
 }
 
+const boundActionCreators = (dispatch) => bindActionCreators({...mediaOperations},dispatch);
 
-export default withStyles(styles)(mediaMeta);
+export default connect(null,boundActionCreators)(withStyles(styles)(MediaMeta));
