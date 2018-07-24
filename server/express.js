@@ -4,6 +4,8 @@ import cookieParser from 'cookie-parser';
 import compress from 'compression';
 import cors from 'cors';
 import helmet from 'helmet';
+import logger from 'morgan';
+import csurf from 'csurf';
 import path from 'path';
 import Index from '../index';
 import {authRoutes,userRoutes,
@@ -32,7 +34,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(compress());
 app.use(helmet());
+app.use(csurf());
 app.use(cors());
+app.use(logger());
+
 
  const sessionOpts = {
     secret: config.session.secret,
