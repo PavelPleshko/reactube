@@ -112,6 +112,51 @@ const getRepliesByComment = async (req,res,next)=>{
 
 // }
 
+const likeComment = async (req,res,next) =>{
+	let commentId = req.body.commentId;
+	let userId = req.user._id.toString();
+	try{
+		let comment = await Comment.findById(commentId);
+		let isLiked = comment.likes.indexOf(userId);
+   		let isDisliked = comment.dislikes.indexOf(userId);
+   		if(isLiked >=0){
+	      comment.likes.splice(isLiked,1);
+	    }else{
+	      comment.likes = [...comment.likes,userId];
+	      if(isDisliked>=0)
+	       comment.dislikes.splice(isDisliked,1);
+	    }
+	     let updatedComment = await comment.save();
+	     updatedComment = await Comment.populate(updatedComment,
+	     	{path:'author',select:'_id firstName lastName'});
+	     sendSuccess(res,'comment liked')({comment:updatedComment})
+	}catch(err){
+		sendError(res)(err)
+	}
+}
+
+const dislikeComment = async (req,res,next) =>{
+	let commentId = req.body.commentId;
+	let userId = req.user._id.toString();
+	try{
+		let comment = await Comment.findById(commentId);
+		let isLiked = comment.likes.indexOf(userId);
+   		let isDisliked = comment.dislikes.indexOf(userId);
+   		if(isDisliked >=0){
+	      comment.dislikes.splice(isDisliked,1);
+	    }else{
+	      comment.dislikes = [...comment.dislikes,userId];
+	      if(isLiked>=0)
+	       comment.likes.splice(isLiked,1);
+	    }
+	     let updatedComment = await comment.save();
+	     updatedComment = await Comment.populate(updatedComment,
+	     	{ path: 'author', select: '_id firstName lastName' });
+	     sendSuccess(res,'comment liked')({comment:updatedComment})
+	}catch(err){
+		sendError(res)(err)
+	}
+}
 
 // module.exports.unlikeComment=function(req,res,next){
 // 	var comment = req.comment;
@@ -138,7 +183,8 @@ const getRepliesByComment = async (req,res,next)=>{
 export default {
 	postComment,
 	getCommentsForMedia,
-	getRepliesByComment
+	getRepliesByComment,
+	likeComment,dislikeComment
 }
 
 

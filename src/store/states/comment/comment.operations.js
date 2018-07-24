@@ -1,4 +1,5 @@
-import {listAllByMedia,postComment,getReplies} from './comment.api';
+import {listAllByMedia,postComment,getReplies,
+likeComment,dislikeComment} from './comment.api';
 import commentActions from './comment.actions';
 
 const getComments = (mediaId) => {
@@ -40,7 +41,37 @@ const getRepliesByComment = (commentId) => {
 			dispatch(commentActions.getRepliesByCommentSuccess({replies,commentId}));
 		}).catch((error) => {
 			console.log(error);
-			dispatch(commentActionsgetRepliesByCommentError(error.message));
+			dispatch(commentActions.getRepliesByCommentError(error.message));
+		})	
+	}
+}
+
+const likeUserComment = (commentId) => {
+	return (dispatch)=>{
+		dispatch(commentActions.likeCommentRequest());
+		likeComment({commentId})
+		.then(response=>{
+			console.log(response);
+			let comment = response.data.comment;
+			dispatch(commentActions.likeCommentSuccess(comment));
+		}).catch((error) => {
+			console.log(error);
+			dispatch(commentActions.likeCommentError(error.message));
+		})	
+	}
+}
+
+const dislikeUserComment = (commentId) => {
+	return (dispatch)=>{
+		dispatch(commentActions.dislikeCommentRequest());
+		dislikeComment({commentId})
+		.then(response=>{
+			console.log(response);
+			let comment = response.data.comment;
+			dispatch(commentActions.dislikeCommentSuccess(comment));
+		}).catch((error) => {
+			console.log(error);
+			dispatch(commentActions.dislikeCommentError(error.message));
 		})	
 	}
 }
@@ -49,5 +80,6 @@ const getRepliesByComment = (commentId) => {
 export {
 	getComments,
 	postNewComment,
-	getRepliesByComment
+	getRepliesByComment,
+	likeUserComment,dislikeUserComment,
 }

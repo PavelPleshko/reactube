@@ -48,10 +48,44 @@ const getRepliesByCommentError = (error) => ({
 		payload:error
 })
 
+const likeCommentRequest = (commentId) => ({
+		type:types.LIKE_COMMENT_REQUEST,
+		payload:commentId
+})
+
+const likeCommentSuccess = (comment) => ({
+		type:types.LIKE_COMMENT_SUCCESS,
+		payload:comment
+})
+
+const likeCommentError = (error) => ({
+		type:types.LIKE_COMMENT_ERROR,
+		payload:error
+})
+
+const dislikeCommentRequest = (commentId) => ({
+		type:types.DISLIKE_COMMENT_REQUEST,
+		payload:commentId
+})
+
+const dislikeCommentSuccess = (comment) => ({
+		type:types.DISLIKE_COMMENT_SUCCESS,
+		payload:comment
+})
+
+const dislikeCommentError = (error) => ({
+		type:types.DISLIKE_COMMENT_ERROR,
+		payload:error
+})
+
 export default {
 	getCommentsRequest,getCommentsSuccess,getCommentsError,
 
 	postCommentRequest,postCommentSuccess,postReplySuccess,postCommentError,
 
-	getRepliesByCommentRequest,getRepliesByCommentSuccess,getRepliesByCommentError
+	getRepliesByCommentRequest,getRepliesByCommentSuccess,getRepliesByCommentError,
+
+	likeCommentRequest,likeCommentSuccess,likeCommentError,
+
+	dislikeCommentRequest,dislikeCommentSuccess,dislikeCommentError
 }

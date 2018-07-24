@@ -8,6 +8,12 @@ const router = express.Router();
 router.route('/comment/new')
         .post(authCtrl.requireSignin,commentCtrl.postComment)
 
+router.route('/comment/like')
+        .post(authCtrl.requireSignin,commentCtrl.likeComment)
+
+router.route('/comment/dislike')
+        .post(authCtrl.requireSignin,commentCtrl.dislikeComment)
+
 router.route('/comment/replies/:commentId')
         .get(commentCtrl.getRepliesByComment)
 

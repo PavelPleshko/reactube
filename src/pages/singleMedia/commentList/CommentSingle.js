@@ -3,6 +3,10 @@ import React,{Component} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
+import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as commentOperations from '../../../store/states/comment/comment.operations';
+
 import UserAvatarSmall from '../../../components/UI/miscellaneous/UserAvatarSmall/UserAvatarSmall';
 import LikeActions from '../../../components/UI/miscellaneous/LikeActions/LikeActions';
 import CommentForm from './CommentForm';
@@ -68,10 +72,17 @@ class CommentSingle extends Component{
 		})
 	}
 
+	liked = () =>{
+		this.props.likeUserComment(this.props.comment._id);
+	}
+
+	disliked = () =>{
+		this.props.dislikeUserComment(this.props.comment._id);
+	}
+
 	render(){
 			const {comment,classes,parent} = this.props;
 			const repliesExist = comment.repliesCount>0;
-			console.log(comment);
 	return (
 			<div className={classes.root}>
 				<UserAvatarSmall user={comment.author} />
@@ -82,7 +93,7 @@ class CommentSingle extends Component{
 					</div>
 					<p className={classes.content}>{comment.content}</p>
 					<div className={classes.footer}>
-						<LikeActions likes={comment.likes} dislikes={comment.dislikes} />
+						<LikeActions liked={this.liked} disliked={this.disliked} likes={comment.likes} dislikes={comment.dislikes} />
 						<Button color="default" size="small" onClick={this.openReplyForm}>Reply</Button>
 					</div>
 					{this.state.replyOpened && 
@@ -110,4 +121,8 @@ class CommentSingle extends Component{
 }
 
 
-export default withStyles(styles)(CommentSingle);
+const boundActionCreators = (dispatch) => bindActionCreators({...commentOperations},dispatch);
+
+
+
+export default connect(null,boundActionCreators)(withStyles(styles)(CommentSingle));

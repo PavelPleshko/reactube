@@ -32,14 +32,42 @@ const getReplies = (params) => {
 }
 
 const postComment = (comment) => {
-	return fetch('/api/comment/new',{
+  return fetch('/api/comment/new',{
+    method:'POST',
+    headers:{
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+     credentials: 'include',
+     body: JSON.stringify(comment)
+  })
+  .then(handleErrors)
+  .then(res=>res.json()) 
+}
+
+const likeComment = (params) => {
+  return fetch('/api/comment/like',{
+    method:'POST',
+    headers:{
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+     credentials: 'include',
+     body: JSON.stringify(params)
+  })
+  .then(handleErrors)
+  .then(res=>res.json()) 
+}
+
+const dislikeComment = (params) => {
+	return fetch('/api/comment/dislike',{
 		method:'POST',
 		headers:{
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
      credentials: 'include',
-     body: JSON.stringify(comment)
+     body: JSON.stringify(params)
 	})
   .then(handleErrors)
   .then(res=>res.json()) 
@@ -52,5 +80,6 @@ const postComment = (comment) => {
 export {
 	listAllByMedia,
   getReplies,
-  postComment
+  postComment,
+  likeComment,dislikeComment,
 }

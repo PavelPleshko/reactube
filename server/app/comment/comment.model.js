@@ -24,6 +24,8 @@ const CommentSchema = new mongoose.Schema({
     type:objectId,
     ref:'User'
   },
+  likes:[{type:objectId,ref:'User'}],
+  dislikes:[{type:objectId,ref:'User'}],
   created: {
     type: Date,
     default: Date.now

@@ -110,6 +110,54 @@ const commentReducer = (state=initialState,action) => {
 				}
 			}
 		break;
+
+		case types.LIKE_COMMENT_REQUEST:
+			return {
+				...state,
+				processing:true
+			}
+		case types.LIKE_COMMENT_SUCCESS:
+			let isComment = state.data.byId[payload._id];
+			let byId;
+			if(isComment){
+				byId = {
+					...state.data.byId,
+					[payload._id]:{
+						...payload,
+						children:[...state.data.byId[payload._id].children]
+					}
+					}
+				
+			}else{
+				byId = {
+					...state.data.byId,
+					[payload.parent]:{
+						...state.data.byId[payload.parent],
+						children:[...state.data.byId[payload.parent].children.map(item=>{
+							if(item._id === payload._id) return payload;
+							return item;
+						})]
+					}
+				}
+				
+			}
+			return {
+				...state,
+				processing:false,
+				data:{
+					...state.data,
+					byId:{
+						...byId
+					}
+				}
+			}
+
+			case types.LIKE_COMMENT_ERROR:
+			return {
+				...state,
+				processing:false,
+				isError:payload
+			}
 		default:
 			return state;
 	}
