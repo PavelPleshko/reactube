@@ -14,7 +14,7 @@ import {withStyles} from '@material-ui/core/styles';
 
 
 import MediaTile from '../components/core/MediaTile/MediaTile';
-
+import MediaList from './singleMedia/MediaList';
 
 const styles = theme =>({
 	root:{
@@ -23,10 +23,6 @@ const styles = theme =>({
 })
 class Home extends Component{
 	
-	state={
-
-	};
-
 	componentDidMount = () =>{
 		this.props.listPopularMedia();
 	}
@@ -36,11 +32,12 @@ class Home extends Component{
 	return (
 		<Grid container spacing={24} className={classes.root}>
 		<Grid item sm={8}>
-			<MediaTile columns={3} items={popularMedias}/>
+			<MediaTile columns={4} items={popularMedias}/>
 		</Grid>
 		<Grid item sm={4}>
-			<Card>
-			</Card>
+			
+			<MediaList data={popularMedias}/>
+			
 		</Grid>
 		</Grid>
 	)
