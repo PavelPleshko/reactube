@@ -4,11 +4,17 @@ let isLogged = null;
 if (typeof(window) !== "undefined") {
    JSON.parse(localStorage.getItem('user'));
 }  
-const initialState = isLogged ? { processing:false,
+const initialState = isLogged ? 
+	{
+	 processing:false,
 	isError:false,
-	data:isLogged} : {processing:false,
-	isError:false,
-	data:null};
+	data:isLogged,
+	} : 
+	{
+		processing:false,
+		isError:false,
+		data:null,
+	};
 
 const userReducer = (state=initialState,action) => {
 	const {type,payload} = action;

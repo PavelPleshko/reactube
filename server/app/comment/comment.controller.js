@@ -115,6 +115,7 @@ const getRepliesByComment = async (req,res,next)=>{
 const likeComment = async (req,res,next) =>{
 	let commentId = req.body.commentId;
 	let userId = req.user._id.toString();
+	console.log(commentId,userId);
 	try{
 		let comment = await Comment.findById(commentId);
 		let isLiked = comment.likes.indexOf(userId);
@@ -131,6 +132,7 @@ const likeComment = async (req,res,next) =>{
 	     	{path:'author',select:'_id firstName lastName'});
 	     sendSuccess(res,'comment liked')({comment:updatedComment})
 	}catch(err){
+		console.log(err);
 		sendError(res)(err)
 	}
 }

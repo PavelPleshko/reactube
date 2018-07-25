@@ -13,15 +13,14 @@ function handleErrors(response) {
     }   
 }
 
-const getDirectUploadDetails = (resourceType) => {
-	return fetch('/api/media/upload_link',{
-		method:'POST',
+const getDirectUploadDetails = ({resourceType}) => {
+	return fetch('/api/media/upload_link?resourceType='+resourceType,{
+		method:'GET',
 		headers:{
 			'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
      credentials: 'include',
-     body: JSON.stringify(resourceType)
 	})
  
   .then(handleErrors)
@@ -42,7 +41,8 @@ const uploadVideo = (options,url,progressReport)=>{
             if(xhr.status == 200){
               resolve(response);
             }else{
-              reject('Uploading failed due to technical reasons. Please contact support.');
+              reject(`Uploading failed due to technical reasons.
+               Please contact support.`);
             }
             }
           } 
@@ -52,15 +52,16 @@ const uploadVideo = (options,url,progressReport)=>{
 }
 
 
-const create = (mediaBody)=>{
+const create = ({media,csrfToken})=>{
   return fetch('/api/media/new',{
     method:'POST',
     headers:{
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'CSRF-Token': csrfToken
     },
      credentials: 'include',
-     body: JSON.stringify(mediaBody)
+     body: JSON.stringify(media)
   })
   .then(handleErrors)
   .then(res=>res.json())
@@ -79,8 +80,8 @@ const listPopular = () => {
   .then(res=>res.json())
 }
 
-const listRelated = (params) => {
-  return fetch('/api/media/related/'+ params.mediaId, {
+const listRelated = ({mediaId}) => {
+  return fetch('/api/media/related/'+ mediaId, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -91,8 +92,8 @@ const listRelated = (params) => {
   .then(res=>res.json())
 }
 
-const listByUser = (params) => {
-  return fetch('/api/media/by/'+ params.userId, {
+const listByUser = ({userId}) => {
+  return fetch('/api/media/by/'+ userId, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -104,8 +105,8 @@ const listByUser = (params) => {
 }
 
 
-const read = (params) => {
-  return fetch(serverUrl+'/api/media/' + params.mediaId, {
+const read = ({mediaId}) => {
+  return fetch(serverUrl+'/api/media/' + mediaId, {
     method: 'GET'
   })
   .then(handleErrors)
@@ -113,12 +114,13 @@ const read = (params) => {
 }
 
 
-const update = (media,params) => {
-  return fetch('/api/media/' + params.mediaId, {
+const update = ({media,mediaId,csrfToken}) => {
+  return fetch('/api/media/' + mediaId, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'CSRF-Token': csrfToken
     },
     credentials: 'include',
     body: JSON.stringify(media)
@@ -127,12 +129,13 @@ const update = (media,params) => {
   .then(res=>res.json())
 }
 
-const remove = (params) => {
-  return fetch('/api/media/' + params.mediaId, {
+const remove = ({mediaId,csrfToken}) => {
+  return fetch('/api/media/' + mediaId, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'CSRF-Token': csrfToken
     },
     credentials: 'include',
   })
@@ -140,29 +143,31 @@ const remove = (params) => {
   .then(res=>res.json())
 }
 
-const like = (params) => {
+const like = ({mediaId,csrfToken}) => {
   return fetch('/api/media/like', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'CSRF-Token': csrfToken
     },
     credentials: 'include',
-    body: JSON.stringify(params)
+    body: JSON.stringify({mediaId})
   })
   .then(handleErrors)
   .then(res=>res.json())
 }
 
-const dislike = (params) => {
+const dislike = ({mediaId,csrfToken}) => {
   return fetch('/api/media/dislike', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'CSRF-Token': csrfToken
     },
     credentials: 'include',
-    body: JSON.stringify(params)
+    body: JSON.stringify({mediaId})
   })
   .then(handleErrors)
   .then(res=>res.json())

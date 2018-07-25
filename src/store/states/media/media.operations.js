@@ -5,10 +5,11 @@ import mediaActions from './media.actions';
 
 
 
-const createMedia = mediaBody => {
-	return (dispatch)=>{
+const createMedia = media => {
+	return (dispatch,getState)=>{
 		dispatch(mediaActions.createMediaRequest());
-		create(mediaBody)
+		let csrfToken = getState().csrf;
+		create({media,csrfToken})
 		.then(response=>{
 			let media = response.data.media;	
 			dispatch(mediaActions.createMediaSuccess(media));
@@ -61,13 +62,15 @@ const readMedia = (mediaId) => {
 }
 
 
-const updateMedia = (mediaBody,mediaId) => {
-	return (dispatch)=>{
+const updateMedia = (media,mediaId) => {
+	return (dispatch,getState)=>{
 		dispatch(mediaActions.updateMediaRequest());
-		update(mediaBody,{mediaId})
+		let csrfToken = getState().csrf;
+		update({media,mediaId,csrfToken})
 		.then(response=>{
 			let media = response.data.media;
 			dispatch(mediaActions.updateMediaSuccess(media));
+			dispatch(push(`/media/${mediaId}`));
 		})
 		.catch((error)=>{
 			dispatch(mediaActions.updateMediaError(error.message));
@@ -76,9 +79,10 @@ const updateMedia = (mediaBody,mediaId) => {
 }
 
 const removeMedia = (mediaId) => {
-	return (dispatch)=>{
+	return (dispatch,getState)=>{
 		dispatch(mediaActions.removeMediaRequest());
-		remove({mediaId})
+		let csrfToken = getState().csrf;
+		remove({mediaId,csrfToken})
 		.then(response=>{
 			let media = response.data.mediaId;
 			dispatch(mediaActions.removeMediaSuccess(media));
@@ -91,9 +95,10 @@ const removeMedia = (mediaId) => {
 }
 
 const likeMedia = (mediaId) => {
-	return (dispatch)=>{
+	return (dispatch,getState)=>{
 		dispatch(mediaActions.likeMediaRequest());
-		like({mediaId})
+		let csrfToken = getState().csrf;
+		like({mediaId,csrfToken})
 		.then(response=>{
 			let media = response.data.media;
 			dispatch(mediaActions.likeMediaSuccess(media));
@@ -105,9 +110,10 @@ const likeMedia = (mediaId) => {
 }
 
 const dislikeMedia = (mediaId) => {
-	return (dispatch)=>{
+	return (dispatch,getState)=>{
 		dispatch(mediaActions.dislikeMediaRequest());
-		dislike({mediaId})
+		let csrfToken = getState().csrf;
+		dislike({mediaId,csrfToken})
 		.then(response=>{
 			let media = response.data.media;
 			dispatch(mediaActions.dislikeMediaSuccess(media));

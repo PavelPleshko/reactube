@@ -108,7 +108,11 @@ class CommentSingle extends Component{
 					 	<span className={classes.showReplies} onClick={this.hideReplies}>Hide replies</span>
 					 	{
 					 	comment.children.map((item)=>
-					 	<CommentSingle key={item._id} classes={classes} comment={item} parent={parent} />)
+					 	<CommentSingle 
+					 	likeUserComment={this.props.likeUserComment}
+					 	dislikeUserComment={this.props.dislikeUserComment}
+					 	key={item._id} classes={classes} 
+					 	comment={item} parent={parent} />)
 					 	}
 					 </React.Fragment>
 					 : <span className={classes.showReplies} onClick={this.showReplies}>Show all replies ({comment.repliesCount})</span>

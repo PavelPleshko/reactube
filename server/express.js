@@ -5,7 +5,7 @@ import compress from 'compression';
 import cors from 'cors';
 import helmet from 'helmet';
 import logger from 'morgan';
-import csurf from 'csurf';
+import csrf from 'csurf';
 import path from 'path';
 import Index from '../index';
 import {authRoutes,userRoutes,
@@ -34,10 +34,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(compress());
 app.use(helmet());
-app.use(csurf());
+app.use(csrf({ cookie: true }));
 app.use(cors());
-app.use(logger());
-
+app.use(logger("combined"));
 
  const sessionOpts = {
     secret: config.session.secret,
@@ -77,8 +76,16 @@ app.get('/*', (req, res,next) => {
 	if (req.originalUrl === '/bundle.js') {
     return next();
 	}
+  let csrfToken = req.csrfToken() || null;
+  res.cookie('csrfToken', csrfToken, { sameSite: true, httpOnly: true });
 	 const context = {}
-	 const store = configStore();
+	 const store = configStore({
+        csrf: csrfToken
+   });
+    const state = `<script id="initialState">
+        window.__APP_STATE = ${ JSON.stringify(store.getState()) };
+      </script>`;
+
    loadBranchData(req.url).then(data=>{
    	const markup = ReactDOMServer.renderToString(
    		<Provider store={store}>
@@ -93,9 +100,10 @@ app.get('/*', (req, res,next) => {
         return res.redirect(303, context.url)
        }
    	 res.writeHead( 200, { "Content-Type": "text/html" } );
-  	 res.end(Index({markup:markup}));
+  	 res.end(Index({markup:markup,state:state}));
    })
    .catch(err=>{
+    console.log(err);
    	res.status(500).send('Data could not be loaded');
    })
   
@@ -104,6 +112,8 @@ app.get('/*', (req, res,next) => {
 app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {
     res.status(401).json({"error" : err.name + ": " + err.message})
+  }else{
+    res.status(500).json({message:err.message || 'Internal server error'});
   }
 })
 

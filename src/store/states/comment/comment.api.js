@@ -31,29 +31,32 @@ const getReplies = (params) => {
   .then(res=>res.json()) 
 }
 
-const postComment = (comment) => {
+const postComment = (params) => {
   return fetch('/api/comment/new',{
     method:'POST',
     headers:{
       'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'CSRF-Token': params.csrfToken
     },
      credentials: 'include',
-     body: JSON.stringify(comment)
+     body: JSON.stringify(params.comment)
   })
   .then(handleErrors)
   .then(res=>res.json()) 
 }
 
 const likeComment = (params) => {
+  console.log(params);
   return fetch('/api/comment/like',{
     method:'POST',
     headers:{
       'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'CSRF-Token': params.csrfToken
     },
      credentials: 'include',
-     body: JSON.stringify(params)
+     body: JSON.stringify({commentId:params.commentId})
   })
   .then(handleErrors)
   .then(res=>res.json()) 
@@ -65,9 +68,10 @@ const dislikeComment = (params) => {
 		headers:{
       'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'CSRF-Token': params.csrfToken
     },
      credentials: 'include',
-     body: JSON.stringify(params)
+     body: JSON.stringify({commentId:params.commentId})
 	})
   .then(handleErrors)
   .then(res=>res.json()) 

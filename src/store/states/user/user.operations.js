@@ -5,15 +5,14 @@ import userActions from './user.actions';
 
 
 const login = credentials => {
-	return (dispatch)=>{
+	return (dispatch,getState)=>{
 		dispatch(userActions.loginUserRequest(credentials));
-		signin(credentials)
+		let csrfToken = getState().csrf;
+		signin({user:credentials,csrfToken})
 		.then(response=>{
 			let user = response.data.user;
-			let token = response.data.token;
-			if(token){
-				user.token = token;
-				localStorage.setItem('jwtToken', token);
+			if(response.data.token){
+				user.token = response.data.token;
 			}
 		dispatch(userActions.loginUserSuccess(user));
 		dispatch(push('/'));
@@ -25,9 +24,10 @@ const login = credentials => {
 
 
 const register = (credentials) =>{
-	return (dispatch)=>{
+	return (dispatch,getState)=>{
 		dispatch(userActions.loginUserRequest(credentials));
-		signup(credentials)
+		let csrfToken = getState().csrf;
+		signup({user:credentials,csrfToken})
 		.then(response=>{
 		dispatch(userActions.registerUserSuccess(response.data));
 		}).catch((error) => {

@@ -6,7 +6,7 @@ import mediaCtrl from './media.controller';
 const router = express.Router();
 
 router.route('/media/upload_link')
-        .post(authCtrl.requireSignin,mediaCtrl.getUploadDetails)
+        .get(authCtrl.requireSignin,mediaCtrl.getUploadDetails)
 
 router.route('/media/new')
         .post(authCtrl.requireSignin, mediaCtrl.create);

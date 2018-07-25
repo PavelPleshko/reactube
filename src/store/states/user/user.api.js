@@ -9,12 +9,13 @@ function handleErrors(response) {
     }   
 }
 
-const signup = (user) => {
+const signup = ({user,csrfToken}) => {
 	return fetch('/api/users/signup',{
 		method:'POST',
 		headers:{
 			'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'CSRF-Token': csrfToken
     },
      body: JSON.stringify(user)
 	})
@@ -25,12 +26,13 @@ const signup = (user) => {
 }
 
 
-const signin = (user) => {
+const signin = ({user,csrfToken}) => {
   return fetch('/api/auth/signin/', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+         'CSRF-Token': csrfToken
       },
       credentials: 'include',
       body: JSON.stringify(user)

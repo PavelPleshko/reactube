@@ -5,6 +5,7 @@ import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {initialize} from 'redux-form';
+
 import * as categoryOperations from '../store/states/media/category/category.operations';
 import * as tagOperations from '../store/states/media/tag/tag.operations';
 import * as mediaOperations from '../store/states/media/media.operations';
@@ -24,7 +25,7 @@ class NewMedia extends Component{
 
 
 	componentDidMount(){
-		getDirectUploadDetails({resource_type:'video'}).then(res=>{
+		getDirectUploadDetails({resourceType:'video'}).then(res=>{
 			if(res.data){
 				this.setState({upload_details:res.data});
 			}else{

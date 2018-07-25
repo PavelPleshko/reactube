@@ -97,9 +97,10 @@ const getUploadDetails =(req,res,next)=>{
   if(!req.user){
     sendError(res,401,'You are not authorized to upload videos')();
   }else{
+    console.log(req.query)
     let cloud_name = config.cloudinary.cloud_name;
     let cloud_preset = config.cloudinary.preset;
-    let upload_link = `https://api.cloudinary.com/v1_1/${cloud_name}/${req.body.resource_type || 'video'}/upload`;
+    let upload_link = `https://api.cloudinary.com/v1_1/${cloud_name}/${req.query.resource_type || 'video'}/upload`;
     sendSuccess(res,'Here is your upload link')({upload_link,cloud_preset})    
   }
 }

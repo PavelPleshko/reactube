@@ -16,9 +16,10 @@ const getComments = (mediaId) => {
 }
 
 const postNewComment = (comment,isReply=false) => {
-	return (dispatch)=>{
+	return (dispatch,getState)=>{
 		dispatch(commentActions.postCommentRequest());
-		postComment(comment)
+		let csrfToken = getState().csrf;
+		postComment({comment,csrfToken})
 		.then(response=>{
 			console.log(response);
 			let comment = response.data.comment;
@@ -47,9 +48,11 @@ const getRepliesByComment = (commentId) => {
 }
 
 const likeUserComment = (commentId) => {
-	return (dispatch)=>{
+	return (dispatch,getState)=>{
 		dispatch(commentActions.likeCommentRequest());
-		likeComment({commentId})
+		let csrfToken = getState().csrf;
+		likeComment({commentId,csrfToken})
+
 		.then(response=>{
 			console.log(response);
 			let comment = response.data.comment;
@@ -62,9 +65,10 @@ const likeUserComment = (commentId) => {
 }
 
 const dislikeUserComment = (commentId) => {
-	return (dispatch)=>{
+	return (dispatch,getState)=>{
 		dispatch(commentActions.dislikeCommentRequest());
-		dislikeComment({commentId})
+		let csrfToken = getState().csrf;
+		dislikeComment({commentId,csrfToken})
 		.then(response=>{
 			console.log(response);
 			let comment = response.data.comment;

@@ -12,7 +12,19 @@ else {
     history = createMemoryHistory();
 }
 
-const configStore =  function(defaultState){
+const getInitialState = ()=>{
+	if (typeof window !== 'undefined' && window.__APP_STATE) {	
+		let state= window.__APP_STATE;
+		delete state.router; //to disable redirect to base href
+		delete window.__APP_STATE;
+		let initialScriptDom = document.getElementById('initialState');
+		initialScriptDom.parentNode.removeChild(initialScriptDom);
+    return state;
+  }
+  return null;
+}
+
+const configStore =  function(defaultState=getInitialState()){
 
 const store  = createStore(connectRouter(history)(rootReducer),
 defaultState,compose(
