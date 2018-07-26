@@ -18,8 +18,13 @@ import config from './config/config';
 //ssr
 import React from 'react';
 import ReactDOMServer from 'react-dom/server'
-import RootRouter from './../src/routes/RootRouter/RootRouter';
-import StaticRouter from 'react-router-dom/StaticRouter'
+import App from './../src/App';
+import StaticRouter from 'react-router-dom/StaticRouter';
+import { SheetsRegistry } from 'react-jss/lib/jss'
+import JssProvider from 'react-jss/lib/JssProvider'
+import { MuiThemeProvider, createMuiTheme,
+ createGenerateClassName } from '@material-ui/core/styles'
+import {deepPurple,green,red} from '@material-ui/core/colors';
 import { matchRoutes } from 'react-router-config';
 import routes from './../src/routes/routeConfig';
 import 'isomorphic-fetch';
@@ -73,9 +78,10 @@ app.use('/api', commentRoutes);
 
 
 app.get('/*', (req, res,next) => {
-	if (req.originalUrl === '/bundle.js') {
+	if (req.originalUrl.includes('bundle.js')) {
     return next();
-	}
+  	}
+
   let csrfToken = req.csrfToken() || null;
   res.cookie('csrfToken', csrfToken, { sameSite: true, httpOnly: true });
 	 const context = {}
@@ -86,21 +92,46 @@ app.get('/*', (req, res,next) => {
         window.__APP_STATE = ${ JSON.stringify(store.getState()) };
       </script>`;
 
+    const theme = createMuiTheme({
+  palette: {
+    primary: {
+    light: '#757de8',
+    main: '#3f51b5',
+    dark: '#002984',
+    contrastText: '#fff',
+    error:red[500],
+    errorHover:red[600],
+    success:green[400],
+    successHover:green[600],
+    standard:deepPurple[500],
+    standardHover:deepPurple[600],
+    grey:'#8091a5',
+    lightGrey:'#c3cfd5'
+  }
+}
+});
+      const sheetsRegistry = new SheetsRegistry()
+     const generateClassName = createGenerateClassName();
    loadBranchData(req.url).then(data=>{
    	const markup = ReactDOMServer.renderToString(
+    
    		<Provider store={store}>
    		<StaticRouter location={req.url} context={context}>
-   			
-   				<RootRouter data={data} />
-   			
+   			<JssProvider registry={sheetsRegistry}>
+            <MuiThemeProvider theme={theme} sheetsManager={new Map()}> 
+   				<App />
+   			</MuiThemeProvider>
+         </JssProvider>
    		</StaticRouter>
    		</Provider>
+       
    		)
    	  if (context.url) {
         return res.redirect(303, context.url)
        }
+       const css = sheetsRegistry.toString();
    	 res.writeHead( 200, { "Content-Type": "text/html" } );
-  	 res.end(Index({markup:markup,state:state}));
+  	 res.end(Index({markup,state,css}));
    })
    .catch(err=>{
     console.log(err);

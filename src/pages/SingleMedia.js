@@ -19,7 +19,7 @@ import CommentList from './singleMedia/CommentList';
 
 const styles = theme =>({
 	root:{
-		padding:'30px 15%',
+		padding:'0 10%',
 		position:'relative'
 	}
 
@@ -79,7 +79,7 @@ class SingleMedia extends Component{
 		const nextUrl = relatedMedia.length > 0
           ? `/media/${relatedMedia[0]._id}` : ''
 	return (
-		<Grid className={classes.root} container spacing={32}>
+		<Grid className={classes.root} container spacing={24}>
 			<Grid item sm={7} xs={12}>
 				<MediaPlayer media={media} user={user} nextUrl={nextUrl} handleAutoplay={this.handleAutoplay} />
 				{media && <CommentList mediaId={media._id}/>}

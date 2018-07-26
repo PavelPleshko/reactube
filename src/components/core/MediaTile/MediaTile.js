@@ -8,8 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Visible from '@material-ui/icons/Visibility';
 import {withStyles} from '@material-ui/core/styles';
 import {Link} from 'react-router-dom';
-import ReactPlayer from 'react-player'
-
+import Moment from 'react-moment';
 
 const styles = theme =>({
 	icon: {
@@ -18,7 +17,7 @@ const styles = theme =>({
   gridList:{
   	display:'flex',
   	flexWrap:'wrap',
-  	padding:'2rem',
+  	padding:'0 2rem',
   	listStyle:'none'
   },
   image:{
@@ -79,6 +78,9 @@ const styles = theme =>({
     	opacity:1,
     	cursor:'pointer'
     }
+  },
+  date:{
+  	marginTop:'3px'
   }
 });
 
@@ -100,7 +102,9 @@ const mediaTile = (props)=>{
 			           		  <div className={classes.author}>{item.postedBy.firstName + ' ' + item.postedBy.lastName}</div>
 				           	  <div className={classes.subheading}>
 					              <div>{item.views} views </div>
-					              <div>{item.created} </div>
+					              <div className={classes.date}>
+					              	<Moment fromNow>{item.created}</Moment>
+					              </div>
 	                		  </div>
 		              	   </div>
                     

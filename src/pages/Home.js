@@ -18,11 +18,10 @@ import MediaList from './singleMedia/MediaList';
 
 const styles = theme =>({
 	root:{
-		margin:`3rem`
 	}
 })
 class Home extends Component{
-	
+
 	componentDidMount = () =>{
 		this.props.listPopularMedia();
 	}

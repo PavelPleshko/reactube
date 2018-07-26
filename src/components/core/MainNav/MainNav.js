@@ -17,9 +17,15 @@ import {Link, withRouter} from 'react-router-dom';
 
 import UserAvatarSmall from '../../UI/miscellaneous/UserAvatarSmall/UserAvatarSmall';
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1,
+    backgroundColor:theme.palette.primary.light,
+    boxShadow:'1px 1px 3px 0px rgba(0,0,0,.3)',
+    position:'fixed',
+    left:0,
+    top:0,
+    maxHeight:'5rem'
   },
   flex: {
     flex: 1,
@@ -37,14 +43,14 @@ const styles = {
     marginRight:'.3rem'
   }
 
-};
+});
 
 
 const isActive = (history, path) => {
   if (history.location.pathname == path)
-    return {color: '#ffa726'}
+    return {color: '#dedede'}
   else
-    return {color: '#ffffff'}
+    return {color: '#fff'}
 }
 
 
@@ -67,12 +73,11 @@ state = {
   render(){
     const open = Boolean(this.state.anchorEl);
     const {classes,user,history} = this.props;
-console.log(user);
     return (
-  <AppBar position="static" className={classes.root}>
+  <AppBar position="fixed" className={classes.root}>
     <Toolbar className={classes.rootContainer}>
       <div className={classes.leftContainer}>
-      <Typography type="title" color="inherit">
+      <Typography type="title">
         Reactube
       </Typography>
       <Link to="/">
@@ -83,8 +88,7 @@ console.log(user);
          <span>
           <Link to="/add/media">
             <Button style={isActive(history, "/add/media")}>
-               <CloudUpload color="inherit" className={classes.icon} />
-                   
+               <CloudUpload className={classes.icon} />              
               Add media
             </Button>
           </Link>

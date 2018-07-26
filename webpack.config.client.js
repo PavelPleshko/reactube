@@ -4,6 +4,7 @@ const path = require('path');
 const config = {
   name:"browser",
   mode:"development",
+  target:"web",
   devtool:"eval-source-map",
   entry:[
   'react-hot-loader/patch',
@@ -12,7 +13,7 @@ const config = {
   output: {
         path: path.resolve(__dirname , './dist'),
         filename: 'bundle.js',
-        publicPath: '/dist/'
+        publicPath: 'http://localhost:3000/'
     },
     module:{
         rules: [

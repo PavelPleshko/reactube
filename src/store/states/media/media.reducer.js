@@ -160,7 +160,7 @@ const getPopularMediaList = (state=initialState,action) => {
 		case types.LIST_POPULAR_MEDIA_SUCCESS:
 		let byIds = {};
 		payload.forEach(item=>{
-			byIds[item._id] = item
+			byIds[item._id] = {...item,type:'popular'}
 		});
 			return {
 				...state,
@@ -213,7 +213,7 @@ const getRelatedMediaList = (state=initialState,action) => {
 		case types.LIST_RELATED_MEDIA_SUCCESS:
 		let byIds = {};
 		payload.forEach(item=>{
-			byIds[item._id] = item
+			byIds[item._id] = {...item,type:'related'}
 		});
 			return {
 				...state,

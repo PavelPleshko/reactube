@@ -133,7 +133,7 @@ const mediaList = (props)=>{
                         </CardContent>
                         <div className={classes.controls}>
                         <Typography type="subheading" component="h3" className={classes.views} color="primary"> {item.views} views</Typography>
-                         <Chip label="Related" className={classes.chip} />
+                         <Chip label={item.type} className={classes.chip} />
                         </div>
                       </div>
 
