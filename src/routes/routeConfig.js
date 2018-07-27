@@ -1,16 +1,23 @@
 import Loadable from 'react-loadable';
-import { read } from '../store/states/media/media.api'; 
+import { read,listPopular } from '../store/states/media/media.api'; 
 import Root from './RootRouter/RootRouter';
-import React from'react';
+import React from 'react';
+import HomeSkeleton from '../pages/home/HomeSkeleton/HomeSkeleton';
+import mediaActions from '../store/states/media/media.actions';
 
 const routes = [
 		 {	
   	path:'/',
   	exact:true,
-  	component:Loadable({loader:()=>import('../pages/Home'),loading() {
-    return <div>Loading...</div> //put simple loader here
-  }})
+  	component:Loadable({loader:()=>import('../pages/Home'),
+  	loading() {
+    return <HomeSkeleton />
+  }}),
+  	loadData:()=>listPopular(),
+  	reduxAction:(data)=>mediaActions.listPopularMediaSuccess(data)
+
   },
+  
   {
   	path:'/signup',
   	component:Loadable({loader:()=>import('../pages/Signup'),loading() {
@@ -29,13 +36,24 @@ const routes = [
     return <div>Loading...</div>
   }})
   },
+   {
+    path: '/media/edit/:mediaId',
+    component: Loadable({
+    loader:()=>import('../pages/EditMedia'),
+    loading() {
+    return <div>Loading...</div>
+  }}
+  )
+  },
   {
     path: '/media/:mediaId',
     component: Loadable({loader:()=>import('../pages/SingleMedia'),loading() {
     return <div>Loading...</div>
   }}),
-    loadData: (params) => read(params)
+    loadData: (params) => read(params),
+    reduxAction:(data)=>mediaActions.readMediaSuccess(data)
   },
+
 	]
 
  
@@ -52,11 +70,11 @@ export const convertCustomRouteConfig = (routes, parentRoute) => {
       component: route.component,
       exact: route.exact,
       routes: route.routes ? convertCustomRouteConfig(route.routes, pathResult) : [],
-   	  loadData:route.loadData
+   	  loadData:route.loadData,
+   	  reduxAction:route.reduxAction
     };
   });
   return mapping;
 }
 
-console.log(convertCustomRouteConfig(routes));
 export default convertCustomRouteConfig(routes) 

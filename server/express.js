@@ -56,13 +56,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-const loadBranchData = (location) => {
+const loadBranchData =   (location,store) => {
   const branch = matchRoutes(routes, location);
-  const promises = branch.map(({ route, match }) => {
+  const promises = branch.map(async ({ route, match }) => {
 
-    return route.loadData
-      ? route.loadData(branch[0].match.params)
-      : Promise.resolve(null)
+   if(route.loadData){
+     let serverData = await route.loadData(branch[0].match.params);
+     store.dispatch(route.reduxAction(Object.values(serverData.data)[0]));
+   }
+   return await store.getState();
   })
   return Promise.all(promises)
 }
@@ -85,12 +87,8 @@ app.get('/*', (req, res,next) => {
   let csrfToken = req.csrfToken() || null;
   res.cookie('csrfToken', csrfToken, { sameSite: true, httpOnly: true });
 	 const context = {}
-	 const store = configStore({
-        csrf: csrfToken
-   });
-    const state = `<script id="initialState">
-        window.__APP_STATE = ${ JSON.stringify(store.getState()) };
-      </script>`;
+	
+    
 
     const theme = createMuiTheme({
   palette: {
@@ -112,12 +110,19 @@ app.get('/*', (req, res,next) => {
 });
       const sheetsRegistry = new SheetsRegistry()
      const generateClassName = createGenerateClassName();
-   loadBranchData(req.url).then(data=>{
+      const store = configStore({
+        csrf: csrfToken
+   });
+   loadBranchData(req.url,store).then(newStoreState=>{
+    
+      const state = `<script id="initialState">
+        window.__APP_STATE = ${ JSON.stringify(newStoreState[0]) };
+      </script>`;
    	const markup = ReactDOMServer.renderToString(
     
    		<Provider store={store}>
    		<StaticRouter location={req.url} context={context}>
-   			<JssProvider registry={sheetsRegistry}>
+   			<JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
             <MuiThemeProvider theme={theme} sheetsManager={new Map()}> 
    				<App />
    			</MuiThemeProvider>

@@ -86,31 +86,7 @@ const getRepliesByComment = async (req,res,next)=>{
 // }
 
 
-// module.exports.likeComment=function(req,res,next){
-// var comment = req.comment;
-// var idx = comment.likes.findIndex(function(id){
-// 	return id == req.user._id.toString();
-// })
-// if(idx<0){
-// 	comment.likes.push(req.user._id);
-// 	comment.save(function(err,savedComment){
-// 		if(err){
-// 			res.json(err);
-// 		}else{
-// 			Comment.findById(savedComment._id)
-// 			.populate(recordHelper.population('user'))
-// 			.populate(recordHelper.population('replies')).exec(function(err,comment){
-// 				console.log(comment);
-// 				res.status(200).json(comment);
-// 			})			
-// 		}		
-// 	})
-// }else{
-// 	res.status(500).json(new Error('It seems like the error occured that can be connected with the server...'))
-// }
 
-
-// }
 
 const likeComment = async (req,res,next) =>{
 	let commentId = req.body.commentId;
@@ -159,27 +135,6 @@ const dislikeComment = async (req,res,next) =>{
 		sendError(res)(err)
 	}
 }
-
-// module.exports.unlikeComment=function(req,res,next){
-// 	var comment = req.comment;
-// 	var userId = req.user._id.toString();
-
-// 	var idx = comment.likes.findIndex(function(id){
-// 		return id == userId;
-// 	})
-// 	if(idx >= 0){
-// 		comment.likes.splice(idx,1);
-// 		comment.save(function(err,savedComment){
-// 			if(err){
-// 				res.json(err);
-// 			}else{
-// 				res.status(200).json(savedComment);
-// 			}
-// 		});
-// 	}else{
-// 		res.status(500).json(new Error('Internal server error occured'));
-// 	}
-// }
 
 
 export default {

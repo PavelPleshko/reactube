@@ -14,6 +14,7 @@
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
+    "babel-plugin-dynamic-import-node": "^2.0.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
@@ -53,6 +54,7 @@
     "helmet": "^3.12.1",
     "history": "^4.7.2",
     "jsonwebtoken": "^8.3.0",
+    "loadable-components": "^2.2.2",
     "lodash": "^4.17.10",
     "mongoose": "^5.1.7",
     "next": "^6.1.1",
@@ -80,7 +82,6 @@
     "request": "^2.87.0",
     "screenfull": "^3.3.2",
     "spdy": "^3.4.7",
-    "stripe": "^6.2.1",
     "webpack-log": "^1.2.0"
   }
 }

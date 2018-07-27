@@ -17,6 +17,7 @@ import MediaList from './singleMedia/MediaList';
 import Autoplay from './singleMedia/Autoplay';
 import CommentList from './singleMedia/CommentList';
 
+
 const styles = theme =>({
 	root:{
 		padding:'0 10%',
@@ -81,7 +82,7 @@ class SingleMedia extends Component{
 	return (
 		<Grid className={classes.root} container spacing={24}>
 			<Grid item sm={7} xs={12}>
-				<MediaPlayer media={media} user={user} nextUrl={nextUrl} handleAutoplay={this.handleAutoplay} />
+				<MediaPlayer media={media} user={user} nextUrl={nextUrl} handleAutoplay={this.handleAutoplay} /> 
 				{media && <CommentList mediaId={media._id}/>}
 			</Grid>
 			<Grid item sm={5} xs={12}>

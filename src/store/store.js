@@ -15,6 +15,7 @@ else {
 const getInitialState = ()=>{
 	if (typeof window !== 'undefined' && window.__APP_STATE) {	
 		let state= window.__APP_STATE;
+		console.log(state);
 		delete state.router; //to disable redirect to base href
 		delete window.__APP_STATE;
 		let initialScriptDom = document.getElementById('initialState');

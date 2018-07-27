@@ -7,8 +7,6 @@ const config = {
   target:"web",
   devtool:"eval-source-map",
   entry:[
-  'react-hot-loader/patch',
-  'webpack-hot-middleware/client?reload=true',
        './src/main.js'],
   output: {
         path: path.resolve(__dirname , './dist'),
@@ -20,8 +18,10 @@ const config = {
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        loader: "babel-loader"
-        
+        loader: "babel-loader",
+        options:{
+          plugins:["react-loadable/babel"]
+        }
       },
             {
                 test: /\.(ttf|eot|svg|gif|jpg|png)(\?[\s\S]+)?$/,
@@ -39,11 +39,7 @@ const config = {
   }
 }
     ]
-    },
-
-
-
-    plugins: [new webpack.HotModuleReplacementPlugin()]
+    }
 
 
 }

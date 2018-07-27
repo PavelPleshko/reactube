@@ -23,7 +23,7 @@ const styles = theme =>({
 class Home extends Component{
 
 	componentDidMount = () =>{
-		this.props.listPopularMedia();
+		if(this.props.popularMedias.length < 1) this.props.listPopularMedia();
 	}
 	
 	render(){

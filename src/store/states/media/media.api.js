@@ -69,7 +69,7 @@ const create = ({media,csrfToken})=>{
 
 
 const listPopular = () => {
-  return fetch('/api/media/popular', {
+  return fetch(serverUrl+'/api/media/popular', {
     method: 'GET',
     headers: {
       'Accept': 'application/json',

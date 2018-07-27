@@ -7,10 +7,13 @@ export default ({markup,state,css}) => {
           <title>Reactube</title>
           <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400">
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+           
         </head>
         <body>
                <div id="root">${markup}</div>
-               <style id="jss-server-side">${css}</style>
+
+                       <style id="jss-server-side">${css}</style>
+
                ${state}
           <script type="text/javascript" src="http://localhost:3000/bundle.js"> 
        </script>
