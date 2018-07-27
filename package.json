@@ -59,6 +59,7 @@
     "mongoose": "^5.1.7",
     "next": "^6.1.1",
     "node-stream-string": "^1.0.1",
+    "p-min-delay": "^2.0.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "prop-types": "^15.6.2",

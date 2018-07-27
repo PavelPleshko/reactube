@@ -4,12 +4,19 @@ import Root from './RootRouter/RootRouter';
 import React from 'react';
 import HomeSkeleton from '../pages/home/HomeSkeleton/HomeSkeleton';
 import mediaActions from '../store/states/media/media.actions';
+import pMinDelay from 'p-min-delay'
+
+const delay = promise => {
+  if (typeof window === 'undefined') return promise
+  return pMinDelay(promise, 1500)
+}
+
 
 const routes = [
 		 {	
   	path:'/',
   	exact:true,
-  	component:Loadable({loader:()=>import('../pages/Home'),
+  	component:Loadable({loader:()=>delay(import('../pages/Home')),
   	loading() {
     return <HomeSkeleton />
   }}),

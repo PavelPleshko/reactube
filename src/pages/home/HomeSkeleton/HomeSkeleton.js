@@ -1,11 +1,11 @@
 import React from 'react';
 import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
 import Grid from '@material-ui/core/Grid';
-
+import VerticalMediaCard from '../../../components/UI/skeletons/VerticalMediaCard'
+import HorizontalMediaCard from '../../../components/UI/skeletons/HorizontalMediaCard'
 
 const homeSkeleton = (props)=>{
-const {columns=4,rows=2,cellHeight=230} = props;
+const {columns=4,rows=3,cellHeight=230} = props;
 const totalTilesArray = new Array(columns*rows).fill(1);
 return (
 
@@ -15,20 +15,7 @@ return (
 	
 			{totalTilesArray.map((_,i)=>{
 
-				return <GridListTile key={i}>
-					
-                    
-                 <div style={{height:'130px',width:'100%',background:'#dedede'}}>
-                
-                 </div>    
-                 <div style={{height:'15px',width:'70%',background:'#dedede',margin:'5px 0'}}>
-                
-                 </div>
-                 <div style={{height:'15px',width:'90%',background:'#dedede'}}>
-                
-                 </div>
-              
-				</GridListTile>
+				return <VerticalMediaCard key={i} />
 			})}
 				
 			
@@ -36,15 +23,13 @@ return (
 		</GridList>
 		</Grid>
 		<Grid item sm={4}>
-		 <div style={{height:'130px',width:'100%',background:'#dedede'}}>
-                
-                 </div>
-                  <div style={{height:'130px',width:'100%',background:'#dedede'}}>
-                
-                 </div>
-                  <div style={{height:'130px',width:'100%',background:'#dedede'}}>
-                
-                 </div>
+		<div style={{ padding: '0 2.5rem 1.5rem 2.5rem',display:'flex',flexDirection:'column'}}>
+			<HorizontalMediaCard />
+			<HorizontalMediaCard />
+			<HorizontalMediaCard />
+			<HorizontalMediaCard />
+			<HorizontalMediaCard />
+         </div>
 		</Grid>
 		</Grid>
 	)
