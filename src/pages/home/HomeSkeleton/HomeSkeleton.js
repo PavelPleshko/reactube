@@ -1,5 +1,4 @@
 import React from 'react';
-import GridList from '@material-ui/core/GridList';
 import Grid from '@material-ui/core/Grid';
 import VerticalMediaCard from '../../../components/UI/skeletons/VerticalMediaCard'
 import HorizontalMediaCard from '../../../components/UI/skeletons/HorizontalMediaCard'
@@ -11,16 +10,16 @@ return (
 
 	<Grid container spacing={24}>
 	<Grid item sm={8}>
-	<GridList cols={columns} cellHeight={cellHeight}>
-	
-			{totalTilesArray.map((_,i)=>{
+	<Grid container spacing={24}>
+		{totalTilesArray.map((_,i)=>{
 
-				return <VerticalMediaCard key={i} />
+				return 	(
+	<Grid item sm={3} key={i} style={{height:cellHeight}}>
+<VerticalMediaCard  />
+</Grid>
+)
 			})}
-				
-			
-
-		</GridList>
+	</Grid>
 		</Grid>
 		<Grid item sm={4}>
 		<div style={{ padding: '0 2.5rem 1.5rem 2.5rem',display:'flex',flexDirection:'column'}}>

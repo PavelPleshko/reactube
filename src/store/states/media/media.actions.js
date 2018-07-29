@@ -131,6 +131,23 @@ const dislikeMediaError = (error) =>({
 	payload:error
 })
 
+//search
+
+const searchMediaRequest = () =>({
+	type:types.SEARCH_MEDIA_REQUEST
+})
+
+const searchMediaSuccess = (medias) =>({
+	type:types.SEARCH_MEDIA_SUCCESS,
+	payload:media
+})
+
+const searchMediaError = (error) =>({
+	type:types.SEARCH_MEDIA_ERROR,
+	payload:error
+})
+
+
 export default {
 	//create
 	createMediaRequest,createMediaSuccess,createMediaError,
@@ -152,4 +169,6 @@ export default {
 	likeMediaRequest,likeMediaSuccess,likeMediaError,
 	dislikeMediaRequest,dislikeMediaSuccess,dislikeMediaError,
 
+	//search
+	searchMediaRequest,searchMediaSuccess,searchMediaError
 }

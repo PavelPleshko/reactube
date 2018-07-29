@@ -1,6 +1,6 @@
 import { push } from 'connected-react-router'
 import {create,listPopular,listRelated,read,update,remove,
-like,dislike} from './media.api';
+like,dislike,searchMediaBy} from './media.api';
 import mediaActions from './media.actions';
 
 
@@ -47,13 +47,16 @@ const listRelatedMedia = (mediaId) => {
 }
 
 
-const readMedia = (mediaId) => {
+const readMedia = (mediaId,redirectAfterRead=false) => {
 	return (dispatch)=>{
 		dispatch(mediaActions.readMediaRequest());
 		read({mediaId})
 		.then(response=>{
 			let media = response.data.media;
 			dispatch(mediaActions.readMediaSuccess(media));
+			if(redirectAfterRead){
+				dispatch(push(`/media/${media._id}`))
+			}
 		})
 		.catch((error)=>{
 			dispatch(mediaActions.readMediaError(error.message));
@@ -124,6 +127,20 @@ const dislikeMedia = (mediaId) => {
 	}
 }
 
+const searchMedia = (input) => {
+	return (dispatch)=>{
+		dispatch(mediaActions.searchMediaRequest());
+		searchMediaBy({input})
+		.then(response=>{
+			let medias = response.data.medias;
+			dispatch(mediaActions.searchMediaSuccess(medias));
+		})
+		.catch((error)=>{
+			dispatch(mediaActions.searchMediaError(error.message));
+		})
+	}
+}
+
 const replaceMediaFromPlaylist = (mediaId) => {
 	return (dispatch)=>{
 		dispatch(mediaActions.replaceMediaFromList(mediaId))
@@ -134,5 +151,5 @@ export {
 	createMedia,listPopularMedia,listRelatedMedia,
 	readMedia,updateMedia,removeMedia,replaceMediaFromPlaylist,
 
-	likeMedia,dislikeMedia
+	likeMedia,dislikeMedia,searchMedia
 }

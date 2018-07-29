@@ -1,8 +1,6 @@
 import React from 'react';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
+import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import Visible from '@material-ui/icons/Visibility';
@@ -13,12 +11,6 @@ import Moment from 'react-moment';
 const styles = theme =>({
 	icon: {
     color: theme.palette.primary.grey,
-  },
-  gridList:{
-  	display:'flex',
-  	flexWrap:'wrap',
-  	padding:'0 2rem',
-  	listStyle:'none'
   },
   image:{
   	backgroundSize:'cover',
@@ -85,12 +77,12 @@ const styles = theme =>({
 });
 
 const mediaTile = (props)=>{
-	const {columns=3,items,resourceName="media",classes} = props;
+	const {columns=4,items,resourceName="media",classes} = props;
 	return (
-		<GridList cols={columns} className={classes.gridList} cellHeight={230}>
+		<Grid container spacing={24}>
 	
 			{items.map(item=>(
-				<GridListTile key={item._id} >
+				<Grid item sm={3} key={item._id} style={{height:230}} >
 					<Link to={`/${resourceName}/${item._id}`}>
 					  <div className={classes.image}  style={{backgroundImage:`url(${item.thumb_url})`}}
                         >
@@ -110,10 +102,10 @@ const mediaTile = (props)=>{
                     
                     
               
-				</GridListTile>
+				</Grid>
 				))}
 
-		</GridList>
+		</Grid>
 		)
 }
 

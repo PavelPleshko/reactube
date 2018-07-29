@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import userReducer from './user';
+import appReducer from './app';
 import commentReducer from './comment';
 import mainMediaReducer from './media';
 import { reducer as formReducer } from 'redux-form';
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
  	media:mainMediaReducer,
  	comment:commentReducer,
  	form:formReducer,
- 	csrf:tokenReducer
+ 	csrf:tokenReducer,
+ 	app:appReducer
 })
 
 

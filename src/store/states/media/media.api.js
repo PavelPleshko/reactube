@@ -1,4 +1,5 @@
 import config from '../../../../server/config/config';
+import queryString from 'query-string';
 
 const serverUrl = config.serverUrl ;
 
@@ -173,6 +174,20 @@ const dislike = ({mediaId,csrfToken}) => {
   .then(res=>res.json())
 }
 
+const searchMediaBy = (params) => {
+  let query = queryString.stringify(params);
+  return fetch('/api/media/search?'+query, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include'
+  })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
 export {
 	getDirectUploadDetails,uploadVideo,
   create,
@@ -180,5 +195,6 @@ export {
   read,
   update,
   remove,
-  like,dislike
+  like,dislike,
+  searchMediaBy
 }

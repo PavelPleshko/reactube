@@ -21,6 +21,13 @@ router.route('/media/popular')
 router.route('/media/by/:userId')
          .get(mediaCtrl.listByUser) 
 
+
+router.route('/media/suggestions')
+         .get(mediaCtrl.getSuggestions) 
+
+router.route('/media/search')
+         .get(mediaCtrl.searchByKeywords) 
+
 router.route('/media/like')
         .post(authCtrl.requireSignin,mediaCtrl.like)
 router.route('/media/dislike')

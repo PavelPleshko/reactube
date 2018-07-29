@@ -1,6 +1,5 @@
 import React from 'react';
 
-import GridListTile from '@material-ui/core/GridListTile';
 import {withStyles} from '@material-ui/core/styles';
 
 const styles = theme =>({
@@ -30,7 +29,7 @@ const styles = theme =>({
 const verticalMediaCard = (props)=>{
 	const {classes} = props;
 	return (
-		<GridListTile>
+		<div style={{width:'100%',display:'flex',flexDirection:'column'}}>
 					
                     
                  <div className={classes.imgPlaceholder}>
@@ -43,7 +42,7 @@ const verticalMediaCard = (props)=>{
                 
                  </div>
               
-				</GridListTile>
+				</div>
 		)
 }
 

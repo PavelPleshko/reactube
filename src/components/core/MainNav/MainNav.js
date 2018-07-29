@@ -16,6 +16,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import {Link, withRouter} from 'react-router-dom';
 
 import UserAvatarSmall from '../../UI/miscellaneous/UserAvatarSmall/UserAvatarSmall';
+import Search from './mainNav/Search';
 
 const styles = theme => ({
   root: {
@@ -94,6 +95,7 @@ state = {
           </Link>
         </span>
         </div>
+        <Search />
         <div>
          {
             user && (

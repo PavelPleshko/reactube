@@ -7,7 +7,7 @@ import {configStore,history} from './store/store';
 import JssProvider from 'react-jss/lib/JssProvider';
 import { SheetsRegistry } from 'react-jss/lib/jss'
 import { ConnectedRouter } from 'connected-react-router';
-import { createMuiTheme,MuiThemeProvider,createGenerateClassName } from '@material-ui/core/styles';
+import { createMuiTheme,MuiThemeProvider } from '@material-ui/core/styles';
 import {deepPurple,green,red} from '@material-ui/core/colors';
 
 const theme = createMuiTheme({
@@ -29,15 +29,16 @@ const theme = createMuiTheme({
 }
 });
 
+
 const store = configStore();
 
 const rootElement =  document.getElementById("root");
 
-    hydrate(
+    render(
     <Provider store={store}>
         <ConnectedRouter history={history}>
             <JssProvider>
-                <MuiThemeProvider theme={theme} sheetsManager={new Map()}>
+                <MuiThemeProvider theme={theme}>
                     <App />
                </MuiThemeProvider>
                </JssProvider>

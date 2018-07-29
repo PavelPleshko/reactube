@@ -1,4 +1,6 @@
 import Media from './media.model';
+import Keyword from '../keyword/keyword.model';
+import keywordCtrl from '../keyword/keyword.controller';
 import _ from 'lodash';
 import {sendError,sendSuccess,throwIfNoResult,throwError} from '../../helpers/responseHandler';
 import config from '../../config/config';
@@ -197,6 +199,42 @@ const mediaByID = async (req, res, next, id) => {
   }
 }
 
+
+const getSuggestions = async (req,res,next)=>{
+  let searchTerm = req.query.input;
+  let query = {
+      text:{$regex:searchTerm,$options:'i'}
+  }
+  try{
+    let suggestions = await Keyword.find(query).limit(10).sort().select('text');
+    sendSuccess(res,'suggested results')({suggestions});
+  }catch(err){
+    sendError(res)(err);
+  }
+}
+
+
+const searchByKeywords = async (req,res,next) =>{
+  let searchTerm = req.query.input;
+  let query = {
+    $or:[
+      {title:{$regex:searchTerm,$options:'i'}},
+      {description:{$regex:searchTerm,$options:'i'}}
+    ]
+  }
+  try{
+    let medias = await Media.find(query).limit(10).sort();
+    let isSearchSuccessful = medias && medias.length>0;
+    if(isSearchSuccessful){
+      keywordCtrl.create(req.user,{text:searchTerm});
+    }
+
+    sendSuccess(res,'Requested medias')({medias});
+  }catch(err){
+    sendError(res)(err);
+  }
+}
+
 export default {
   create,
   read,incrementViews,
@@ -206,5 +244,6 @@ export default {
   isPoster,
   update,
   remove,
-  like,dislike
+  like,dislike,
+  getSuggestions,searchByKeywords
 }
