@@ -30,13 +30,14 @@ const styles = theme => ({
 	    paddingLeft:'5px',
 	    color:'#fff',
 	    boxSizing:'border-box',
-	    '&:focus':{
+	    
+	},
+	inputFocused:{
 	    	minWidth:'23rem',
 	    	backgroundColor:'#fff',
 	    	outline:'none',
 	    	border: '1px solid rgba(50,97,195,.8)',
-	    	color:'#000000'
-	    }
+	    	color:'#000000'	    
 	},
 	inputGroup:{
 		height:'1.8rem',
@@ -79,12 +80,13 @@ class Search extends Component{
 	state={
 		searchText:'',
 		selected:null,
-		opened:false
+		opened:false,
+		focused:false
 	};
 
 	componentDidMount = () =>{
 		document.addEventListener('click',(e)=>{
-			this.setState({opened:false})
+			this.setState({opened:false,focused:false})
 		})
 	}
 
@@ -116,6 +118,20 @@ class Search extends Component{
 		this.props.searchMedia(searchText);
 	}
 
+	setFocus = (e) =>{
+		e.nativeEvent.stopImmediatePropagation();
+		if(!this.state.focused){
+			this.setState({focused:true})
+		}
+	}
+
+	setOpened = (e) =>{
+		e.nativeEvent.stopImmediatePropagation();
+		if(!this.state.opened){
+			this.setState({opened:true})
+		}
+	}
+
 	autocompleteSearchDebounced = _.debounce(this.autocompleteSearch,2000);
 
 	render(){
@@ -124,7 +140,7 @@ class Search extends Component{
 	return (
 		<div className={classes.root}>
 		<div className={classes.inputGroup}>
-			<input type="text" ref={this.setInputRef} className={classes.input} value={this.state.searchText} onChange={this.handleChange}/>
+			<input type="text" onFocus={this.setFocus} onClick={this.setOpened} ref={this.setInputRef} className={[classes.input,this.state.focused ? classes.inputFocused : ''].join(' ')} value={this.state.searchText} onChange={this.handleChange}/>
 			{(suggestions.length && !selected && opened) ? <div className={classes.suggestions}>
 				{suggestions.map(item=>{
 					return <Suggestion selected={this.selectedHandler} item={item.text} searchText={searchText} key={item._id} />

@@ -6,6 +6,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import logger from 'morgan';
 import csrf from 'csurf';
+import RateLimiter from 'express-rate-limit';
 import path from 'path';
 import Index from '../index';
 import {authRoutes,userRoutes,
@@ -33,7 +34,13 @@ import { Provider } from 'react-redux'
 
 const CURRENT_WORKING_DIR = process.cwd();
 const app = express();
+const apiLimiter = new RateLimiter({
+  windowsMs:20*60*1000,
+  max:150,
+  delayMs:0
+})
 
+app.use(apiLimiter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
