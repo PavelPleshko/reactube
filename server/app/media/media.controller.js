@@ -223,7 +223,8 @@ const searchByKeywords = async (req,res,next) =>{
     ]
   }
   try{
-    let medias = await Media.find(query).limit(10).sort();
+    let medias = await Media.find(query).limit(10).sort()
+    .populate('postedBy','_id firstName lastName');
     let isSearchSuccessful = medias && medias.length>0;
     if(isSearchSuccessful){
       keywordCtrl.create(req.user,{text:searchTerm});

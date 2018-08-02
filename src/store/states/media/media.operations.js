@@ -133,7 +133,10 @@ const searchMedia = (input) => {
 		searchMediaBy({input})
 		.then(response=>{
 			let medias = response.data.medias;
+			console.log(medias);
 			dispatch(mediaActions.searchMediaSuccess(medias));
+			dispatch(push('/search/medias'));
+
 		})
 		.catch((error)=>{
 			dispatch(mediaActions.searchMediaError(error.message));

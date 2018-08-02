@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
+
 import _ from 'lodash';
 import {withStyles} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import * as appOperations from '../../../../store/states/app/app.operations';
 import * as mediaOperations from '../../../../store/states/media/media.operations';
-import {selectData} from '../../../../store/states/app/app.selectors';
+import {selectData,selectIsProcessing} from '../../../../store/states/app/app.selectors';
+import {selectIsProcessing as selectProcessingMedia} from '../../../../store/states/media/media.selectors';
 
 import Suggestion from './search/Suggestion';
 
@@ -53,7 +56,6 @@ const styles = theme => ({
 		left:0,
 		width:'100%',
 		color:'#000000',
-		padding: '10px 0',
 		fontSize:'.9rem',
         boxSizing: 'border-box',
 	},
@@ -65,13 +67,18 @@ const styles = theme => ({
 		borderLeft:'none',
 		transition:'.2s',
 	    boxSizing:'border-box',
+	    cursor:'pointer',
 		'&:hover':{
-			backgroundColor:'#696fb4',
-			cursor:'pointer'
+			backgroundColor:'#696fb4'
 		}
 	},
 	searchIcon:{
 		height:'100%'
+	},
+	disabled:{
+		cursor:'not-allowed',
+		pointerEvents:'none',
+		opacity:'.7'
 	}
 })
 
@@ -114,8 +121,12 @@ class Search extends Component{
 	}
 
 	searchSelectedMedia = () =>{
-		let {searchText} = this.state;
-		this.props.searchMedia(searchText);
+
+		if(!this.props.mediaIsProcessing){
+			console.log(this.props.mediaIsProcessing);
+				let {searchText} = this.state;
+				this.props.searchMedia(searchText);
+		}
 	}
 
 	setFocus = (e) =>{
@@ -135,24 +146,28 @@ class Search extends Component{
 	autocompleteSearchDebounced = _.debounce(this.autocompleteSearch,2000);
 
 	render(){
-		const {classes,suggestions} = this.props;
+		const {classes,suggestions,suggestionsProcessing,mediaIsProcessing} = this.props;
 		const {searchText,selected,opened} = this.state;
 	return (
 		<div className={classes.root}>
 		<div className={classes.inputGroup}>
-			<input type="text" onFocus={this.setFocus} onClick={this.setOpened} ref={this.setInputRef} className={[classes.input,this.state.focused ? classes.inputFocused : ''].join(' ')} value={this.state.searchText} onChange={this.handleChange}/>
-			{(suggestions.length && !selected && opened) ? <div className={classes.suggestions}>
-				{suggestions.map(item=>{
-					return <Suggestion selected={this.selectedHandler} item={item.text} searchText={searchText} key={item._id} />
-					
-					
-				})}
-			</div>
-		:null}
+				<input type="text" onFocus={this.setFocus} onClick={this.setOpened} ref={this.setInputRef} className={[classes.input,this.state.focused ? classes.inputFocused : ''].join(' ')} value={this.state.searchText} onChange={this.handleChange}/>
+				<div className={classes.suggestions}>
+				{suggestionsProcessing && <CircularProgress style={{margin:'5px auto'}} size={25} />}
+				{(suggestions.length && !selected && opened) ?
+					 <div style={{padding:'10px 0'}}>
+						{suggestions.map(item=>{
+							return <Suggestion selected={this.selectedHandler} item={item.text} searchText={searchText} key={item._id} />
+							
+							
+						})}
+					</div>
+			:null}
+		</div>
 		</div>
 
-			<div className={classes.inputAddon} onClick={this.searchSelectedMedia}>
-				<SearchIcon className={classes.searchIcon} />
+			<div className={[classes.inputAddon,mediaIsProcessing ? classes.disabled : ''].join(' ')} onClick={this.searchSelectedMedia}>
+				 <SearchIcon className={classes.searchIcon} />
 			</div>
 		</div>
 	)
@@ -163,6 +178,8 @@ class Search extends Component{
 const mappedStateToProps = (state) =>(
 {
   suggestions:selectData(state.app,'suggestions'),
+  suggestionsProcessing:selectIsProcessing(state.app,'suggestions'),
+  mediaIsProcessing:selectProcessingMedia(state.media.medias,'all')
 }
   );
 

@@ -3,6 +3,7 @@ import { hot } from 'react-hot-loader';
 
 import RootRouter from './routes/RootRouter/RootRouter';
 import MainNav from './components/core/MainNav/MainNav';
+import DrawerNav from './components/core/DrawerNav/DrawerNav';
 
 
 
@@ -17,10 +18,13 @@ componentDidMount() {
 render(){
 	return (	
             <Fragment>
-			    <MainNav />
-                <div style={{margin:'7rem 4rem 4rem 4rem'}}>
+			  
+          <DrawerNav>
+            <MainNav />
+                <div style={{margin:'3rem'}}>
                   <RootRouter />
                 </div>
+          </DrawerNav>
 			 </Fragment>
  				)
 }

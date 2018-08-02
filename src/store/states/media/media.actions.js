@@ -139,7 +139,7 @@ const searchMediaRequest = () =>({
 
 const searchMediaSuccess = (medias) =>({
 	type:types.SEARCH_MEDIA_SUCCESS,
-	payload:media
+	payload:medias
 })
 
 const searchMediaError = (error) =>({

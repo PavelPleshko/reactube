@@ -16,8 +16,33 @@ const getSuggestions = (input) => {
 }
 
 
+const toggleDrawer = () => {
+	return (dispatch,getState)=>{
+		let opened = getState().app.data.drawerOpened;
+		if(opened){
+			dispatch(appActions.closeDrawer());
+		}else{
+			dispatch(appActions.openDrawer());
+		}
+	}
+}
+
+const closeDrawer = () => {
+	return (dispatch)=>{	
+			dispatch(appActions.closeDrawer());
+	}
+}
+
+const openDrawer = () => {
+	return (dispatch)=>{	
+			dispatch(appActions.openDrawer());
+	}
+}
+
 
 
 export {
-	getSuggestions
+	getSuggestions,
+	toggleDrawer,
+	closeDrawer,openDrawer
 }

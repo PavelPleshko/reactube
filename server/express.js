@@ -20,6 +20,7 @@ import config from './config/config';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server'
 import App from './../src/App';
+import mainCssRules from './../src/index.css';
 import StaticRouter from 'react-router-dom/StaticRouter';
 import { SheetsRegistry } from 'react-jss/lib/jss'
 import JssProvider from 'react-jss/lib/JssProvider'
@@ -39,7 +40,7 @@ const apiLimiter = new RateLimiter({
   max:150,
   delayMs:0
 })
-
+console.log(mainCssRules);
 app.use(apiLimiter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -139,9 +140,10 @@ app.get('/*', (req, res,next) => {
    	  if (context.url) {
         return res.redirect(303, context.url)
        }
-       const css = sheetsRegistry.toString();
+       const materialCss = sheetsRegistry.toString();
+       const mainCss = mainCssRules.toString();
    	 res.writeHead( 200, { "Content-Type": "text/html" } );
-  	 res.end(Index({markup,state,css}));
+  	 res.end(Index({markup,state,materialCss,mainCss}));
    })
    .catch(err=>{
     console.log(err);

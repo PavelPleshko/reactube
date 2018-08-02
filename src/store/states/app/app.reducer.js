@@ -11,7 +11,8 @@ const initialState =  {
 		suggestions:{
 			allIds:[],
 			byId:{}
-		}
+		},
+		drawerOpened:true
 	}
 };
 
@@ -72,7 +73,24 @@ const appReducer = (state=initialState,action) => {
 				}
 			}
 		break;
-
+		case types.OPEN_DRAWER:
+			return {
+				...state,
+				data:{
+					...state.data,
+					drawerOpened:true
+				}
+			}
+		break;	
+		case types.CLOSE_DRAWER:
+			return {
+				...state,
+				data:{
+					...state.data,
+					drawerOpened:false
+				}
+			}
+		break;
 		
 		default:
 			return state;

@@ -30,13 +30,8 @@ class Home extends Component{
 		const {classes,popularMedias} = this.props;
 	return (
 		<Grid container spacing={24} className={classes.root}>
-		<Grid item sm={8}>
+		<Grid item sm={12}>
 			<MediaTile columns={4} items={popularMedias}/>
-		</Grid>
-		<Grid item sm={4}>
-			
-			<MediaList data={popularMedias}/>
-			
 		</Grid>
 		</Grid>
 	)

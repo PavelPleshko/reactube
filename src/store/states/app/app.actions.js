@@ -14,8 +14,15 @@ const searchSuggestionsError = (error) => ({
 		payload:error
 })
 
+const openDrawer = () => ({
+	type:types.OPEN_DRAWER
+})
 
+const closeDrawer = () => ({
+	type:types.CLOSE_DRAWER
+})
 
 export default {
 	searchSuggestionsRequest,searchSuggestionsSuccess,searchSuggestionsError,
+	openDrawer,closeDrawer
 }

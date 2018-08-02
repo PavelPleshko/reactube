@@ -16,7 +16,7 @@ const routes = [
 		 {	
   	path:'/',
   	exact:true,
-  	component:Loadable({loader:()=>delay(import('../pages/Home')),
+  	component:Loadable({loader:()=>delay(import(/* webpackChunkName: "home.bundle" */'../pages/Home')),
   	loading() {
     return <HomeSkeleton />
   }}),
@@ -27,26 +27,32 @@ const routes = [
   
   {
   	path:'/signup',
-  	component:Loadable({loader:()=>import('../pages/Signup'),loading() {
+  	component:Loadable({loader:()=>import(/* webpackChunkName: "signup.bundle" */'../pages/Signup'),loading() {
     return <div>Loading...</div>
   }})
   },
   {
   	path:'/signin',
-  	component:Loadable({loader:()=>import('../pages/Signin'),loading() {
+  	component:Loadable({loader:()=>import(/* webpackChunkName: "signin.bundle" */'../pages/Signin'),loading() {
     return <div>Loading...</div>
   }})
   },
   {
   	path:'/add/media',
-  	component:Loadable({loader:()=>import('../pages/NewMedia'),loading() {
+  	component:Loadable({loader:()=>import(/* webpackChunkName: "newmedia.bundle" */'../pages/NewMedia'),loading() {
+    return <div>Loading...</div>
+  }})
+  }, 
+   {
+  	path:'/search/medias',
+  	component:Loadable({loader:()=>import(/* webpackChunkName: "searchpage.bundle" */'../pages/SearchPage'),loading() {
     return <div>Loading...</div>
   }})
   },
    {
     path: '/media/edit/:mediaId',
     component: Loadable({
-    loader:()=>import('../pages/EditMedia'),
+    loader:()=>import(/* webpackChunkName: "editmedia.bundle" */'../pages/EditMedia'),
     loading() {
     return <div>Loading...</div>
   }}
@@ -54,7 +60,7 @@ const routes = [
   },
   {
     path: '/media/:mediaId',
-    component: Loadable({loader:()=>import('../pages/SingleMedia'),loading() {
+    component: Loadable({loader:()=>import(/* webpackChunkName: "singlemedia.bundle" */'../pages/SingleMedia'),loading() {
     return <div>Loading...</div>
   }}),
     loadData: (params) => read(params),

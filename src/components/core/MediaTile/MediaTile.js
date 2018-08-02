@@ -79,10 +79,10 @@ const styles = theme =>({
 const mediaTile = (props)=>{
 	const {columns=4,items,resourceName="media",classes} = props;
 	return (
-		<Grid container spacing={24}>
+		<Grid container spacing={8}>
 	
 			{items.map(item=>(
-				<Grid item sm={3} key={item._id} style={{height:230}} >
+				<Grid item sm={2} key={item._id} style={{height:230}} >
 					<Link to={`/${resourceName}/${item._id}`}>
 					  <div className={classes.image}  style={{backgroundImage:`url(${item.thumb_url})`}}
                         >
