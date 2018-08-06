@@ -20,6 +20,7 @@ import {Link, withRouter} from 'react-router-dom';
 
 import UserAvatarSmall from '../../UI/miscellaneous/UserAvatarSmall/UserAvatarSmall';
 import Search from './mainNav/Search';
+import logo from '../../../assets/logo.png';
 
 const styles = theme => ({
   root: {
@@ -32,6 +33,9 @@ const styles = theme => ({
     maxHeight:'4rem',
     height:'4rem',
     zIndex:50
+  },
+  logo:{
+    height:'3rem'
   },
   flex: {
     flex: 1,
@@ -100,9 +104,11 @@ state = {
     <Toolbar className={classes.rootContainer}>
       <div className={classes.leftContainer}>
       
-      <Typography type="title">
-        Reactube
-      </Typography>
+   <span className={classes.logo}>
+    <Link to="/">
+      <img src={logo} height="100%" />
+    </Link>
+   </span>
          <span>
           <Link to="/add/media">
             <Button style={isActive(history, "/add/media")}>

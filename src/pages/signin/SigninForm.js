@@ -74,7 +74,7 @@ handleSubmit =(values)=>{
 			                      className={classes.title}>
 			            {this.props.title}
 			          </Typography>
-                <Field type="email" label="Email *" helperText="Come up with a title" name="email" component={TextInput}/>
+                <Field type="email" label="Email *" name="email" component={TextInput}/>
                 <Field label="Password *" name="password" component={PasswordInput}/>                
 	          </CardContent>
 	            <CardActions>

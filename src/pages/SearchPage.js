@@ -15,9 +15,10 @@ import MediaTileHorizontal from '../components/core/MediaTileHorizontal/MediaTil
 
 
 const styles = theme =>({
-	root:{
-		padding:'0 10%',
-		position:'relative'
+	notFound:{
+		textAlign:'center',
+		color:theme.palette.primary.grey,
+		fontSize:'1.1rem'
 	}
 
 
@@ -42,7 +43,10 @@ class SearchPage extends Component{
 
 	return (
 			<Grid item sm={7} xs={12}>
-				<MediaTileHorizontal items={filteredMedias} />
+				{filteredMedias && filteredMedias.length>0 ? 
+					<MediaTileHorizontal items={filteredMedias} /> :
+					<div className={classes.notFound}>No results found. Try other keywords</div>
+				}
 			</Grid>
 	)
 	}

@@ -74,7 +74,8 @@ dislikeMedia = () =>{
 					                        (new Date(media.created))
 					                        .toDateString()}/>
 
-					    <SecondaryActions mediaId={media._id} mediaTitle={media.title} />
+					   {(user && user._id
+						    === media.postedBy._id) && <SecondaryActions mediaId={media._id} mediaTitle={media.title} />}
 					      {(user && user._id
 						    !== media.postedBy._id) && (<Button variant="contained" color="secondary">Subscribe</Button>)}
 					</ListItem>

@@ -8,6 +8,8 @@ import {withStyles} from '@material-ui/core/styles';
 import {Link} from 'react-router-dom';
 import Moment from 'react-moment';
 
+import {transformSeconds} from '../../../utils/pipes/fileDataTransforms';
+
 const styles = theme =>({
 	icon: {
     color: theme.palette.primary.grey,
@@ -27,6 +29,16 @@ const styles = theme =>({
   	borderRadius:'5px',
   	padding:'0 3px',
   	fontSize:'.9rem'
+  },
+  duration:{
+    position:'absolute',
+    padding:'0 4px',
+    fontSize:'.9rem',
+    borderRadius:'3px',
+    backgroundColor:'#000000',
+    color:'#ffffff',
+    bottom:2,
+    right:3
   },
   meta:{
   	display:'flex',
@@ -87,6 +99,7 @@ const mediaTile = (props)=>{
 					  <div className={classes.image}  style={{backgroundImage:`url(${item.thumb_url})`}}
                         >
                        <div className={classes.category}>{item.category && item.category.title}</div>
+                       <div className={classes.duration}>{transformSeconds(item.duration)}</div>
                          </div>
                           </Link>
                           <h3 className={classes.mediaTitle}>{item.title}</h3>

@@ -25,7 +25,7 @@ const list = async (req, res) => {
 const listPopular = async (req, res) => {
   try{
     let medias = await Media.find({})
-                            .limit(10)
+                            .limit(25)
                             .populate('category','_id title')
                             .populate('postedBy', '_id firstName lastName')
                             .sort('-views');

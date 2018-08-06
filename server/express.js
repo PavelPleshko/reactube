@@ -88,7 +88,7 @@ app.use('/api', commentRoutes);
 
 
 app.get('/*', (req, res,next) => {
-	if (req.originalUrl.includes('bundle.js')) {
+	if (req.originalUrl.includes('bundle.js') || req.originalUrl.includes('.png')) { //remove in production
     return next();
   	}
 
