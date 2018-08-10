@@ -69,6 +69,7 @@
     "react-jss": "^8.6.1",
     "react-loadable": "^5.4.0",
     "react-moment": "^0.7.9",
+    "react-player": "^1.6.4",
     "react-redux": "^5.0.7",
     "react-redux-form": "^1.16.9",
     "react-router": "^4.3.1",
