@@ -9,7 +9,7 @@ import {withStyles} from '@material-ui/core/styles';
 
 import PlayerControls from './mediaPlayer/PlayerControls';
 import PlayerProgress from './mediaPlayer/PlayerProgress';
-import MediaMeta from './mediaPlayer/mediaMeta';
+import MediaMeta from './mediaPlayer/MediaMeta';
 
 const styles = theme => ({
   root:{
