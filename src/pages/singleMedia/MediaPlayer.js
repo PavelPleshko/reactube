@@ -7,9 +7,9 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import {withStyles} from '@material-ui/core/styles';
 
-import MediaMeta from './mediaPlayer/MediaMeta';
 import PlayerControls from './mediaPlayer/PlayerControls';
 import PlayerProgress from './mediaPlayer/PlayerProgress';
+import MediaMeta from './mediaPlayer/MediaMeta';
 
 const styles = theme => ({
   root:{

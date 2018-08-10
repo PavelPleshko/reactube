@@ -32,12 +32,9 @@ const styles = theme =>({
   	display: 'flex',
     justifyContent: 'space-between'
   }
-
 })
 
 class MediaMeta extends Component{
-
-
 
 likeMedia = () =>{
 	this.props.likeMedia(this.props.media._id);
