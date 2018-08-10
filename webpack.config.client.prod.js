@@ -10,7 +10,7 @@ const config = {
     extensions: [".js"]
 },
   target:"web",
-  devtool:"eval-source-map",
+  devtool:"cheap-module-source-map",
   entry:[
        path.join(CURRENT_WORKING_DIR,'src/main.js')],
   output: {
@@ -44,7 +44,20 @@ const config = {
   }
 }
     ]
+    },
+    plugins: [
+  new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': JSON.stringify('production')
     }
+  }),
+  new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true, 
+      output: {
+        comments: false,
+      },
+    })
+]
 
 
 }
