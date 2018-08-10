@@ -6,6 +6,9 @@ const CURRENT_WORKING_DIR = process.cwd()
 const config = {
   name:"browser",
   mode:"production",
+  resolve: {
+    extensions: [".js"]
+},
   target:"web",
   devtool:"eval-source-map",
   entry:[
