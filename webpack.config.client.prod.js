@@ -1,7 +1,7 @@
 const webpack = require("webpack");
 const path = require('path');
 const CURRENT_WORKING_DIR = process.cwd()
-
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const config = {
   name:"browser",
@@ -11,6 +11,20 @@ const config = {
 },
   target:"web",
   devtool:"cheap-module-source-map",
+   optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        uglifyOptions: {
+          compress: false,
+          ecma: 6,
+          mangle: true
+        },
+        sourceMap: true
+      })
+    ]
+  },
   entry:[
        path.join(CURRENT_WORKING_DIR,'src/main.js')],
   output: {
@@ -50,13 +64,7 @@ const config = {
     'process.env': {
       'NODE_ENV': JSON.stringify('production')
     }
-  }),
-  new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true, 
-      output: {
-        comments: false,
-      },
-    })
+  })
 ]
 
 
