@@ -12,6 +12,7 @@ const config = {
   target:"web",
   devtool:"cheap-module-source-map",
    optimization: {
+    concatenateModules: true,
     minimizer: [
       new UglifyJsPlugin({
         cache: true,
