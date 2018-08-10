@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {selectAllTags} from '../../../store/states/media/tag/tag.selectors';
 
 import { Field } from 'redux-form'
-import MultiChipSelect from '../../../components/UI/controls/AutocompleteInput/MultiChipSelect';
+import MultiChipSelect from '../../../components/UI/controls/AutocompleteInput/MultichipSelect';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
