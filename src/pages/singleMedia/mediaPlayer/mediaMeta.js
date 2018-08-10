@@ -16,7 +16,6 @@ import * as mediaOperations from '../../../store/states/media/media.operations';
 import LikeActions from '../../../components/UI/miscellaneous/LikeActions/LikeActions';
 import SecondaryActions from './mediaMeta/SecondaryActions';
 
-
 const styles = theme =>({
   views:{
   	color:'rgba(18,18,18,.6)'
