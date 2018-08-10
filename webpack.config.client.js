@@ -1,13 +1,13 @@
 const webpack = require("webpack");
 const path = require('path');
-
+const CURRENT_WORKING_DIR = process.cwd()
 const config = {
   name:"browser",
   mode:"development",
   target:"web",
   devtool:"eval-source-map",
   entry:[
-       './src/main.js'],
+       path.join(CURRENT_WORKING_DIR,'src/main.js')],
   output: {
         path: path.resolve(__dirname , './dist'),
         filename: 'bundle.js',

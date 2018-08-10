@@ -1,28 +1,34 @@
-
 const webpack = require("webpack");
 const path = require('path');
 const CURRENT_WORKING_DIR = process.cwd()
 
+
 const config = {
   name:"browser",
   mode:"production",
+  target:"web",
   devtool:"eval-source-map",
   entry:[
-        path.join(CURRENT_WORKING_DIR, 'src/main.js')],
- output: {
-        path: path.join(CURRENT_WORKING_DIR , '/dist'),
+       path.join(CURRENT_WORKING_DIR,'src/main.js')],
+  output: {
+        path: path.resolve(__dirname , './dist'),
         filename: 'bundle.js',
         publicPath: '/dist/'
     },
     module:{
-      rules: [
+        rules: [
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: "babel-loader"
+        loader: "babel-loader",
+        options:{
+          plugins:["react-loadable/babel"]
         }
       },
+            {
+                test: /\.(ttf|eot|svg|gif|jpg|png)(\?[\s\S]+)?$/,
+                use: 'file-loader'
+            },
      {
   test: /\.css$/,
   loader: 'style-loader'
@@ -36,7 +42,6 @@ const config = {
 }
     ]
     }
-  
 
 
 }

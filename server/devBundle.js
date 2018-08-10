@@ -5,6 +5,7 @@ import webpackConfig from '../webpack.config.client.js';
 import config from './config/config';
 
 const compile = (app) => {
+
   if(config.env == "development"){
     const compiler = webpack(webpackConfig)
     const middleware = webpackMiddleware(compiler, {

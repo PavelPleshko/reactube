@@ -1,3 +1,4 @@
+const url = process.env.NODE_ENV === 'production' ? '' : `http://localhost:${process.env.PORT || 3000}`;
 export default ({markup,state,materialCss,mainCss}) => {
 
     return `<!doctype html>
@@ -17,7 +18,7 @@ export default ({markup,state,materialCss,mainCss}) => {
                  
 
                ${state}
-          <script type="text/javascript" src="http://localhost:3000/bundle.js"> 
+          <script type="text/javascript" src="${url}/bundle.js"> 
        </script>
         </body>
       </html>` 

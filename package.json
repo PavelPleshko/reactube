@@ -6,7 +6,7 @@
   "scripts": {
     "development": "nodemon",
     "build": "webpack --config webpack.config.client.prod.js && webpack --mode=production --config webpack.config.server.js",
-    "start": "NODE_ENV=production node ./dist/server.generated.js"
+    "start:production": "node ./dist/server.generated.js"
   },
   "keywords": [],
   "author": "",
@@ -19,7 +19,9 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-3": "^6.24.1",
+    "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
+    "dotenv": "^6.0.0",
     "file-loader": "^1.1.11",
     "morgan": "^1.9.0",
     "nodemon": "^1.17.5",
@@ -65,8 +67,6 @@
     "p-min-delay": "^2.0.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
-    "pino": "^4.17.6",
-    "pino-socket": "^1.0.1",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",

@@ -10,10 +10,11 @@ const cookieExtractor = (req)=> {
   return token;
 };
 
-const opts = {}
+
+const jwtInit = () => {
+const opts = {};
 opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = config.jwtSecret;
-const jwtInit = () => {
 passport.use('jwt',new JwtStrategy(opts, (jwt_payload, done)=> {
     User.findOne({_id: jwt_payload._id}, (err, user)=> {
         if (err) {

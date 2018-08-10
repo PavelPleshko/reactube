@@ -108,7 +108,6 @@ const likeComment = async (req,res,next) =>{
 	     	{path:'author',select:'_id firstName lastName'});
 	     sendSuccess(res,'comment liked')({comment:updatedComment})
 	}catch(err){
-		console.log(err);
 		sendError(res)(err)
 	}
 }

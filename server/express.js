@@ -40,7 +40,6 @@ const apiLimiter = new RateLimiter({
   max:150,
   delayMs:0
 })
-console.log(mainCssRules);
 app.use(apiLimiter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -88,7 +87,7 @@ app.use('/api', commentRoutes);
 
 
 app.get('/*', (req, res,next) => {
-	if (req.originalUrl.includes('bundle.js') || req.originalUrl.includes('.png')) { //remove in production
+	if (process.env.NODE_ENV === 'development' && (req.originalUrl.includes('bundle.js') || req.originalUrl.includes('.png'))) { //remove in production
     return next();
   	}
 

@@ -34,7 +34,7 @@ class SingleMedia extends Component{
 	}
 	loadMedia = (mediaId,isParamChanged)=>{
 		this.props.readMedia(mediaId);
-		if(isParamChanged)
+		// if(isParamChanged)
 		this.props.listRelatedMedia(mediaId);
 	}
 
@@ -44,12 +44,12 @@ class SingleMedia extends Component{
 	}
 
 	componentDidUpdate=(prevProps)=>{
-		const {mediaId} = this.props.match.params;
+		let {mediaId} = this.props.match.params;
 
 		let isParamChanged = mediaId != prevProps.match.params.mediaId;
 		let isMediaChanged = prevProps.media && this.props.media && 
 			this.props.media._id != prevProps.media._id;
-
+			if(isMediaChanged) mediaId = this.props.media._id;
 		if( isParamChanged || isMediaChanged){
 			this.loadMedia(mediaId,isParamChanged);
 		}

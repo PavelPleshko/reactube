@@ -30,7 +30,9 @@ import initPassport from './config/passport';
 // 		}
 // 	})
 // }else{
-	devBundle.compile(app);
+	if(process.env.NODE_ENV === 'development'){
+		devBundle.compile(app);
+	}
 	initPassport(app);
 	mongoose.connect(config.mongoUri);
 

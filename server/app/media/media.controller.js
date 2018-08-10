@@ -9,8 +9,6 @@ import formidable from 'formidable';
 import path from 'path';
 import mongoose from 'mongoose';
 
-
-
 //lists 
 
 const list = async (req, res) => {
@@ -25,10 +23,11 @@ const list = async (req, res) => {
 const listPopular = async (req, res) => {
   try{
     let medias = await Media.find({})
+                            .sort('-views')
                             .limit(25)
                             .populate('category','_id title')
                             .populate('postedBy', '_id firstName lastName')
-                            .sort('-views');
+                            
     sendSuccess(res,'Popular media list')({medias});
   }catch(err){
     sendError(res)(err);
@@ -37,12 +36,34 @@ const listPopular = async (req, res) => {
 
 const listRelated = async (req, res) => {
   try{
-    let medias = await Media.find({ "_id": { "$ne": req.media._id },
-                                    "category": req.media.category})
-                                    .limit(5)
-                                    .sort('-views')
-                                    .populate('postedBy', '_id firstName lastName')
-                                    .populate('category')
+    let medias = await Media.aggregate(
+                          [{ $match: 
+                            { _id: {$ne:req.media._id },
+                            category:req.media.category}
+                          },
+                          {$sample:{size:6}},
+                          {$lookup:{
+                            from:"users",
+                            localField:"postedBy",
+                            foreignField:"_id",
+                            as:"postedBy"
+                          }},
+                          {$unwind:"$postedBy"},
+                          {$lookup:{
+                            from:"categories",
+                            localField:"category",
+                            foreignField:"_id",
+                            as:"category"
+                          }},
+                          {$unwind:"$category"},
+                          {$project:{
+                            "postedBy.hashed_password":0,
+                            "postedBy.salt":0,
+                            "postedBy.created":0,
+                            "postedBy.verified":0,
+                            "postedBy.email":0
+                          }}        
+                          ]);
     sendSuccess(res,'Related medias')({medias});
   }catch(err){
     sendError(res)(err);
