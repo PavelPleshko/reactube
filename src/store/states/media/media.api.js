@@ -80,6 +80,19 @@ const listPopular = () => {
   .then(res=>res.json())
 }
 
+const listHistoryMedia = () => {
+  return fetch(serverUrl+'/api/media/history', {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include'
+  })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
 const listRelated = ({mediaId}) => {
   return fetch('/api/media/related/'+ mediaId, {
     method: 'GET',
@@ -107,7 +120,8 @@ const listByUser = ({userId}) => {
 
 const read = ({mediaId}) => {
   return fetch(serverUrl+'/api/media/' + mediaId, {
-    method: 'GET'
+    method: 'GET',
+    credentials: 'include'
   })
   .then(handleErrors)
   .then(res=>res.json())
@@ -190,7 +204,7 @@ const searchMediaBy = (params) => {
 export {
 	getDirectUploadDetails,uploadVideo,
   create,
-  listPopular,listByUser,listRelated,
+  listPopular,listByUser,listRelated,listHistoryMedia,
   read,
   update,
   remove,

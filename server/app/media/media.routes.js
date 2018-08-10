@@ -15,6 +15,9 @@ router.route('/media/new')
 router.route('/media/all')
         .get(mediaCtrl.list);
 
+router.route('/media/history')
+        .get(authCtrl.requireSignin,mediaCtrl.getOwnHistoryList);
+
 router.route('/media/popular')
           .get(mediaCtrl.listPopular)
 
@@ -39,7 +42,7 @@ router.route('/media/related/:mediaId')
 
     
 router.route('/media/:mediaId')
-		.get( mediaCtrl.incrementViews,
+		.get(authCtrl.requireSignin,mediaCtrl.incrementViews,userCtrl.addToHistory,
 						 mediaCtrl.read)
         .put(authCtrl.requireSignin, 
                 mediaCtrl.isPoster, 

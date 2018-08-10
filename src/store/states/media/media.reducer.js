@@ -90,6 +90,7 @@ const getMediaList = (state=initialState,action) => {
 	const { type, payload } = action;
 	switch(type){
 		case types.GET_MEDIA_LIST_REQUEST:
+		case types.LIST_HISTORY_MEDIA_REQUEST:
 			return {
 				...state,
 				processing:{
@@ -104,6 +105,7 @@ const getMediaList = (state=initialState,action) => {
 		break;	
 
 		case types.GET_MEDIA_LIST_SUCCESS:
+		case types.LIST_HISTORY_MEDIA_SUCCESS:
 		let byIds = {};
 		payload.forEach(item=>{
 			byIds[item._id] = item
@@ -122,6 +124,7 @@ const getMediaList = (state=initialState,action) => {
 		break;
 
 		case types.GET_MEDIA_LIST_ERROR:
+		case types.LIST_HISTORY_MEDIA_ERROR:
 			return {
 				...state,
 				processing:{

@@ -6,6 +6,7 @@ import { findDOMNode } from 'react-dom'
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import {withStyles} from '@material-ui/core/styles';
+import ReactPlayer from 'react-player';
 
 import PlayerControls from './mediaPlayer/PlayerControls';
 import PlayerProgress from './mediaPlayer/PlayerProgress';

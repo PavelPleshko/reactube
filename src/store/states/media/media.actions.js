@@ -32,6 +32,20 @@ const listPopularMediaError = (error) => ({
 		type:types.LIST_POPULAR_MEDIA_ERROR,
 		payload:error
 })
+//history
+const listHistoryMediaRequest = () => ({
+		type:types.LIST_HISTORY_MEDIA_REQUEST
+})
+
+const listHistoryMediaSuccess = (medias) => ({
+		type:types.LIST_HISTORY_MEDIA_SUCCESS,
+		payload:medias
+})
+
+const listHistoryMediaError = (error) => ({
+		type:types.LIST_HISTORY_MEDIA_ERROR,
+		payload:error
+})
 
 //related
 const listRelatedMediaRequest = () => ({
@@ -153,9 +167,9 @@ export default {
 	createMediaRequest,createMediaSuccess,createMediaError,
 	//lists
 	listPopularMediaRequest,listPopularMediaSuccess,listPopularMediaError,
-
 	listRelatedMediaRequest,listRelatedMediaSuccess,listRelatedMediaSuccess,
-
+	listHistoryMediaRequest,listHistoryMediaSuccess,listHistoryMediaError,
+	
 	//list manipulations
 	replaceMediaFromList,
 	//read

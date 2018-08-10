@@ -28,7 +28,7 @@ const primaryMenu = [
 const secondaryMenu = [
 	{
 		title:'History',
-		link:'/',
+		link:'/history/medias',
 		icon:<HistoryIcon />
 	},
 	{

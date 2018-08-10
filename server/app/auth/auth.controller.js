@@ -7,7 +7,6 @@ import passport from 'passport';
 
 const requireSignin = (req,res,next)=>{
     passport.authenticate('jwt',{session:false},(err,user,info)=>{
-      console.log(user,info);
     req.user = user;
     next();
   })(req,res,next);

@@ -34,6 +34,10 @@ const UserSchema = new mongoose.Schema({
     type:Boolean,
     default:false
   },
+  history:{
+    type:Array,
+    default:[]
+    },
   hashed_password: {
     type: String,
     required: "Password is required"

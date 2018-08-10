@@ -121,7 +121,7 @@ class DrawerNav extends React.Component {
 
   componentDidUpdate = (prevProps) =>{
     if(prevProps.location && prevProps.location.pathname !== this.props.location.pathname){
-      if(!this.persistentDrawer(this.props.history,['/','/search/medias'])){
+      if(!this.persistentDrawer(this.props.history,['/','/search/medias','/history/medias'])){
         this.props.closeDrawer();
       }else{
         this.props.openDrawer();
@@ -132,7 +132,7 @@ class DrawerNav extends React.Component {
 
   render() {
     const { classes, theme,drawerOpened,history} = this.props;
-    const isPersistentDrawer = this.persistentDrawer(history,['/','/search/medias']);
+    const isPersistentDrawer = this.persistentDrawer(history,['/','/search/medias','/history/medias']);
     const drawer = (
       <Drawer
         variant="persistent"

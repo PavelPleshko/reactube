@@ -101,10 +101,31 @@ function saveUser(user,res){
     res.status(200).json(user);
   })
 }
-// const defaultPhoto = (req, res) => {
-//   return res.sendFile(process.cwd()+profileImage);
-// }
 
+
+const addToHistory = async (req,res,next)=>{
+  let user = req.user;
+  let mediaId = req.params.mediaId;
+  console.log(user,mediaId);
+  if(!user){
+    next();
+  } else{
+     try {
+    if(!user.history){
+      user.history = [];
+    }
+    let history = user.history;
+    if(!history.includes(mediaId)){
+      history.push(mediaId);
+      await user.save();
+    }
+    next();
+  }catch(err){
+    console.log(err);
+    next();
+  }
+  }
+}
 
 const remove = (req, res, next) => {
   let user = req.profile
@@ -191,6 +212,7 @@ export default {
   update,
   removeFollower,removeFollowing,
   addFollower,addFollowing,
+  addToHistory
   
 
 }

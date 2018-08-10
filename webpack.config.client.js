@@ -11,7 +11,7 @@ const config = {
   output: {
         path: path.resolve(__dirname , './dist'),
         filename: 'bundle.js',
-        publicPath: 'http://localhost:3000/'
+        publicPath: 'http://localhost:8080/'
     },
     module:{
         rules: [
@@ -35,7 +35,7 @@ const config = {
   loader: 'css-loader',
   query: {
     modules: true,
-    localIdentName: '[name]__[local]___[hash:base64:5]'
+    localIdentName: '[name]-[hash:base64:5]'
   }
 }
     ]

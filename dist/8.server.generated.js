@@ -1,4 +1,4 @@
-exports.ids = ["editmedia.bundle~newmedia.bundle"];
+exports.ids = [8];
 exports.modules = {
 
 /***/ "./src/components/UI/controls/AutocompleteInput/MultichipSelect.js":

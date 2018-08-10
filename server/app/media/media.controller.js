@@ -82,6 +82,20 @@ const listByUser = async (req, res) => {
   }
 }
 
+const getOwnHistoryList = async (req,res) => {
+  let user = req.user;
+  let {start=0,end=10} = req.query;
+  let historySlice = req.user.history ? req.user.history.slice(start.end) : [];
+   try{
+    let medias = await Media.find({_id:{$in:historySlice}})
+                             .populate('postedBy', '_id firstName lastName')
+                             .sort('-created')
+    sendSuccess(res,`Media history of user ${user.firstName} ${user.lastName}`)({medias});
+  } catch(err){
+    sendError(res)(err);
+  }
+}
+
 const read = (req, res) => {
  sendSuccess(res,'Got media resource')({media:req.media});
 }
@@ -260,7 +274,7 @@ const searchByKeywords = async (req,res,next) =>{
 export default {
   create,
   read,incrementViews,
-  list,listPopular,listByUser,listRelated,
+  list,listPopular,listByUser,listRelated,getOwnHistoryList,
   getUploadDetails,
   mediaByID,
   isPoster,

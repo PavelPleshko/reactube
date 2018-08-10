@@ -1,4 +1,4 @@
-const url = process.env.NODE_ENV === 'production' ? '' : `http://localhost:${process.env.PORT || 3000}`;
+const url = process.env.NODE_ENV === 'production' ? '' : `http://localhost:${process.env.PORT || 8080}`;
 export default ({markup,state,materialCss,mainCss}) => {
 
     return `<!doctype html>

@@ -1,6 +1,5 @@
 import { push } from 'connected-react-router'
-import {create,listPopular,listRelated,read,update,remove,
-like,dislike,searchMediaBy} from './media.api';
+import * as mediaApiCalls from './media.api';
 import mediaActions from './media.actions';
 
 
@@ -9,7 +8,7 @@ const createMedia = media => {
 	return (dispatch,getState)=>{
 		dispatch(mediaActions.createMediaRequest());
 		let csrfToken = getState().csrf;
-		create({media,csrfToken})
+		mediaApiCalls.create({media,csrfToken})
 		.then(response=>{
 			let media = response.data.media;	
 			dispatch(mediaActions.createMediaSuccess(media));
@@ -23,7 +22,7 @@ const createMedia = media => {
 const listPopularMedia = () => {
 	return (dispatch)=>{
 		dispatch(mediaActions.listPopularMediaRequest());
-		listPopular()
+		mediaApiCalls.listPopular()
 		.then(response=>{
 			let medias = response.data.medias;	
 			dispatch(mediaActions.listPopularMediaSuccess(medias));
@@ -36,7 +35,7 @@ const listPopularMedia = () => {
 const listRelatedMedia = (mediaId) => {
 	return (dispatch)=>{
 		dispatch(mediaActions.listRelatedMediaRequest());
-		listRelated({mediaId})
+		mediaApiCalls.listRelated({mediaId})
 		.then(response=>{
 			let medias = response.data.medias;	
 			dispatch(mediaActions.listRelatedMediaSuccess(medias));
@@ -46,11 +45,24 @@ const listRelatedMedia = (mediaId) => {
 	}
 }
 
+const listHistoryMedia = () => {
+	return (dispatch)=>{
+		dispatch(mediaActions.listHistoryMediaRequest());
+		mediaApiCalls.listHistoryMedia()
+		.then(response=>{
+			let medias = response.data.medias;	
+			dispatch(mediaActions.listHistoryMediaSuccess(medias));
+		}).catch((error) => {
+			dispatch(mediaActions.listHistoryMediaError(error.message));
+		})	
+	}
+}
+
 
 const readMedia = (mediaId,redirectAfterRead=false) => {
 	return (dispatch)=>{
 		dispatch(mediaActions.readMediaRequest());
-		read({mediaId})
+		mediaApiCalls.read({mediaId})
 		.then(response=>{
 			let media = response.data.media;
 			dispatch(mediaActions.readMediaSuccess(media));
@@ -69,7 +81,7 @@ const updateMedia = (media,mediaId) => {
 	return (dispatch,getState)=>{
 		dispatch(mediaActions.updateMediaRequest());
 		let csrfToken = getState().csrf;
-		update({media,mediaId,csrfToken})
+		mediaApiCalls.update({media,mediaId,csrfToken})
 		.then(response=>{
 			let media = response.data.media;
 			dispatch(mediaActions.updateMediaSuccess(media));
@@ -85,7 +97,7 @@ const removeMedia = (mediaId) => {
 	return (dispatch,getState)=>{
 		dispatch(mediaActions.removeMediaRequest());
 		let csrfToken = getState().csrf;
-		remove({mediaId,csrfToken})
+		mediaApiCalls.remove({mediaId,csrfToken})
 		.then(response=>{
 			let media = response.data.mediaId;
 			dispatch(mediaActions.removeMediaSuccess(media));
@@ -101,7 +113,7 @@ const likeMedia = (mediaId) => {
 	return (dispatch,getState)=>{
 		dispatch(mediaActions.likeMediaRequest());
 		let csrfToken = getState().csrf;
-		like({mediaId,csrfToken})
+		mediaApiCalls.like({mediaId,csrfToken})
 		.then(response=>{
 			let media = response.data.media;
 			dispatch(mediaActions.likeMediaSuccess(media));
@@ -116,7 +128,7 @@ const dislikeMedia = (mediaId) => {
 	return (dispatch,getState)=>{
 		dispatch(mediaActions.dislikeMediaRequest());
 		let csrfToken = getState().csrf;
-		dislike({mediaId,csrfToken})
+		mediaApiCalls.dislike({mediaId,csrfToken})
 		.then(response=>{
 			let media = response.data.media;
 			dispatch(mediaActions.dislikeMediaSuccess(media));
@@ -130,7 +142,7 @@ const dislikeMedia = (mediaId) => {
 const searchMedia = (input) => {
 	return (dispatch)=>{
 		dispatch(mediaActions.searchMediaRequest());
-		searchMediaBy({input})
+		mediaApiCalls.searchMediaBy({input})
 		.then(response=>{
 			let medias = response.data.medias;
 			console.log(medias);
@@ -151,7 +163,8 @@ const replaceMediaFromPlaylist = (mediaId) => {
 }
 
 export {
-	createMedia,listPopularMedia,listRelatedMedia,
+	createMedia,
+	listPopularMedia,listRelatedMedia,listHistoryMedia,
 	readMedia,updateMedia,removeMedia,replaceMediaFromPlaylist,
 
 	likeMedia,dislikeMedia,searchMedia
