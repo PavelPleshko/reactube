@@ -5,4 +5,3 @@ install:
   - npm install --dev
 script:
   - npm run build
-  - npm run start:production
