@@ -1,7 +1,6 @@
-import config from '../../../../server/config/config';
 import queryString from 'query-string';
 
-const serverUrl = config.serverUrl ;
+const serverUrl = process.env.SERVER_URL || 'http://localhost:8080' ;
 
 function handleErrors(response) {
     if (response.ok || response.statusCode == 200) {
