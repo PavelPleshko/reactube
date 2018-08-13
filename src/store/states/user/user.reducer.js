@@ -71,6 +71,28 @@ const userReducer = (state=initialState,action) => {
 			}
 		break;
 
+		case types.REMOVE_VIEW_HISTORY_REQUEST:
+			return {
+				...state,
+				processing:true,
+				isError:null
+			}
+		break;
+		case types.REMOVE_VIEW_HISTORY_SUCCESS:
+			return {
+				...state,
+				processing:false,
+				data:payload
+			}
+		break;
+		case types.REMOVE_VIEW_HISTORY_ERROR:
+			return {
+				...state,
+				processing:false,
+				isError:payload
+			}
+		break;
+
 		default:
 			return state;
 	}

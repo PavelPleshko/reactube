@@ -152,6 +152,7 @@ app.get('/*', (req, res,next) => {
 })
 
 app.use((err, req, res, next) => {
+  console.log(err);
   if (err.name === 'UnauthorizedError') {
     res.status(401).json({"error" : err.name + ": " + err.message})
   }else{

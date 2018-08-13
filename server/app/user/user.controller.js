@@ -2,9 +2,9 @@ import User from './user.model';
 import _ from 'lodash';
 import errorHandler from '../../helpers/dbErrorHandler';
 import config from './../../config/config';
-// import profileImage from './../../src/assets/profile-pic.png';
 import Cloudinary from 'cloudinary';
 import formidable from 'formidable';
+import {sendSuccess,sendError} from '../../helpers/responseHandler';
 import path from 'path';
 import request from 'request';
 
@@ -61,13 +61,11 @@ const update = (req, res, next) => {
   form.keepExtensions = true;
    form.parse(req, (err, fields, files) => {
     if (err) {
-      console.log(err);
       return res.status(400).json({
         error: 'Cant upload photo'
       })
     }
      let user = req.profile;
-     console.log(fields);
   user = _.extend(user, fields);
   user.updated = Date.now();
     if(files.photo){
@@ -106,7 +104,6 @@ function saveUser(user,res){
 const addToHistory = async (req,res,next)=>{
   let user = req.user;
   let mediaId = req.params.mediaId;
-  console.log(user,mediaId);
   if(!user){
     next();
   } else{
@@ -115,8 +112,9 @@ const addToHistory = async (req,res,next)=>{
       user.history = [];
     }
     let history = user.history;
-    if(!history.includes(mediaId)){
-      history.push(mediaId);
+    let found = history.findIndex(item=>item.id===mediaId);
+    if(found === -1){
+      history.push({id:mediaId});
       await user.save();
     }
     next();
@@ -124,6 +122,17 @@ const addToHistory = async (req,res,next)=>{
     console.log(err);
     next();
   }
+  }
+}
+
+const clearHistory = async (req,res,next) =>{
+  let user = req.user;
+  user.history = [];
+  try{
+    let updatedUser = await user.save();
+    sendSuccess(res,'History cleared')({user:updatedUser});
+  }catch(err){
+    sendError(res)(err);
   }
 }
 
@@ -212,7 +221,7 @@ export default {
   update,
   removeFollower,removeFollowing,
   addFollower,addFollowing,
-  addToHistory
+  addToHistory,clearHistory
   
 
 }

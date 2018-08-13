@@ -16,7 +16,7 @@ router.route('/media/all')
         .get(mediaCtrl.list);
 
 router.route('/media/history')
-        .get(authCtrl.requireSignin,mediaCtrl.getOwnHistoryList);
+        .get(mediaCtrl.getOwnHistoryList);
 
 router.route('/media/popular')
           .get(mediaCtrl.listPopular)

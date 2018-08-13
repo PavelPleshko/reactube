@@ -8,6 +8,10 @@ const router = express.Router();
 router.route('/users/signup')
   .post(userCtrl.create)
 
+
+router.route('/users/history/clear')
+  .put(authCtrl.requireSignin,userCtrl.clearHistory)
+
 router.param('userId', userCtrl.userByID);
 
 export default router;

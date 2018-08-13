@@ -1,5 +1,5 @@
 import { push } from 'connected-react-router'
-import {signin,signup} from './user.api';
+import * as userApiCalls from './user.api';
 import userActions from './user.actions';
 
 
@@ -8,7 +8,7 @@ const login = credentials => {
 	return (dispatch,getState)=>{
 		dispatch(userActions.loginUserRequest(credentials));
 		let csrfToken = getState().csrf;
-		signin({user:credentials,csrfToken})
+		userApiCalls.signin({user:credentials,csrfToken})
 		.then(response=>{
 			let user = response.data.user;
 			if(response.data.token){
@@ -27,7 +27,7 @@ const register = (credentials) =>{
 	return (dispatch,getState)=>{
 		dispatch(userActions.loginUserRequest(credentials));
 		let csrfToken = getState().csrf;
-		signup({user:credentials,csrfToken})
+		userApiCalls.signup({user:credentials,csrfToken})
 		.then(response=>{
 		dispatch(userActions.registerUserSuccess(response.data));
 		}).catch((error) => {
@@ -36,7 +36,21 @@ const register = (credentials) =>{
 	}
 }
 
+const removeHistory = () =>{
+	return (dispatch,getState)=>{
+		dispatch(userActions.removeViewHistoryRequest());
+		let csrfToken = getState().csrf;
+		userApiCalls.removeHistory({csrfToken})
+		.then(response=>{
+		dispatch(userActions.removeViewHistorySuccess(response.data));
+		}).catch((error) => {
+			dispatch(userActions.removeViewHistoryError(error.message));
+		})	
+	}
+}
+
 
 export default {
-	login,register
+	login,register,
+	removeHistory
 }

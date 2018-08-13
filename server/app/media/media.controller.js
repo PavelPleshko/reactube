@@ -8,6 +8,7 @@ import Cloudinary from 'cloudinary';
 import formidable from 'formidable';
 import path from 'path';
 import mongoose from 'mongoose';
+import moment from 'moment';
 
 //lists 
 
@@ -84,12 +85,15 @@ const listByUser = async (req, res) => {
 
 const getOwnHistoryList = async (req,res) => {
   let user = req.user;
-  let {start=0,end=10} = req.query;
-  let historySlice = req.user.history ? req.user.history.slice(start.end) : [];
+  let {start=0,end=15} = req.query;
+  let historySlice = req.user.history ? req.user.history.slice(start,end) : [];
+  let ids = historySlice.map(el=>el.id);
+
    try{
-    let medias = await Media.find({_id:{$in:historySlice}})
-                             .populate('postedBy', '_id firstName lastName')
-                             .sort('-created')
+    let medias = await Media.find({_id:{$in:ids}})
+    .populate('postedBy','_id firstName lastName')
+    .populate('category','_id title')
+                           
     sendSuccess(res,`Media history of user ${user.firstName} ${user.lastName}`)({medias});
   } catch(err){
     sendError(res)(err);

@@ -3,6 +3,14 @@ import crypto from 'crypto';
 
 const ObjectId = mongoose.Schema.ObjectId;
 
+const HistoryEntrySchema = new mongoose.Schema({
+  id:String,
+  added:{
+    type:Date,
+    default:Date.now
+  }
+})
+
 const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -34,10 +42,7 @@ const UserSchema = new mongoose.Schema({
     type:Boolean,
     default:false
   },
-  history:{
-    type:Array,
-    default:[]
-    },
+  history:[HistoryEntrySchema],
   hashed_password: {
     type: String,
     required: "Password is required"

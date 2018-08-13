@@ -37,10 +37,27 @@ const registerUserError = (error) => ({
 		payload:error
 })
 
+//history
+const removeViewHistoryRequest = (user) => ({
+	type:types.REMOVE_VIEW_HISTORY_REQUEST
+})
+
+const removeViewHistorySuccess = (user) =>({
+		type:types.REMOVE_VIEW_HISTORY_SUCCESS,
+		payload:user
+})
+
+const removeViewHistoryError = (error) => ({
+		type:types.REMOVE_VIEW_HISTORY_ERROR,
+		payload:error
+})
+
 
 
 export default {
 	loginUserRequest,loginUserSuccess,loginUserError,
 
-	registerUserRequest,registerUserSuccess,registerUserError
+	registerUserRequest,registerUserSuccess,registerUserError,
+
+	removeViewHistoryRequest,removeViewHistorySuccess,removeViewHistoryError
 }
