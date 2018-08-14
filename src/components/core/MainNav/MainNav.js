@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 
 import * as appOperations from '../../../store/states/app/app.operations';
 import {selectUser} from '../../../store/states/user';
+import {selectPathname} from '../../../store/states/router';
 //material ui
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -20,7 +21,7 @@ import {Link, withRouter} from 'react-router-dom';
 
 import UserAvatarSmall from '../../UI/miscellaneous/UserAvatarSmall/UserAvatarSmall';
 import Search from './mainNav/Search';
-import logo from '../../../assets/logo.png';
+import Logo from '../../UI/miscellaneous/Logo/Logo';
 
 const styles = theme => ({
   root: {
@@ -65,15 +66,15 @@ const styles = theme => ({
 });
 
 
-const isActive = (history, path) => {
-  if (history.location.pathname == path)
-    return {color: '#dedede'}
+const isActive = (activePath, path) => {
+  if (activePath == path)
+    return {color: '#fff',fontWeight:900,textShadow:'1px 1px 3px rgba(0,0,0,.3)'}
   else
-    return {color: '#fff'}
+    return {color: '#fff',textShadow:'1px 1px 3px rgba(0,0,0,.3)'}
 }
 
 
-class NavMenu extends Component {
+class MainNav extends Component {
 
 state = {
   anchorEl:null
@@ -93,9 +94,10 @@ state = {
   }
 
 
+
   render(){
     const open = Boolean(this.state.anchorEl);
-    const {classes,user,history} = this.props;
+    const {classes,user,pathname} = this.props;
     return (
   <AppBar position="fixed" className={classes.root}>
       <IconButton onClick={this.openDrawerNav} className={classes.menuIcon}>
@@ -103,15 +105,12 @@ state = {
       </IconButton>
     <Toolbar className={classes.rootContainer}>
       <div className={classes.leftContainer}>
-      
-   <span className={classes.logo}>
-    <Link to="/">
-      <img src={logo} height="100%" />
-    </Link>
-   </span>
+        <span className={classes.logo}>
+           <Logo />
+      </span>
          <span>
           <Link to="/add/media">
-            <Button style={isActive(history, "/add/media")}>
+            <Button style={isActive(pathname, "/add/media")}>
                <CloudUpload className={classes.icon} />              
               Add media
             </Button>
@@ -149,11 +148,11 @@ state = {
                   !user && (
                     <span>
                     <Link to="/signup">
-                      <Button style={isActive(history, "/signup")}>Sign up
+                      <Button style={isActive(pathname, "/signup")}>Sign up
                       </Button>
                     </Link>
                     <Link to="/signin">
-                      <Button style={isActive(history, "/signin")}>Sign In
+                      <Button style={isActive(pathname, "/signin")}>Sign In
                       </Button>
                     </Link>
                   </span>)
@@ -170,7 +169,8 @@ state = {
 
 const mapStateToProps = (state)=>{
   return {
-    user:selectUser(state.user)
+    user:selectUser(state.user),
+    pathname:selectPathname(state.router)
   }
 }
 
@@ -178,4 +178,4 @@ const mapStateToProps = (state)=>{
 const boundActionCreators = (dispatch) => bindActionCreators({...appOperations},dispatch);
 
 
-export default connect(mapStateToProps,boundActionCreators)(withRouter(withStyles(styles)(NavMenu)));
+export default connect(mapStateToProps,boundActionCreators)(withRouter(withStyles(styles)(MainNav)));

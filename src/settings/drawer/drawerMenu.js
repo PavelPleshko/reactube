@@ -14,12 +14,12 @@ const primaryMenu = [
 	},
 	{
 		title:'Popular',
-		link:'/',
+		link:'/popular',
 		icon:<WhatshotIcon />
 	},
 	{
 		title:'Subscriptions',
-		link:'/',
+		link:'/subscriptions',
 		icon:<SubscriptionsIcon />
 	}
 		
@@ -33,12 +33,12 @@ const secondaryMenu = [
 	},
 	{
 		title:'Watch later',
-		link:'/',
+		link:'/watch-later',
 		icon:<WatchLaterIcon />
 	},
 	{
 		title:'Liked',
-		link:'/',
+		link:'/liked',
 		icon:<FavoriteIcon />
 	}
 ]

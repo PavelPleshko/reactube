@@ -36,9 +36,11 @@ class AdjustThumbnail extends Component{
 		let {secure_url} = this.props.video;
 		let urlNoExtension  = secure_url.replace(/\.(mp4|mpeg|avi|3gp)$/gm,'');
 		let photoExt = '.jpg';		
-		startOffset = startOffset ? `so_${startOffset}` : '';
-
+		startOffset = startOffset ? `so_${startOffset}` : 'so_0';
+		let quality = 'q_35/';
 		let thumbUrl = urlNoExtension.replace('/upload/',`/upload/${startOffset}`)+photoExt;
+		let lastIdxOf = thumbUrl.lastIndexOf('/');
+		thumbUrl = thumbUrl.slice(0,lastIdxOf+1)+quality+thumbUrl.slice(lastIdxOf+1,thumbUrl.length);
 		return thumbUrl;
 	}
 

@@ -24,6 +24,7 @@
     "file-loader": "^1.1.11",
     "morgan": "^1.9.0",
     "nodemon": "^1.17.5",
+    "react-addons-perf": "^15.4.2",
     "react-hot-loader": "^4.3.3",
     "style-loader": "^0.21.0",
     "webpack": "^4.13.0",

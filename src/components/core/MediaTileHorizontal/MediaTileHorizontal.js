@@ -1,8 +1,11 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
+
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import {withStyles} from '@material-ui/core/styles';
-import {Link} from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import Moment from 'react-moment';
 
 import {truncate} from '../../../utils/pipes/truncate';
@@ -65,11 +68,15 @@ const styles = theme =>({
     overflow: 'hidden',
     fontSize: '.9rem',
     fontWeight: 400
+   },
+   loader:{
+     display:'flex',
+     justifyContent:'center'
    }
 });
 
 const mediaTileHorizontal = (props)=>{
-	const {columns=4,items,resourceName="media",classes} = props;
+	const {columns=4,items,resourceName="media",classes,isProcessing} = props;
 	return (
 		<div>
 	
@@ -103,9 +110,13 @@ const mediaTileHorizontal = (props)=>{
                            </div>
                     
               </Grid>
+
 				</Grid>
 				))}
-
+ {isProcessing && 
+   <div className={classes.loader}>
+     <CircularProgress />
+   </div>}
 		</div>
 		)
 }

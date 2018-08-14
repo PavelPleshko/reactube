@@ -51,7 +51,6 @@ const listHistoryMedia = (pageNumber,pageSize) => {
 		mediaApiCalls.listHistoryMedia({pageNumber,pageSize})
 		.then(response=>{
 			let {medias,total} = response.data;	
-			console.log(medias);
 			dispatch(mediaActions.listHistoryMediaSuccess({medias,total}));
 		}).catch((error) => {
 			dispatch(mediaActions.listHistoryMediaError(error.message));

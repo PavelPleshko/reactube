@@ -25,7 +25,9 @@ import {bindActionCreators} from 'redux';
 
 import * as appOperations from '../../../store/states/app/app.operations';
 import {selectDrawerOpened} from '../../../store/states/app';
+import {selectPathname} from '../../../store/states/router';
 import {primaryMenu,secondaryMenu} from '../../../settings/drawer/drawerMenu';
+import Logo from '../../UI/miscellaneous/Logo/Logo';
 
 const drawerWidth = 240;
 
@@ -39,10 +41,6 @@ const styles = theme => ({
     position: 'relative',
     display: 'flex',
     width: '100%',
-  },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 20,
   },
   hide: {
     display: 'none',
@@ -75,10 +73,9 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     position:'relative',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
+    padding: '0 0 0 5rem',
     height:'4rem',
-    ...theme.mixins.toolbar,
+    ...theme.mixins.toolbar
   },
   content: {
     flexGrow: 1,
@@ -104,8 +101,21 @@ const styles = theme => ({
     left:'2rem',
     top:'50%',
     transform:'translateY(-50%)'
+  },
+  logo:{
+    height:'3rem'
+  },
+  active:{
+    color:`${theme.palette.primary.light}`
+  },
+  backgroundActive:{
+   backgroundColor: 'rgba(0, 0, 0, 0.08)'
   }
 });
+
+const isActive = (activePath, path) => {
+  return activePath === path;
+}
 
 class DrawerNav extends React.Component {
 
@@ -131,7 +141,7 @@ class DrawerNav extends React.Component {
   }
 
   render() {
-    const { classes, theme,drawerOpened,history} = this.props;
+    const { classes, theme,drawerOpened,history,pathName} = this.props;
     const isPersistentDrawer = this.persistentDrawer(history,['/','/search/medias','/history/medias']);
     const drawer = (
       <Drawer
@@ -145,12 +155,15 @@ class DrawerNav extends React.Component {
           <IconButton onClick={this.handleDrawerClose} className={classes.menuIcon}>
              <MenuIcon />
           </IconButton>
+          <span className={classes.logo}>
+             <Logo />
+          </span>
         </div>}
         <List>
           {primaryMenu.map(item=>{
             return <Link key={item.title} to={item.link}>
-                      <ListItem button>
-                      {item.icon && <ListItemIcon>
+                      <ListItem button className={isActive(pathName,item.link) ? classes.backgroundActive : ''}>
+                      {item.icon && <ListItemIcon className={isActive(pathName,item.link) ? classes.active : ''}>
                         {item.icon}
                       </ListItemIcon>}
                       <ListItemText primary={item.title} />
@@ -162,8 +175,8 @@ class DrawerNav extends React.Component {
         <List subheader={<ListSubheader component="div">Library</ListSubheader>}>
            {secondaryMenu.map(item=>{
             return <Link key={item.title} to={item.link}>
-                      <ListItem button>
-                      {item.icon && <ListItemIcon>
+                      <ListItem button className={isActive(pathName,item.link) ? classes.backgroundActive : ''}>
+                      {item.icon && <ListItemIcon className={isActive(pathName,item.link) ? classes.active : ''}>
                         {item.icon}
                       </ListItemIcon>}
                       <ListItemText primary={item.title} />
@@ -203,6 +216,7 @@ class DrawerNav extends React.Component {
 const mappedStateToProps = (state) =>(
 {
   drawerOpened:selectDrawerOpened(state.app),
+  pathName:selectPathname(state.router)
 }
   );
 
