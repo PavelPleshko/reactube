@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 //redux
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import userOperations from '../store/states/user/user.operations';
+import * as userOperations from '../store/states/user/user.operations';
 import {selectUserEmail,selectUserFullname,
   selectIsProcessing,selectErrorText} from '../store/states/user';
 //material ui

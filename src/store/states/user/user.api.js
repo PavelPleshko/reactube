@@ -41,24 +41,24 @@ const signin = ({user,csrfToken}) => {
   .then(res=>res.json())
 }
 
-// const removeHistory = ({csrfToken}) => {
-//   return fetch('/api/users/history/clear', {
-//       method: 'PUT',
-//       headers: {
-//         'Accept': 'application/json',
-//         'Content-Type': 'application/json',
-//         'CSRF-Token': csrfToken
-//       },
-//       credentials: 'include',
-//     })
-//   .then(handleErrors)
-//   .then(res=>res.json())
-// }
+const clearHistory = ({csrfToken}) => {
+  return fetch('/api/users/history/clear', {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'CSRF-Token': csrfToken
+      },
+      credentials: 'include'
+    })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
 
 
 
 export {
 	signin,signup,
 
-  //removeHistory
+  clearHistory
 }

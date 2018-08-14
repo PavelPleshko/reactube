@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 //redux
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import userOperations from '../store/states/user/user.operations';
+import * as userOperations from '../store/states/user/user.operations';
 import {selectUserEmail,selectIsProcessing,selectErrorText} from '../store/states/user';
 
 import SigninForm from './signin/SigninForm';

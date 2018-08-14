@@ -11,21 +11,22 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
 
-const confirmDeleteDialog = ({open,closeDialog,resourceTitle,confirmDelete})=>{
+const confirmDeleteDialog = ({open,closeDialog,resourceTitle,confirmDelete,...rest})=>{
 return (
 	<span>
       <Dialog open={open}>
-        <DialogTitle>{"Delete "+resourceTitle}</DialogTitle>
+        <DialogTitle>{rest.title ? rest.title : "Delete "+resourceTitle}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          {rest.children ? rest.children : <DialogContentText>
             Confirm to delete <strong>{resourceTitle}</strong> from your account.
           </DialogContentText>
+        }
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} color="primary">
             Cancel
           </Button>
-          <Button onClick={confirmDelete} variant="raised" color="secondary" autoFocus="autoFocus">
+          <Button onClick={confirmDelete} variant="raised" color="primary" autoFocus="autoFocus">
             Confirm
           </Button>
         </DialogActions>

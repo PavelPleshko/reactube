@@ -7,6 +7,7 @@ import {withStyles} from '@material-ui/core/styles';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import { push } from 'connected-react-router'
 
 import * as mediaOperations from '../store/states/media/media.operations';
 import {selectSingleMedia,selectMedias} from '../store/states/media/media.selectors';
@@ -32,26 +33,21 @@ class SingleMedia extends Component{
 	state = {
 		autoplay:false,
 	}
-	loadMedia = (mediaId,isParamChanged)=>{
+	loadMedia = (mediaId)=>{
 		this.props.readMedia(mediaId);
-		// if(isParamChanged)
 		this.props.listRelatedMedia(mediaId);
 	}
 
 	componentDidMount = () =>{
 		const {mediaId} = this.props.match.params;
-		this.loadMedia(mediaId,true);	
+		this.loadMedia(mediaId);	
 	}
 
 	componentDidUpdate=(prevProps)=>{
 		let {mediaId} = this.props.match.params;
-
-		let isParamChanged = mediaId != prevProps.match.params.mediaId;
-		let isMediaChanged = prevProps.media && this.props.media && 
-			this.props.media._id != prevProps.media._id;
-			if(isMediaChanged) mediaId = this.props.media._id;
-		if( isParamChanged || isMediaChanged){
-			this.loadMedia(mediaId,isParamChanged);
+		let isParamChanged = mediaId !== prevProps.match.params.mediaId;
+		if( isParamChanged){
+			this.loadMedia(mediaId);
 		}
 	}
 
@@ -63,7 +59,9 @@ class SingleMedia extends Component{
 		return updateMediaControls();
 
 	if(playlist.length > 1){
-		this.props.replaceMediaFromPlaylist(media._id);
+		let nextUrl = `/media/${media._id}`;
+		console.log(this.props);
+		this.props.pushHistory(nextUrl);
 	}else{
 		this.props.listRelatedMedia(media._id);
 	}
@@ -104,6 +102,6 @@ const mappedStateToProps = (state) =>(
   );
 
 
-const boundActionCreators = (dispatch) => bindActionCreators({...mediaOperations},dispatch);
+const boundActionCreators = (dispatch) => bindActionCreators({...mediaOperations,pushHistory:push},dispatch);
 
 export default connect(mappedStateToProps,boundActionCreators)(withStyles(styles)(SingleMedia));

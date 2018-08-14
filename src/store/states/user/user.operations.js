@@ -36,13 +36,15 @@ const register = (credentials) =>{
 	}
 }
 
-const removeHistory = () =>{
+const clearHistory = () =>{
 	return (dispatch,getState)=>{
 		dispatch(userActions.removeViewHistoryRequest());
 		let csrfToken = getState().csrf;
-		userApiCalls.removeHistory({csrfToken})
+		let user = getState().user.data;
+		userApiCalls.clearHistory({csrfToken})
 		.then(response=>{
-		dispatch(userActions.removeViewHistorySuccess(response.data));
+		user.history = [];
+		dispatch(userActions.removeViewHistorySuccess(user));
 		}).catch((error) => {
 			dispatch(userActions.removeViewHistoryError(error.message));
 		})	
@@ -50,7 +52,7 @@ const removeHistory = () =>{
 }
 
 
-export default {
+export {
 	login,register,
-	removeHistory
+	clearHistory
 }

@@ -114,7 +114,7 @@ const addToHistory = async (req,res,next)=>{
     let history = user.history;
     let found = history.findIndex(item=>item.id===mediaId);
     if(found === -1){
-      history.push({id:mediaId});
+      history.unshift({id:mediaId});
       await user.save();
     }
     next();

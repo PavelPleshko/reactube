@@ -1,4 +1,5 @@
 import types from './media.types';
+import userTypes from '../user/user.types';
 import reduceReducers from 'reduce-reducers';
 import {combineReducers} from 'redux';
 
@@ -11,12 +12,14 @@ const initialState = {
 			all:false,
 			popular:false,
 			related:false,
+			history:false,
 			singleMedia:false
 		},
 		isError:{
 			all:false,
 			popular:false,
 			related:false,
+			history:false,
 			singleMedia:false
 		},
 		all:{
@@ -30,6 +33,13 @@ const initialState = {
 		related:{
 				allIds:[],
 				byId:{}
+		},		
+		history:{
+				allIds:[],
+				byId:{},
+				currentPage:0,
+				total:0,
+				pageSize:2
 		},
 		singleMedia:null		
 	};
@@ -105,7 +115,6 @@ const getMediaList = (state=initialState,action) => {
 		break;	
 
 		case types.GET_MEDIA_LIST_SUCCESS:
-		case types.LIST_HISTORY_MEDIA_SUCCESS:
 		let byIds = {};
 		payload.forEach(item=>{
 			byIds[item._id] = item
@@ -124,7 +133,6 @@ const getMediaList = (state=initialState,action) => {
 		break;
 
 		case types.GET_MEDIA_LIST_ERROR:
-		case types.LIST_HISTORY_MEDIA_ERROR:
 			return {
 				...state,
 				processing:{
@@ -142,6 +150,58 @@ const getMediaList = (state=initialState,action) => {
 	}	
 }
 
+const getHistoryMediaList = (state=initialState,action)=>{
+	const {type,payload} = action;
+	switch(type){
+		case types.LIST_HISTORY_MEDIA_REQUEST:
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					history:true
+				}
+			}
+		break;
+
+		case types.LIST_HISTORY_MEDIA_SUCCESS:
+		let byIds = {};
+		let {total,medias} = payload;
+		medias.forEach(item=>{
+			byIds[item._id] = item
+		});
+			return {
+				...state,
+				processing:{
+					...state.processing,
+					history:false
+				},
+				history:{
+					...state.history,
+					allIds:[...state.history.allIds].concat(Object.keys(byIds)),
+					byId:{...state.history.byId,...byIds},
+					currentPage:state.history.currentPage+1,
+					total:total
+				}
+			}
+		break
+		case types.LIST_HISTORY_MEDIA_ERROR:
+			return {
+				...state,
+				isError:{
+					...state.isError,
+					history:payload
+				},
+				processing:{
+					...state.processing,
+					history:false
+				}
+			}
+		break;
+
+		default:
+		return state;
+	}
+}
 
 const getPopularMediaList = (state=initialState,action) => {
 	const { type, payload } = action;
@@ -428,7 +488,6 @@ const likeDislikeMedia = (state=initialState,action) => {
 	switch(type){
 		case types.LIKE_MEDIA_REQUEST:
 		case types.DISLIKE_MEDIA_REQUEST:
-		console.log(type);
 			return {
 				...state,
 				processing:{
@@ -444,7 +503,6 @@ const likeDislikeMedia = (state=initialState,action) => {
 
 		case types.LIKE_MEDIA_SUCCESS:
 		case types.DISLIKE_MEDIA_SUCCESS:
-		console.log(payload);
 			return  {
 				...state,
 				processing:{
@@ -536,17 +594,38 @@ const searchMedia = (state=initialState,action) => {
 	}	
 }
 
+const clearHistory = (state=initialState,action)=>{
+	const {type,payload} = action;
+	switch(type){
+		case userTypes.REMOVE_VIEW_HISTORY_SUCCESS:
+			return {
+				...state,
+				history:{
+					...state.history,
+					byId:{},
+					allIds:[],
+					currentPage:0,
+					total:0
+				}
+			}
+		default:
+			return state;
+	}
+}
+
 const mediaReducer = reduceReducers(
 	createMedia,
 	getMediaList,
 	getPopularMediaList,
 	getRelatedMediaList,
+	getHistoryMediaList,
 	listManipulations,
 	readMedia,
 	updateMedia,
 	removeMedia,
 	likeDislikeMedia,
-	searchMedia
+	searchMedia,
+	clearHistory
 	);
 
 const mainMediaReducer = combineReducers({

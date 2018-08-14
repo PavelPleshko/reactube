@@ -45,13 +45,14 @@ const listRelatedMedia = (mediaId) => {
 	}
 }
 
-const listHistoryMedia = () => {
+const listHistoryMedia = (pageNumber,pageSize) => {
 	return (dispatch)=>{
 		dispatch(mediaActions.listHistoryMediaRequest());
-		mediaApiCalls.listHistoryMedia()
+		mediaApiCalls.listHistoryMedia({pageNumber,pageSize})
 		.then(response=>{
-			let medias = response.data.medias;	
-			dispatch(mediaActions.listHistoryMediaSuccess(medias));
+			let {medias,total} = response.data;	
+			console.log(medias);
+			dispatch(mediaActions.listHistoryMediaSuccess({medias,total}));
 		}).catch((error) => {
 			dispatch(mediaActions.listHistoryMediaError(error.message));
 		})	

@@ -80,8 +80,8 @@ const listPopular = () => {
   .then(res=>res.json())
 }
 
-const listHistoryMedia = () => {
-  return fetch(serverUrl+'/api/media/history', {
+const listHistoryMedia = ({pageNumber,pageSize}) => {
+  return fetch(`${serverUrl}/api/media/history?page=${pageNumber}&pageSize=${pageSize}`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
