@@ -44,6 +44,10 @@ const gap = 50;
 
 class History extends Component{
 
+	state={
+		searched:null
+	}
+
 	debouncedScroll = _.debounce((e)=>this.handleScroll(e),500);
 
 	componentDidMount = () =>{
@@ -63,7 +67,8 @@ class History extends Component{
 	}
 
 	handleScroll = () =>{
-		const {listHistoryMedia,currentPage,pageSize,itemsRequested,noMoreItems} = this.props;
+		const {listHistoryMedia,currentPage,pageSize,itemsRequested,noMoreItems,searchHistory} = this.props;
+		const {searched} = this.state;
 		if(noMoreItems){
 			window.removeEventListener('scroll',this.debouncedScroll);
 			return;
@@ -74,12 +79,21 @@ class History extends Component{
       (innerHeight + scrollY > (offsetTop + scrollHeight - gap)) &&
       !itemsRequested && !noMoreItems
     ) {
-      listHistoryMedia(currentPage,pageSize);
+			if(searched){
+				console.log(currentPage,pageSize)
+				searchHistory(searched,currentPage,pageSize);
+			}else{
+			  listHistoryMedia(currentPage,pageSize);
+			}
     }
 	}
 
 	 setRootRef = (element) => {
 	    this.rootRef = element;
+	 }
+
+	 changeSearched = (searched) =>{
+	 	this.setState({searched});
 	 }
 
 	render(){
@@ -106,10 +120,11 @@ class History extends Component{
 		</div>
 		</Grid>
 		<Grid item sm={3} className={classes.search}>
-			<SearchForm clearHistory={this.clearHistory} 
+			<SearchForm 
+			changeSearched={this.changeSearched}
 			loggedIn={loggedIn} 
 			historyCount={historyMedias && historyMedias.length}
-			isProcessing={isProcessing}/>
+			 />
 		</Grid>
 		</Grid>
 	)

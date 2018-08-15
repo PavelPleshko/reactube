@@ -201,6 +201,21 @@ const searchMediaBy = (params) => {
   .then(res=>res.json())
 }
 
+const searchHistory = (params) => {
+ 
+  let query = queryString.stringify(params);
+  return fetch('/api/media/history/search?'+query, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include'
+  })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
 export {
 	getDirectUploadDetails,uploadVideo,
   create,
@@ -209,5 +224,5 @@ export {
   update,
   remove,
   like,dislike,
-  searchMediaBy
+  searchMediaBy,searchHistory
 }

@@ -100,7 +100,6 @@ const getMediaList = (state=initialState,action) => {
 	const { type, payload } = action;
 	switch(type){
 		case types.GET_MEDIA_LIST_REQUEST:
-		case types.LIST_HISTORY_MEDIA_REQUEST:
 			return {
 				...state,
 				processing:{
@@ -150,10 +149,11 @@ const getMediaList = (state=initialState,action) => {
 	}	
 }
 
-const getHistoryMediaList = (state=initialState,action)=>{
+const historyMediaList = (state=initialState,action)=>{
 	const {type,payload} = action;
 	switch(type){
 		case types.LIST_HISTORY_MEDIA_REQUEST:
+		case types.SEARCH_HISTORY_REQUEST:
 			return {
 				...state,
 				processing:{
@@ -164,6 +164,7 @@ const getHistoryMediaList = (state=initialState,action)=>{
 		break;
 
 		case types.LIST_HISTORY_MEDIA_SUCCESS:
+		case types.SEARCH_HISTORY_SUCCESS:
 		let byIds = {};
 		let {total,medias} = payload;
 		medias.forEach(item=>{
@@ -185,6 +186,7 @@ const getHistoryMediaList = (state=initialState,action)=>{
 			}
 		break
 		case types.LIST_HISTORY_MEDIA_ERROR:
+		case types.SEARCH_HISTORY_ERROR:
 			return {
 				...state,
 				isError:{
@@ -196,8 +198,7 @@ const getHistoryMediaList = (state=initialState,action)=>{
 					history:false
 				}
 			}
-		break;
-
+		break;	
 		default:
 		return state;
 	}
@@ -598,6 +599,8 @@ const clearHistory = (state=initialState,action)=>{
 	const {type,payload} = action;
 	switch(type){
 		case userTypes.REMOVE_VIEW_HISTORY_SUCCESS:
+		case types.RESET_HISTORY_LIST:
+		console.log(state,'RESETTTT')
 			return {
 				...state,
 				history:{
@@ -618,7 +621,7 @@ const mediaReducer = reduceReducers(
 	getMediaList,
 	getPopularMediaList,
 	getRelatedMediaList,
-	getHistoryMediaList,
+	historyMediaList,
 	listManipulations,
 	readMedia,
 	updateMedia,

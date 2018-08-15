@@ -88,7 +88,6 @@ const getOwnHistoryList = async (req,res) => {
   let {page=0,pageSize=5} = req.query;
   let start = Number(page*pageSize);
   let end = start+Number(pageSize);
-  console.log(start,end);
   let historySlice = user.history ? user.history.slice(start,end) : [];
   let ids = historySlice.map(el=>mongoose.Types.ObjectId(el.id));
   let total = user.history.length;
@@ -115,6 +114,61 @@ const getOwnHistoryList = async (req,res) => {
     let medias = await Media.aggregate(query);                           
     sendSuccess(res,`Media history of user ${user.firstName} ${user.lastName}`)({medias,total});
   } catch(err){
+    sendError(res)(err);
+  }
+}
+const getHistoryBySearch = async (req,res) => {
+  let user = req.user;
+  let {input,page=0,pageSize=5} = req.query;
+  pageSize = +pageSize;
+  let skip = +(page*pageSize);
+  let historySlice = user.history ? user.history : [];
+  let ids = historySlice.map(el=>mongoose.Types.ObjectId(el.id));
+ 
+  let query = [
+             {$match: {_id: {$in: ids},
+             $or:[
+             {title:{$regex:input,$options:'i'}},
+             {description:{$regex:input,$options:'i'}}
+             ]
+           }},
+             {$addFields: {"__order": {$indexOfArray: [ids, "$_id" ]}}},
+             {$sort: {"__order": 1}},
+             {$facet:{
+              results:[
+              {$skip:skip},
+             {$limit:pageSize},
+             {$lookup:{
+                  from:"users",
+                  localField:"postedBy",
+                  foreignField:"_id",
+                  as:"postedBy"
+              }},
+            {$unwind:"$postedBy"},
+            {$lookup:{
+                  from:"categories",
+                  localField:"category",
+                  foreignField:"_id",
+                  as:"category"
+            }},
+            {$unwind:"$category"}
+            ],
+            count:[
+            {$group:{
+              _id:null,
+              total:{$sum:1}
+            }}
+           ]
+             }}             
+           ];
+   try{
+    let data = await Media.aggregate(query);
+    data = data[0];   
+    let medias = data.results;
+    let total = data.count[0].total;                  
+    sendSuccess(res,`Media history of user ${user.firstName} ${user.lastName}`)({medias,total});
+  } catch(err){
+    console.log(err);
     sendError(res)(err);
   }
 }
@@ -304,5 +358,5 @@ export default {
   update,
   remove,
   like,dislike,
-  getSuggestions,searchByKeywords
+  getSuggestions,searchByKeywords,getHistoryBySearch
 }

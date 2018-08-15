@@ -161,6 +161,24 @@ const searchMediaError = (error) =>({
 	payload:error
 })
 
+const searchHistoryRequest = () =>({
+	type:types.SEARCH_HISTORY_REQUEST
+})
+
+const searchHistorySuccess = (medias) =>({
+	type:types.SEARCH_HISTORY_SUCCESS,
+	payload:medias
+})
+
+const searchHistoryError = (error) =>({
+	type:types.SEARCH_HISTORY_ERROR,
+	payload:error
+})
+
+const resetHistoryList = () =>({
+	type:types.RESET_HISTORY_LIST,
+})
+
 
 export default {
 	//create
@@ -184,5 +202,8 @@ export default {
 	dislikeMediaRequest,dislikeMediaSuccess,dislikeMediaError,
 
 	//search
-	searchMediaRequest,searchMediaSuccess,searchMediaError
+	searchMediaRequest,searchMediaSuccess,searchMediaError,
+
+	searchHistoryRequest,searchHistorySuccess,searchHistoryError,
+	resetHistoryList
 }

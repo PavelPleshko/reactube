@@ -145,13 +145,31 @@ const searchMedia = (input) => {
 		mediaApiCalls.searchMediaBy({input})
 		.then(response=>{
 			let medias = response.data.medias;
-			console.log(medias);
 			dispatch(mediaActions.searchMediaSuccess(medias));
 			dispatch(push('/search/medias'));
 
 		})
 		.catch((error)=>{
 			dispatch(mediaActions.searchMediaError(error.message));
+		})
+	}
+}
+
+const searchHistory = (input,page,pageSize) => {
+	return (dispatch,getState)=>{
+		dispatch(mediaActions.searchHistoryRequest());
+		//let csrfToken = getState().csrf;
+		mediaApiCalls.searchHistory({input,page,pageSize})
+		.then(response=>{
+			console.log(response);
+		let {medias,total} = response.data;	
+			if(page == 0){
+				dispatch(mediaActions.resetHistoryList());
+			}
+			dispatch(mediaActions.searchHistorySuccess({medias,total}));
+		})
+		.catch((error)=>{
+			dispatch(mediaActions.searchHistoryError(error.message));
 		})
 	}
 }
@@ -167,5 +185,5 @@ export {
 	listPopularMedia,listRelatedMedia,listHistoryMedia,
 	readMedia,updateMedia,removeMedia,replaceMediaFromPlaylist,
 
-	likeMedia,dislikeMedia,searchMedia
+	likeMedia,dislikeMedia,searchMedia,searchHistory
 }

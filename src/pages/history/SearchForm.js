@@ -4,6 +4,11 @@ import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as mediaOperations from '../../store/states/media/media.operations';
+import {selectCurrentPage,selectPageSize} from '../../store/states/media/media.selectors';
+
 import TextInput from '../../components/UI/controls/TextInput/TextInput';
 import ConfirmDeleteDialog from '../../components/UI/dialogs/ConfirmDeleteDialog/ConfirmDeleteDialog';
 
@@ -45,6 +50,16 @@ class SearchForm extends Component{
 		this.closeDialog();
 	}
 
+	handleKeyPress = (e) =>{
+		const {search} = this.state;
+		const {changeSearched,searchHistory,currentPage,pageSize} = this.props;
+
+		 if(e.keyCode == 13 && search.length > 4){
+            searchHistory(search,currentPage-1,pageSize);
+            changeSearched(search);
+         }		
+	}
+
 	render(){
 		const {classes,isProcessing,historyCount,loggedIn} = this.props;
 	return (
@@ -57,7 +72,7 @@ class SearchForm extends Component{
 		</ConfirmDeleteDialog>
 
 		<div className={classes.searchInner}>
-			<TextInput adornment={<SearchIcon />} label="Search in the view history" input={{value:this.state.search,onChange:this.onChangeHandler}}/>
+			<TextInput adornment={<SearchIcon />} label="Search in the view history" input={{value:this.state.search,onChange:this.onChangeHandler,onKeyUp:this.handleKeyPress}}/>
 		
 			<div className={classes.searchActions}>
 				<Button onClick={this.openDialog} className={(!loggedIn || historyCount < 1) ? classes.disabled : ''}>Clear history</Button>
@@ -69,4 +84,11 @@ class SearchForm extends Component{
 	}
 }
 
-export default withStyles(styles)(SearchForm);
+const boundActionCreators = (dispatch) =>bindActionCreators({...mediaOperations},dispatch);
+
+const mappedStateToProps = (state) =>({
+  currentPage:selectCurrentPage(state.media.medias,'history'),
+  pageSize:selectPageSize(state.media.medias,'history'),
+});
+
+export default connect(mappedStateToProps,boundActionCreators)(withStyles(styles)(SearchForm));

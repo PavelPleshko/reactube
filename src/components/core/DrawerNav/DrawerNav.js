@@ -67,7 +67,7 @@ const styles = theme => ({
   drawerPaperHome:{
     zIndex:2,
     paddingTop:'5rem',
-    position:'relative'
+    position:'fixed'
   },
   drawerHeader: {
     display: 'flex',
@@ -85,7 +85,7 @@ const styles = theme => ({
     }),
   },
   'content-left': {
-    marginLeft: -drawerWidth,
+    marginLeft: 0,
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
@@ -94,7 +94,7 @@ const styles = theme => ({
     }),
   },
   'contentShift-left': {
-    marginLeft: 0,
+    marginLeft: drawerWidth,
   },
   menuIcon:{
     position:'absolute',
