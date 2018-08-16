@@ -15,7 +15,7 @@ const login = credentials => {
 				user.token = response.data.token;
 			}
 		dispatch(userActions.loginUserSuccess(user));
-		dispatch(push('/'));
+		// dispatch(push('/'));
 		}).catch((error) => {
 			dispatch(userActions.loginUserError(error.message));
 		})	

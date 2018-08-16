@@ -5,13 +5,20 @@ import Typography from '@material-ui/core/Typography';
 import CardActions from '@material-ui/core/CardActions';
 import Icon from '@material-ui/core/Icon';
 import {withStyles} from '@material-ui/core/styles';
+import CheckIcon from '@material-ui/icons/Check';
 
 import { reduxForm,Field } from 'redux-form'
+import {connect} from 'react-redux';
+import { push } from 'connected-react-router'
+
+import {selectIsProcessing,selectIsAuthenticated,selectUserFirstName} from '../../store/states/user';
 
 import TextInput from './../../components/UI/controls/TextInput/TextInput';
 import PasswordInput from './../../components/UI/controls/PasswordInput/PasswordInput';
 import ServerError from './../../components/UI/errors/ServerError/ServerError';
-import SubmitButton from './../../components/UI/buttons/SubmitButton/SubmitButton';
+import AnimatedSubmitButton from './../../components/UI/buttons/AnimatedSubmitButton/AnimatedSubmitButton';
+import ProgressBar from './../../components/UI/bars/ProgressBar/ProgressBar';
+
 
 const styles = theme => ({
   card: {
@@ -20,7 +27,8 @@ const styles = theme => ({
     textAlign: 'center',
     marginTop: theme.spacing.unit * 5,
     paddingLeft:'2rem',
-    paddingRight:'2rem'
+    paddingRight:'2rem',
+    position:'relative'
   },
   error: {
     verticalAlign: 'middle',
@@ -39,47 +47,65 @@ const styles = theme => ({
   },
   submit: {
     margin: 'auto',
-    marginBottom: theme.spacing.unit * 2
+    marginBottom: theme.spacing.unit * 2,
+    backgroundColor:'yellow'
   },
    formControl: {
     margin: `${theme.spacing.unit*1.5}px 0 0 0`,
     width:'100%',
     textAlign:'left'
   },
+  progress:{
+    position:'absolute',
+    top:0,
+    left:0,
+    width:'100%'
+  }
 })
 
 class SigninForm extends Component{
-
-
-    componentWillMount(){
-      let initData = this.props.initialData;
-     
-    }
 
     
 handleSubmit =(values)=>{ 
   this.props.onSubmitForm(values);
 }
 
-
+redirectAfterTimeout = () => {
+    this.props.dispatch(push('/'));
+}
 
 	render(){
-		const {classes} = this.props;
+		const {classes,processing,authenticated,firstName} = this.props;
+    
 	return (
     <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
 		 <Card className={classes.card}>
+     {authenticated && <div className={classes.progress}>
+     <ProgressBar start={authenticated} onDone={this.redirectAfterTimeout} />
+     </div>}
 		     <CardContent>
-         <ServerError error={this.props.serverError} classes={{error:classes.error}} />
+         {!authenticated ? <React.Fragment>
+            <ServerError error={this.props.serverError} classes={{error:classes.error}} />
 			          <Typography type="headline" component="h2" 
 			                      className={classes.title}>
 			            {this.props.title}
 			          </Typography>
                 <Field type="email" label="Email *" name="email" component={TextInput}/>
-                <Field label="Password *" name="password" component={PasswordInput}/>                
+                <Field label="Password *" name="password" component={PasswordInput}/>  
+              </React.Fragment>
+              : <div>
+                <h3>Authentication successfull!</h3>
+                <p>
+                  Welcome back, <strong>{firstName}</strong>! Here you are again! 
+                  You will be redirected shortly. 
+                </p>
+              </div>
+          }              
 	          </CardContent>
 	            <CardActions>
-	        <SubmitButton processing={this.props.processing} 
-          classes={{submit:classes.submit}}
+	        <AnimatedSubmitButton loading={processing} type="submit"
+           defaultText="Submit" done={authenticated} clicked={()=>{}}
+          doneIcon={<CheckIcon style={{fontSize:'2rem'}} />}
          />
 	        </CardActions>
           </Card>
@@ -89,7 +115,15 @@ handleSubmit =(values)=>{
 	}
 }
 
+const mappedStateToProps = (state) =>(
+{
+  processing:selectIsProcessing(state.user),
+  authenticated:selectIsAuthenticated(state.user),
+  firstName:selectUserFirstName(state.user)
+}
+  );
 
-export default reduxForm({
+
+export default connect(mappedStateToProps)(reduxForm({
   form: 'signinForm',
-})(withStyles(styles)(SigninForm));
+})(withStyles(styles)(SigninForm)));

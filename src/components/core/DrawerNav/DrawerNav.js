@@ -77,21 +77,14 @@ const styles = theme => ({
     height:'4rem',
     ...theme.mixins.toolbar
   },
+  noTransition:{
+    transition:'-webkit- !important'
+  },
   content: {
-    flexGrow: 1,
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
+    flexGrow: 1
   },
   'content-left': {
     marginLeft: 0,
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
   },
   'contentShift-left': {
     marginLeft: drawerWidth,
@@ -148,7 +141,7 @@ class DrawerNav extends React.Component {
         variant="persistent"
         open={drawerOpened}
         classes={{
-          paper: [classes.drawerPaper,isPersistentDrawer ? classes.drawerPaperHome : ''].join(' '),
+          paper: [classes.drawerPaper,isPersistentDrawer ? classes.drawerPaperHome+' '+classes.noTransition : ''].join(' '),
         }}
       >
         {!isPersistentDrawer && <div className={classes.drawerHeader}>
