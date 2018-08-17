@@ -11,7 +11,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import CloudUpload from '@material-ui/icons/CloudUpload';
+import AddVideoIcon from '@material-ui/icons/VideoCall';
 import { withStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -111,7 +111,7 @@ state = {
          <span>
           <Link to="/add/media">
             <Button style={isActive(pathname, "/add/media")}>
-               <CloudUpload className={classes.icon} />              
+               <AddVideoIcon className={classes.icon} />              
               Add media
             </Button>
           </Link>

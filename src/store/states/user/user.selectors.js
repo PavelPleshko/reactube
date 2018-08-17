@@ -6,7 +6,7 @@ const selectUserFullname = (state)=> state.data && `${state.data.firstName} ${st
 const selectUserFirstName = (state)=> state.data && state.data.firstName;
 const selectIsProcessing = (state) =>state.processing;
 const selectErrorText = (state)=>state.isError ? state.isError : null;
-const selectIsAuthenticated = (state)=>state.data && state.data._id;
+const selectIsAuthenticated = (state)=>state.data && state.data.token;
 
 
 export {

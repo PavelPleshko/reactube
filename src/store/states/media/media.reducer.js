@@ -39,7 +39,7 @@ const initialState = {
 				byId:{},
 				currentPage:0,
 				total:0,
-				pageSize:2
+				pageSize:4
 		},
 		singleMedia:null		
 	};
