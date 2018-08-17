@@ -45,6 +45,30 @@ const userReducer = (state=initialState,action) => {
 			}
 		break;
 
+		case types.UPDATE_HISTORY_SETTINGS_REQUEST:
+			return {
+				...state,
+				processing:true,
+				isError:null
+			}
+		break;	
+
+		case types.UPDATE_HISTORY_SETTINGS_SUCCESS:
+			return {
+				...state,
+				processing:false,
+				data:payload
+			}
+		break;
+
+		case types.UPDATE_HISTORY_SETTINGS_ERROR:
+			return {
+				...state,
+				processing:false,
+				isError:payload
+			}
+		break;
+
 		case types.REGISTER_USER_REQUEST:
 			return {
 				...state,

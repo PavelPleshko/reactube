@@ -15,9 +15,24 @@ const login = credentials => {
 				user.token = response.data.token;
 			}
 		dispatch(userActions.loginUserSuccess(user));
-		// dispatch(push('/'));
 		}).catch((error) => {
 			dispatch(userActions.loginUserError(error.message));
+		})	
+	}
+}
+
+const updateHistorySettings = historySettings => {
+	return (dispatch,getState)=>{
+		dispatch(userActions.updateHistorySettingsRequest());
+		let csrfToken = getState().csrf;
+		let token = getState().user.data.token;
+		userApiCalls.update({partialProfile:historySettings,csrfToken})
+		.then(response=>{
+			let user = response.data.user;
+			user.token = token;
+			dispatch(userActions.updateHistorySettingsSuccess(user));
+		}).catch((error) => {
+			dispatch(userActions.updateHistorySettingsError(error.message));
 		})	
 	}
 }
@@ -54,5 +69,6 @@ const clearHistory = () =>{
 
 export {
 	login,register,
-	clearHistory
+	clearHistory,
+	updateHistorySettings
 }

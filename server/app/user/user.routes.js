@@ -9,6 +9,9 @@ router.route('/users/signup')
   .post(userCtrl.create)
 
 
+router.route('/users/profile/update')
+  .put(authCtrl.requireSignin,userCtrl.update)
+
 router.route('/users/history/clear')
   .put(authCtrl.requireSignin,userCtrl.clearHistory)
 

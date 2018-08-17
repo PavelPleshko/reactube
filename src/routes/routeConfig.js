@@ -51,7 +51,7 @@ const routes = [
   },
    {
   	path:'/history/medias',
-  	component:Loadable({loader:()=>import(/*webpack chunk-name bar */'../pages/History'),loading() {
+  	component:Loadable({loader:()=>import('../pages/History'),loading() {
     return <div>Loading...</div>
   }})
   },

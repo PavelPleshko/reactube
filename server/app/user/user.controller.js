@@ -55,50 +55,44 @@ const read = (req, res) => {
   return res.json(req.profile)
 }
 
-const update = (req, res, next) => {
+const update = async (req, res, next) => {
  
- let form = new formidable.IncomingForm();
-  form.keepExtensions = true;
-   form.parse(req, (err, fields, files) => {
-    if (err) {
-      return res.status(400).json({
-        error: 'Cant upload photo'
-      })
-    }
-     let user = req.profile;
-  user = _.extend(user, fields);
-  user.updated = Date.now();
-    if(files.photo){
-     var pathToPhoto = files.photo.path;
-     Cloudinary.v2.uploader.upload(pathToPhoto,config.cloudinary,function(err,result){
-      if(result){
-        user.photo = result.secure_url;
-        saveUser(user,res);
-      }
-     })    
-    }else{
-       saveUser(user,res);
-    }
+ // let form = new formidable.IncomingForm();
+ //  form.keepExtensions = true;
+ //   form.parse(req, (err, fields, files) => {
+ //    if (err) {
+ //      return res.status(400).json({
+ //        error: 'Cant upload photo'
+ //      })
+ //    }
+     let user = req.user;
+     console.log(user,'\n',req.body);
+     try{
+        user = _.extend(user, req.body);
+        user.updated = Date.now();
+        let updatedProfile  = await user.save();
+        sendSuccess(res,'Profile updated')({user:updatedProfile});
+     }catch(err){
+        sendError(res)(err);
+     }
+
+    // if(files.photo){
+    //  var pathToPhoto = files.photo.path;
+    //  Cloudinary.v2.uploader.upload(pathToPhoto,config.cloudinary,function(err,result){
+    //   if(result){
+    //     user.photo = result.secure_url;
+    //     saveUser(user,res);
+    //   }
+    //  })    
+    // }else{
+  //  }
        
       
-  })
+ // })
 
 }
 
 
-
-function saveUser(user,res){
-           user.save((err) => {
-    if (err) {
-      return res.status(400).json({
-        error: errorHandler.getErrorMessage(err)
-      })
-    }
-    user.hashed_password = undefined
-    user.salt = undefined
-    res.status(200).json(user);
-  })
-}
 
 
 const addToHistory = async (req,res,next)=>{
@@ -111,15 +105,19 @@ const addToHistory = async (req,res,next)=>{
     if(!user.history){
       user.history = [];
     }
-    let history = user.history;
-    let found = history.findIndex(item=>item.id===mediaId);
-    if(found === -1){
-      history.unshift({id:mediaId});
-      await user.save();
+    if(typeof user.saveHistory === 'undefined'){
+      user.saveHistory = true;
+    }
+    if(user.saveHistory){
+      let history = user.history;
+      let found = history.findIndex(item=>item.id===mediaId);
+      if(found === -1){
+        history.unshift({id:mediaId});
+        await user.save();
+      }
     }
     next();
   }catch(err){
-    console.log(err);
     next();
   }
   }

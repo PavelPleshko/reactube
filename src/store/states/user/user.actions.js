@@ -18,6 +18,21 @@ const loginUserError = (error)=>({
 		payload:error
 })
 
+//update
+const updateHistorySettingsRequest = ()=>({
+		type:types.UPDATE_HISTORY_SETTINGS_REQUEST
+})
+
+const updateHistorySettingsSuccess = (user)=>({
+		type:types.UPDATE_HISTORY_SETTINGS_SUCCESS,
+		payload:user
+})
+
+const updateHistorySettingsError = (error)=>({
+		type:types.UPDATE_HISTORY_SETTINGS_ERROR,
+		payload:error
+})
+
 
 
 
@@ -56,6 +71,8 @@ const removeViewHistoryError = (error) => ({
 
 export default {
 	loginUserRequest,loginUserSuccess,loginUserError,
+
+	updateHistorySettingsRequest,updateHistorySettingsSuccess,updateHistorySettingsError,
 
 	registerUserRequest,registerUserSuccess,registerUserError,
 

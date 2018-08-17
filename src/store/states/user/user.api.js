@@ -56,9 +56,27 @@ const clearHistory = ({csrfToken}) => {
 }
 
 
+const update = ({partialProfile,csrfToken}) => {
+  return fetch('/api/users/profile/update', {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'CSRF-Token': csrfToken
+      },
+      credentials: 'include',
+      body: JSON.stringify(partialProfile)
+    })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
+
 
 export {
 	signin,signup,
 
-  clearHistory
+  clearHistory,
+  
+  update
 }

@@ -39,8 +39,8 @@ class AdjustThumbnail extends Component{
 		startOffset = startOffset ? `so_${startOffset}` : 'so_0';
 		let quality = 'q_35/';
 		let thumbUrl = urlNoExtension.replace('/upload/',`/upload/${startOffset}`)+photoExt;
-		let lastIdxOf = thumbUrl.lastIndexOf('/');
-		thumbUrl = thumbUrl.slice(0,lastIdxOf+1)+quality+thumbUrl.slice(lastIdxOf+1,thumbUrl.length);
+		let lastSlashIdx = thumbUrl.lastIndexOf('/');
+		thumbUrl = thumbUrl.slice(0,lastSlashIdx+1)+quality+thumbUrl.slice(lastSlashIdx+1,thumbUrl.length);
 		return thumbUrl;
 	}
 

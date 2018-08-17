@@ -43,6 +43,10 @@ const UserSchema = new mongoose.Schema({
     default:false
   },
   history:[HistoryEntrySchema],
+  saveHistory:{
+    type:Boolean,
+    default:true
+  },
   hashed_password: {
     type: String,
     required: "Password is required"
