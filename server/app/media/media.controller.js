@@ -83,14 +83,14 @@ const listByUser = async (req, res) => {
   }
 }
 
-const getOwnHistoryList = async (req,res) => {
+const getOwnMediaList = async (req,res) => {
   let user = req.user;
-  let {page=0,pageSize=5} = req.query;
+  let {page=0,pageSize=5,searchField='history'} = req.query;
   let start = Number(page*pageSize);
   let end = start+Number(pageSize);
-  let historySlice = user.history ? user.history.slice(start,end) : [];
-  let ids = historySlice.map(el=>mongoose.Types.ObjectId(el.id));
-  let total = user.history.length;
+  let searchArrSlice = user[searchField] ? user[searchField].slice(start,end) : [];
+  let ids = searchArrSlice.map(el=>mongoose.Types.ObjectId(el.id));
+  let total = user[searchField].length;
   let query = [
              {$match: {_id: {$in: ids}}},
              {$addFields: {"__order": {$indexOfArray: [ids, "$_id" ]}}},
@@ -112,7 +112,7 @@ const getOwnHistoryList = async (req,res) => {
            ];
    try{
     let medias = await Media.aggregate(query);                           
-    sendSuccess(res,`Media history of user ${user.firstName} ${user.lastName}`)({medias,total});
+    sendSuccess(res,`Medias of user ${user.firstName} ${user.lastName}`)({medias,total});
   } catch(err){
     sendError(res)(err);
   }
@@ -166,7 +166,7 @@ const getHistoryBySearch = async (req,res) => {
     data = data[0];   
     let medias = data.results;
     let total = data.count[0].total;                  
-    sendSuccess(res,`Media history of user ${user.firstName} ${user.lastName}`)({medias,total});
+    sendSuccess(res,`Medias of user ${user.firstName} ${user.lastName}`)({medias,total});
   } catch(err){
     console.log(err);
     sendError(res)(err);
@@ -211,10 +211,10 @@ const getUploadDetails =(req,res,next)=>{
   if(!req.user){
     sendError(res,401,'You are not authorized to upload videos')();
   }else{
-    console.log(req.query)
     let cloud_name = config.cloudinary.cloud_name;
     let cloud_preset = config.cloudinary.preset;
-    let upload_link = `https://api.cloudinary.com/v1_1/${cloud_name}/${req.query.resource_type || 'video'}/upload`;
+    let cloudinary_url = config.cloudinary.cloudinary_api_url;
+    let upload_link = `${cloudinary_url}${cloud_name}/${req.query.resource_type || 'video'}/upload`;
     sendSuccess(res,'Here is your upload link')({upload_link,cloud_preset})    
   }
 }
@@ -351,7 +351,7 @@ const searchByKeywords = async (req,res,next) =>{
 export default {
   create,
   read,incrementViews,
-  list,listPopular,listByUser,listRelated,getOwnHistoryList,
+  list,listPopular,listByUser,listRelated,getOwnMediaList,
   getUploadDetails,
   mediaByID,
   isPoster,

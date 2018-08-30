@@ -1,6 +1,5 @@
 import Loadable from 'react-loadable';
 import { read,listPopular } from '../store/states/media/media.api'; 
-import Root from './RootRouter/RootRouter';
 import React from 'react';
 import HomeSkeleton from '../pages/home/HomeSkeleton/HomeSkeleton';
 import mediaActions from '../store/states/media/media.actions';
@@ -55,6 +54,12 @@ const routes = [
     return <div>Loading...</div>
   }})
   },
+  {
+  	path:'/watchlater/medias',
+  	component:Loadable({loader:()=>import('../pages/WatchLater'),loading() {
+    return <div>Loading...</div>
+  }})
+  },
    {
     path: '/media/edit/:mediaId',
     component: Loadable({
@@ -71,7 +76,7 @@ const routes = [
   }}),
     loadData: (params) => read(params),
     reduxAction:(data)=>mediaActions.readMediaSuccess(data)
-  },
+  }
 
 	]
 
@@ -93,7 +98,6 @@ export const convertCustomRouteConfig = (routes, parentRoute) => {
    	  reduxAction:route.reduxAction
     };
   });
-  return mapping;
 }
 
 export default convertCustomRouteConfig(routes) 

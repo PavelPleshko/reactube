@@ -81,7 +81,22 @@ const listPopular = () => {
 }
 
 const listHistoryMedia = ({pageNumber,pageSize}) => {
-  return fetch(`${serverUrl}/api/media/history?page=${pageNumber}&pageSize=${pageSize}`, {
+  return fetch(`${serverUrl}/api/media/history?
+  page=${pageNumber}&pageSize=${pageSize}&searchField=history`, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include'
+  })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
+const listWatchlaterMedia = ({pageNumber,pageSize}) => {
+  return fetch(`${serverUrl}/api/media/watchlater?
+  page=${pageNumber}&pageSize=${pageSize}&searchField=watchlater`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -219,7 +234,10 @@ const searchHistory = (params) => {
 export {
 	getDirectUploadDetails,uploadVideo,
   create,
-  listPopular,listByUser,listRelated,listHistoryMedia,
+
+  listPopular,listByUser,listRelated,
+  listHistoryMedia,listWatchlaterMedia,
+  
   read,
   update,
   remove,

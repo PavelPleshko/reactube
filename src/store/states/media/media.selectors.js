@@ -4,6 +4,12 @@ const selectMedias = (state,key)=>{
 	return allIds.map(id=>byId[id]);
 	}
 
+const selectMediaFromResource = (state,mediaId,key)=>{
+	let byId = state[key] && state[key].byId;
+	let media = byId[mediaId];
+	return media;
+}
+
 const selectIsProcessing = (state,key) =>state.processing[key];
 
 const selectCurrentPage = (state,key) =>state[key].currentPage;
@@ -18,12 +24,9 @@ const selectErrorText = (state,key)=>state.isError[key] ? state.isError[key] : n
 
 const selectSingleMedia = (state)=>state.singleMedia;
 
-const selectNextInTheList = (state,key)=>{
-	return state[key];
-}
 
 export {
 	selectMedias,selectIsProcessing,
-	selectErrorText,selectSingleMedia,
+	selectErrorText,selectSingleMedia,selectMediaFromResource,
 	selectCurrentPage,selectTotal,noMoreItems,selectPageSize
 }

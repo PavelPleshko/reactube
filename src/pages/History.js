@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import _ from 'lodash';
 import {Link} from 'react-router-dom';
 
 import {connect} from 'react-redux';
@@ -11,9 +10,10 @@ import {selectMedias,selectCurrentPage,
 	selectIsProcessing,noMoreItems,selectPageSize,selectTotal} from '../store/states/media/media.selectors';
 import * as userSelectors from '../store/states/user/user.selectors';
 
+import InfiniteScroll from '../components/UI/miscellaneous/InfiniteScroll/InfiniteScroll';
+
 
 //meterial ui
-import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import {withStyles} from '@material-ui/core/styles';
 
@@ -48,18 +48,12 @@ class History extends Component{
 		searched:null
 	}
 
-	debouncedScroll = _.debounce((e)=>this.handleScroll(e),500);
 
 	componentDidMount = () =>{
-		if(this.props.loggedIn){
-			let {currentPage,pageSize,historyMedias,listHistoryMedia} = this.props;
+	 if(this.props.loggedIn){
+	 	let {currentPage,pageSize,historyMedias,listHistoryMedia} = this.props;
 			if(historyMedias.length < 1) listHistoryMedia(currentPage,pageSize);
-			window.addEventListener('scroll',this.debouncedScroll, false);
-		}
-	}
-
-	componentWillUnmount = () => {
-		window.removeEventListener('scroll',this.debouncedScroll);
+	 }
 	}
 	
 	clearHistory = () =>{	
@@ -80,12 +74,22 @@ class History extends Component{
       !itemsRequested && !noMoreItems
     ) {
 			if(searched){
-				console.log(currentPage,pageSize)
 				searchHistory(searched,currentPage,pageSize);
 			}else{
 			  listHistoryMedia(currentPage,pageSize);
 			}
     }
+	}
+
+	listHistoryMedia = () =>{
+		console.log('caaa')
+		const {currentPage,pageSize,searchHistory,listHistoryMedia} = this.props;
+		const {searched} = this.state;
+		if(searched){
+			searchHistory(searched,currentPage,pageSize);
+		}else{
+			listHistoryMedia(currentPage,pageSize);
+		}
 	}
 
 	 setRootRef = (element) => {
@@ -97,7 +101,7 @@ class History extends Component{
 	 }
 
 	render(){
-		const {classes,historyMedias,loggedIn,isProcessing,itemsRequested,total} = this.props;
+		const {classes,historyMedias,loggedIn,isProcessing,itemsRequested,total,noMoreItems} = this.props;
 	return (
 		<Grid container spacing={24}>
 		<Grid item sm={12}>
@@ -109,15 +113,25 @@ class History extends Component{
 			
 		</Grid>
 		<Grid item sm={7}>
+		
 		<div ref={this.setRootRef}>
 			{loggedIn ? (historyMedias && historyMedias.length ? 
-				<MediaTileHorizontal items={historyMedias} isProcessing={itemsRequested}/> : 
+				<InfiniteScroll
+				 refContainer={this.rootRef}
+				 callback={this.listHistoryMedia}
+				 stop={noMoreItems}
+				 requested={itemsRequested}
+				 >
+				<MediaTileHorizontal items={historyMedias} isProcessing={itemsRequested}/>
+				</InfiniteScroll> : 
 			<div> Your view history is empty </div>) : 
 			<div>
 			You have to be logged in to view history. 
 			<Link to="/signin">Log in</Link>
 			</div>}
 		</div>
+		
+
 		</Grid>
 		<Grid item sm={3} className={classes.search}>
 			<SearchForm 

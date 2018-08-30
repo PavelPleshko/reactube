@@ -58,6 +58,18 @@ const listHistoryMedia = (pageNumber,pageSize) => {
 	}
 }
 
+const listWatchlaterMedia = (pageNumber,pageSize) => {
+	return (dispatch)=>{
+		dispatch(mediaActions.listWatchLaterMediaRequest());
+		mediaApiCalls.listWatchlaterMedia({pageNumber,pageSize})
+		.then(response=>{
+			let {medias,total} = response.data;	
+			dispatch(mediaActions.listWatchLaterMediaSuccess({medias,total}));
+		}).catch((error) => {
+			dispatch(mediaActions.listWatchLaterMediaError(error.message));
+		})	
+	}
+}
 
 const readMedia = (mediaId,redirectAfterRead=false) => {
 	return (dispatch)=>{
@@ -182,7 +194,7 @@ const replaceMediaFromPlaylist = (mediaId) => {
 
 export {
 	createMedia,
-	listPopularMedia,listRelatedMedia,listHistoryMedia,
+	listPopularMedia,listRelatedMedia,listHistoryMedia,listWatchlaterMedia,
 	readMedia,updateMedia,removeMedia,replaceMediaFromPlaylist,
 
 	likeMedia,dislikeMedia,searchMedia,searchHistory

@@ -33,7 +33,7 @@ const secondaryMenu = [
 	},
 	{
 		title:'Watch later',
-		link:'/watch-later',
+		link:'/watchlater/medias',
 		icon:<WatchLaterIcon />
 	},
 	{

@@ -67,7 +67,19 @@ const removeViewHistoryError = (error) => ({
 		payload:error
 })
 
+//watch later
+const addWatchLaterRequest = () => ({
+	type:types.ADD_TO_WATCH_LATER_REQUEST
+})
 
+const addWatchLaterSuccess = () =>({
+		type:types.ADD_TO_WATCH_LATER_SUCCESS
+})
+
+const addWatchLaterError = (error) => ({
+		type:types.ADD_TO_WATCH_LATER_ERROR,
+		payload:error
+})
 
 export default {
 	loginUserRequest,loginUserSuccess,loginUserError,
@@ -76,5 +88,7 @@ export default {
 
 	registerUserRequest,registerUserSuccess,registerUserError,
 
-	removeViewHistoryRequest,removeViewHistorySuccess,removeViewHistoryError
+	removeViewHistoryRequest,removeViewHistorySuccess,removeViewHistoryError,
+
+	addWatchLaterRequest,addWatchLaterSuccess,addWatchLaterError
 }

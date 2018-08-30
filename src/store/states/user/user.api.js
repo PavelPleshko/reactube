@@ -71,12 +71,28 @@ const update = ({partialProfile,csrfToken}) => {
   .then(res=>res.json())
 }
 
+const addToWatchlater = ({csrfToken,mediaId}) => {
+  return fetch('/api/users/profile/watchlater', {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'CSRF-Token': csrfToken
+      },
+      credentials: 'include',
+      body: JSON.stringify({mediaId})
+    })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
 
 
 export {
 	signin,signup,
 
   clearHistory,
+
+  addToWatchlater,
   
   update
 }

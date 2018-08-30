@@ -69,6 +69,33 @@ const userReducer = (state=initialState,action) => {
 			}
 		break;
 
+		case types.ADD_TO_WATCH_LATER_REQUEST:
+			return {
+				...state,
+				processing:true,
+				isError:null
+			}
+		break;
+
+		case types.ADD_TO_WATCH_LATER_SUCCESS:
+			return {
+				...state,
+				processing:false,
+				data:{
+					...state.data,
+					...payload
+				}
+			}
+		break;
+
+		case types.ADD_TO_WATCH_LATER_ERROR:
+			return {
+				...state,
+				processing:false,
+				isError:payload
+			}
+		break;
+
 		case types.REGISTER_USER_REQUEST:
 			return {
 				...state,
@@ -83,7 +110,6 @@ const userReducer = (state=initialState,action) => {
 				processing:false,
 				data:payload,
 				isError:null
-
 			}
 		break;	
 
@@ -102,6 +128,7 @@ const userReducer = (state=initialState,action) => {
 				isError:null
 			}
 		break;
+
 		case types.REMOVE_VIEW_HISTORY_SUCCESS:
 			return {
 				...state,
@@ -109,6 +136,7 @@ const userReducer = (state=initialState,action) => {
 				data:payload
 			}
 		break;
+		
 		case types.REMOVE_VIEW_HISTORY_ERROR:
 			return {
 				...state,

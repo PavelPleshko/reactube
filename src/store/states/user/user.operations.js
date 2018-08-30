@@ -1,4 +1,3 @@
-import { push } from 'connected-react-router'
 import * as userApiCalls from './user.api';
 import userActions from './user.actions';
 
@@ -37,6 +36,22 @@ const updateHistorySettings = historySettings => {
 	}
 }
 
+const addToWatchlater = (mediaId) => {
+	return (dispatch,getState)=>{
+		dispatch(userActions.addWatchLaterRequest());
+		let csrfToken = getState().csrf;
+		let token = getState().user.data.token;
+		userApiCalls.addToWatchlater({csrfToken,mediaId})
+		.then(response=>{
+			let user = response.data.user;
+			//user.token = token;
+			console.log(response);
+			dispatch(userActions.addWatchLaterSuccess(user));
+		}).catch((error) => {
+			dispatch(userActions.addWatchLaterError(error.message));
+		})	
+	}
+}
 
 const register = (credentials) =>{
 	return (dispatch,getState)=>{
@@ -70,5 +85,6 @@ const clearHistory = () =>{
 export {
 	login,register,
 	clearHistory,
+	addToWatchlater,
 	updateHistorySettings
 }

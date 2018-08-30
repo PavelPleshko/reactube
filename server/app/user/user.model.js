@@ -11,6 +11,14 @@ const HistoryEntrySchema = new mongoose.Schema({
   }
 })
 
+const WatchlaterEntrySchema = new mongoose.Schema({
+  id:String,
+  added:{
+    type:Date,
+    default:Date.now
+  }
+})
+
 const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -43,6 +51,7 @@ const UserSchema = new mongoose.Schema({
     default:false
   },
   history:[HistoryEntrySchema],
+  watchlater:[WatchlaterEntrySchema],
   saveHistory:{
     type:Boolean,
     default:true

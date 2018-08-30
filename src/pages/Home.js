@@ -8,18 +8,12 @@ import {selectMedias} from '../store/states/media/media.selectors';
 
 
 //meterial ui
-import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
-import {withStyles} from '@material-ui/core/styles';
 
 
 import MediaTile from '../components/core/MediaTile/MediaTile';
-import MediaList from './singleMedia/MediaList';
 
-const styles = theme =>({
-	root:{
-	}
-})
+
 class Home extends Component{
 
 	componentDidMount = () =>{
@@ -27,11 +21,11 @@ class Home extends Component{
 	}
 	
 	render(){
-		const {classes,popularMedias} = this.props;
+		const {popularMedias} = this.props;
 	return (
-		<Grid container spacing={24} className={classes.root}>
+		<Grid container spacing={24}>
 		<Grid item sm={12}>
-			<MediaTile columns={4} items={popularMedias}/>
+			<MediaTile columns={4} items={popularMedias} resourceKey={'popular'}/>
 		</Grid>
 		</Grid>
 	)
@@ -45,4 +39,4 @@ const mappedStateToProps = (state) =>(
 }
   );
 
-export default connect(mappedStateToProps,boundActionCreators)(withStyles(styles)(Home));
+export default connect(mappedStateToProps,boundActionCreators)(Home);

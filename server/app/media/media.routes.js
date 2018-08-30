@@ -16,13 +16,17 @@ router.route('/media/all')
         .get(mediaCtrl.list);
 
 router.route('/media/history')
-        .get(authCtrl.requireSignin,mediaCtrl.getOwnHistoryList);
+        .get(authCtrl.requireSignin,mediaCtrl.getOwnMediaList);
 
 router.route('/media/history/search')
         .get(authCtrl.requireSignin,mediaCtrl.getHistoryBySearch);
 
 router.route('/media/popular')
           .get(mediaCtrl.listPopular)
+
+router.route('/media/watchlater')
+        .get(authCtrl.requireSignin,
+             mediaCtrl.getOwnMediaList)
 
 router.route('/media/by/:userId')
          .get(mediaCtrl.listByUser) 
@@ -45,14 +49,14 @@ router.route('/media/related/:mediaId')
 
     
 router.route('/media/:mediaId')
-		.get(authCtrl.requireSignin,mediaCtrl.incrementViews,userCtrl.addToHistory,
-						 mediaCtrl.read)
+	.get(authCtrl.requireSignin,mediaCtrl.incrementViews,userCtrl.addToHistory,
+	     mediaCtrl.read)
         .put(authCtrl.requireSignin, 
-                mediaCtrl.isPoster, 
-                    mediaCtrl.update)
-         .delete(authCtrl.requireSignin, 
-                    mediaCtrl.isPoster, 
-                        mediaCtrl.remove)
+             mediaCtrl.isPoster, 
+             mediaCtrl.update)
+        .delete(authCtrl.requireSignin, 
+             mediaCtrl.isPoster, 
+             mediaCtrl.remove)
 
 
 

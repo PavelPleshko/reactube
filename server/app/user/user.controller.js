@@ -207,7 +207,31 @@ const removeFollower = (req, res) => {
   })
 }
 
-
+const addWatchlater = async(req,res)=>{
+  let user = req.user;
+  let mediaId = req.body.mediaId;
+  if(!user){
+    
+  } else{
+     try {
+    if(!user.watchlater){
+      user.watchlater = [];
+    }
+      let message = 'You have already added this media to watchlist';
+      let watchlater = user.watchlater;
+      let found = watchlater.findIndex(item=>item.id===mediaId);
+      if(found === -1){
+        message = 'Successfully added to watchlist';
+        watchlater.unshift({id:mediaId});
+        user = await user.save();
+      }
+    
+    sendSuccess(res,message)({user});
+  }catch(err){
+    sendError(res)(err);
+  }
+  }
+}
 
 
 export default {
@@ -219,6 +243,7 @@ export default {
   update,
   removeFollower,removeFollowing,
   addFollower,addFollowing,
+  addWatchlater,
   addToHistory,clearHistory
   
 
