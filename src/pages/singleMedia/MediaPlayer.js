@@ -66,6 +66,7 @@ state = {
 } 
 
 componentDidMount = () => {
+  console.log(this.state,this.props.media);
   if (screenfull.enabled) {
      screenfull.on('change', () => {
          let fullscreen = screenfull.isFullscreen ? true : false 
@@ -75,11 +76,11 @@ componentDidMount = () => {
 }
 
 ref = player => {
-      this.player = player
+      this.player = player;
 }
 
 videoError = e => {
-  this.setState({videoError: true}) 
+  this.setState({videoError: true});
 }
 
 playPause = () => {

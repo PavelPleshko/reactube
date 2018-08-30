@@ -337,6 +337,7 @@ const readMedia = (state=initialState,action) => {
 		case types.READ_MEDIA_REQUEST:
 			return {
 				...state,
+				singleMedia:null,
 				processing:{
 					...state.processing,
 					singleMedia:true

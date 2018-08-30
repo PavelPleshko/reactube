@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import CheckIcon from '@material-ui/icons/CheckCircle';
 import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -54,9 +53,7 @@ const styles = theme =>({
 	}
 })
 
-
-class SearchForm extends Component{
-	
+class SearchForm extends Component{	
 	state={
 		search:'',
 		dialogOpen:false,
@@ -65,7 +62,6 @@ class SearchForm extends Component{
 	}
 	
 	componentDidMount = () =>{
-
 		const {user} = this.props;
 		const {notSaveHistory} = this.state;
 		if(user && !user.saveHistory != notSaveHistory){
@@ -73,9 +69,6 @@ class SearchForm extends Component{
 		}
 	}
 
-	componentDidUpdate = () => {
-		console.log(this.props.user);
-	}
 	onChangeHandler = (e) =>{
 		this.setState({search:e.target.value})
 	}
@@ -113,7 +106,7 @@ class SearchForm extends Component{
 	}
 
 	render(){
-		const {classes,isProcessing,historyCount,loggedIn,user} = this.props;
+		const {classes,historyCount,loggedIn} = this.props;
 		const {notSaveHistory,changesSaved} = this.state;
 	return (
 		<React.Fragment>
