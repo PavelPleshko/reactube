@@ -1,5 +1,5 @@
 import User from './user.model';
-import _ from 'lodash';
+import extend from 'lodash/extend';
 import errorHandler from '../../helpers/dbErrorHandler';
 import config from './../../config/config';
 import Cloudinary from 'cloudinary';
@@ -68,7 +68,7 @@ const update = async (req, res, next) => {
      let user = req.user;
      console.log(user,'\n',req.body);
      try{
-        user = _.extend(user, req.body);
+        user = extend(user, req.body);
         user.updated = Date.now();
         let updatedProfile  = await user.save();
         sendSuccess(res,'Profile updated')({user:updatedProfile});

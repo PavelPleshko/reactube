@@ -1,6 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
 import mongoose from 'mongoose';
 import Comment from '../comment/comment.model';
 import Media from '../media/media.model';

@@ -64,7 +64,6 @@ const listWatchlaterMedia = (pageNumber,pageSize) => {
 		mediaApiCalls.listWatchlaterMedia({pageNumber,pageSize,searchField:'watchlater'})
 		.then(response=>{
 			let {medias,total} = response.data;	
-			console.log(medias)
 			dispatch(mediaActions.listWatchlaterMediaSuccess({medias,total}));
 		}).catch((error) => {
 			dispatch(mediaActions.listWatchlaterMediaError(error.message));
