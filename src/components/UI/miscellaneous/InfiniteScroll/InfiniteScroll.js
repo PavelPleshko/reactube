@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {throttle} from 'lodash/throttle';
+import throttle from 'lodash/throttle';
 
 
 class InfiniteScroll extends Component{

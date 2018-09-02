@@ -48,16 +48,16 @@ const listHistoryMediaError = (error) => ({
 })
 
 //watch later
-const listWatchLaterMediaRequest = () => ({
+const listWatchlaterMediaRequest = () => ({
 	type:types.LIST_WATCHLATER_MEDIA_REQUEST
 })
 
-const listWatchLaterMediaSuccess = (medias) => ({
+const listWatchlaterMediaSuccess = (medias) => ({
 	type:types.LIST_WATCHLATER_MEDIA_SUCCESS,
 	payload:medias
 })
 
-const listWatchLaterMediaError = (error) => ({
+const listWatchlaterMediaError = (error) => ({
 	type:types.LIST_WATCHLATER_MEDIA_ERROR,
 	payload:error
 })
@@ -190,6 +190,21 @@ const searchHistoryError = (error) =>({
 	payload:error
 })
 
+//Watchlater
+const searchWatchlaterRequest = () =>({
+	type:types.SEARCH_WATCHLATER_REQUEST
+})
+
+const searchWatchlaterSuccess = (items)=>({
+	type:types.SEARCH_WATCHLATER_SUCCESS,
+	payload:items
+})
+
+const searchWatchlaterError = (error)=>({
+	type:types.SEARCH_WATCHLATER_ERROR,
+	payload:error
+})
+
 const resetHistoryList = () =>({
 	type:types.RESET_HISTORY_LIST,
 })
@@ -202,7 +217,7 @@ export default {
 	listPopularMediaRequest,listPopularMediaSuccess,listPopularMediaError,
 	listRelatedMediaRequest,listRelatedMediaSuccess,listRelatedMediaSuccess,
 	listHistoryMediaRequest,listHistoryMediaSuccess,listHistoryMediaError,
-	listWatchLaterMediaRequest,listWatchLaterMediaSuccess,listWatchLaterMediaError,
+	listWatchlaterMediaRequest,listWatchlaterMediaSuccess,listWatchlaterMediaError,
 	
 	//list manipulations
 	replaceMediaFromList,
@@ -221,5 +236,8 @@ export default {
 	searchMediaRequest,searchMediaSuccess,searchMediaError,
 
 	searchHistoryRequest,searchHistorySuccess,searchHistoryError,
+
+	searchWatchlaterRequest,searchWatchlaterSuccess,searchWatchlaterError,
+	
 	resetHistoryList
 }

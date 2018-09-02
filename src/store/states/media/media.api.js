@@ -94,9 +94,9 @@ const listHistoryMedia = ({pageNumber,pageSize}) => {
   .then(res=>res.json())
 }
 
-const listWatchlaterMedia = ({pageNumber,pageSize}) => {
-  return fetch(`${serverUrl}/api/media/watchlater?
-  page=${pageNumber}&pageSize=${pageSize}&searchField=watchlater`, {
+const listWatchlaterMedia = (params) => {
+  let query = queryString.stringify(params);
+  return fetch(`${serverUrl}/api/media/watchlater?${query}`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -231,6 +231,20 @@ const searchHistory = (params) => {
   .then(res=>res.json())
 }
 
+const searchWatchlater = (params) => {
+  let query = queryString.stringify(params);
+  return fetch('/api/media/watchlater/search?'+query, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include'
+  })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
 export {
 	getDirectUploadDetails,uploadVideo,
   create,
@@ -242,5 +256,5 @@ export {
   update,
   remove,
   like,dislike,
-  searchMediaBy,searchHistory
+  searchMediaBy,searchHistory,searchWatchlater
 }

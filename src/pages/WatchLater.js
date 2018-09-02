@@ -17,7 +17,7 @@ import {withStyles} from '@material-ui/core/styles';
 
 
 import MediaTileHorizontal from '../components/core/MediaTileHorizontal/MediaTileHorizontal';
-import SearchForm from './history/SearchForm';
+import SearchForm from './watchlater/SearchForm';
 import InfiniteScroll from '../components/UI/miscellaneous/InfiniteScroll/InfiniteScroll';
 
 
@@ -40,7 +40,9 @@ const styles = theme =>({
 
 
 class WatchLater extends Component{
-
+	state={
+		searched:null
+	}
 
 	componentDidMount = () =>{
 		if(this.props.loggedIn){
@@ -51,10 +53,14 @@ class WatchLater extends Component{
 
 
 	listWatchlaterMedia = () =>{
-		console.log('called')
+		const {currentPage,pageSize,searchWatchlater,listWatchlaterMedia} = this.props;
+		const {searched} = this.state;
+		if(searched){
+			searchWatchlater(currentPage,pageSize);
+		}else{
+			listWatchlaterMedia(currentPage,pageSize);
+		}
 	}
-
-
 
 	 setRootRef = (element) => {
 	    this.rootRef = element;
@@ -90,17 +96,17 @@ class WatchLater extends Component{
 						</InfiniteScroll> : 
 					<div> You didn't add anything to watch list </div>) : 
 					<div>
-					You have to be logged in to view watch list. 
+					You have to be logged in to view watchlist. 
 					<Link to="/signin">Log in</Link>
 					</div>}
 				</div>
 			</Grid>
 			<Grid item sm={3} className={classes.search}>
-				{/* <SearchForm 
+				<SearchForm 
 				changeSearched={this.changeSearched}
 				loggedIn={loggedIn} 
-				historyCount={historyMedias && historyMedias.length}
-				/> */}
+				itemsCount={watchlaterMedias && watchlaterMedias.length}
+				/>
 			</Grid>
 		</Grid>
 	)

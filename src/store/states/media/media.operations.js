@@ -60,13 +60,14 @@ const listHistoryMedia = (pageNumber,pageSize) => {
 
 const listWatchlaterMedia = (pageNumber,pageSize) => {
 	return (dispatch)=>{
-		dispatch(mediaActions.listWatchLaterMediaRequest());
-		mediaApiCalls.listWatchlaterMedia({pageNumber,pageSize})
+		dispatch(mediaActions.listWatchlaterMediaRequest());
+		mediaApiCalls.listWatchlaterMedia({pageNumber,pageSize,searchField:'watchlater'})
 		.then(response=>{
 			let {medias,total} = response.data;	
-			dispatch(mediaActions.listWatchLaterMediaSuccess({medias,total}));
+			console.log(medias)
+			dispatch(mediaActions.listWatchlaterMediaSuccess({medias,total}));
 		}).catch((error) => {
-			dispatch(mediaActions.listWatchLaterMediaError(error.message));
+			dispatch(mediaActions.listWatchlaterMediaError(error.message));
 		})	
 	}
 }
@@ -168,7 +169,7 @@ const searchMedia = (input) => {
 }
 
 const searchHistory = (input,page,pageSize) => {
-	return (dispatch,getState)=>{
+	return (dispatch)=>{
 		dispatch(mediaActions.searchHistoryRequest());
 		//let csrfToken = getState().csrf;
 		mediaApiCalls.searchHistory({input,page,pageSize})
@@ -186,6 +187,26 @@ const searchHistory = (input,page,pageSize) => {
 	}
 }
 
+
+const searchWatchlater = (input,page,pageSize) => {
+	return (dispatch)=>{
+		dispatch(mediaActions.searchWatchlaterRequest());
+		//let csrfToken = getState().csrf;
+		mediaApiCalls.searchWatchlater({input,page,pageSize})
+		.then(response=>{
+			console.log(response);
+		let {medias,total} = response.data;	
+			if(page == 0){
+				dispatch(mediaActions.resetWatchlater());
+			}
+			dispatch(mediaActions.searchWatchlaterSuccess({medias,total}));
+		})
+		.catch((error)=>{
+			dispatch(mediaActions.searchWatchlaterError(error.message));
+		})
+	}
+}
+
 const replaceMediaFromPlaylist = (mediaId) => {
 	return (dispatch)=>{
 		dispatch(mediaActions.replaceMediaFromList(mediaId))
@@ -197,5 +218,5 @@ export {
 	listPopularMedia,listRelatedMedia,listHistoryMedia,listWatchlaterMedia,
 	readMedia,updateMedia,removeMedia,replaceMediaFromPlaylist,
 
-	likeMedia,dislikeMedia,searchMedia,searchHistory
+	likeMedia,dislikeMedia,searchMedia,searchHistory,searchWatchlater
 }

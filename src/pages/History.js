@@ -39,9 +39,6 @@ const styles = theme =>({
 	}
 })
 
-const gap = 50;
-
-
 class History extends Component{
 
 	state={
@@ -60,29 +57,9 @@ class History extends Component{
 		this.props.clearHistory();
 	}
 
-	handleScroll = () =>{
-		const {listHistoryMedia,currentPage,pageSize,itemsRequested,noMoreItems,searchHistory} = this.props;
-		const {searched} = this.state;
-		if(noMoreItems){
-			window.removeEventListener('scroll',this.debouncedScroll);
-			return;
-		} 
-		const { innerHeight, scrollY } = window;
-		const { offsetTop, scrollHeight } = this.rootRef;
-		if (
-      (innerHeight + scrollY > (offsetTop + scrollHeight - gap)) &&
-      !itemsRequested && !noMoreItems
-    ) {
-			if(searched){
-				searchHistory(searched,currentPage,pageSize);
-			}else{
-			  listHistoryMedia(currentPage,pageSize);
-			}
-    }
-	}
+
 
 	listHistoryMedia = () =>{
-		console.log('caaa')
 		const {currentPage,pageSize,searchHistory,listHistoryMedia} = this.props;
 		const {searched} = this.state;
 		if(searched){

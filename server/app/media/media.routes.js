@@ -19,7 +19,7 @@ router.route('/media/history')
         .get(authCtrl.requireSignin,mediaCtrl.getOwnMediaList);
 
 router.route('/media/history/search')
-        .get(authCtrl.requireSignin,mediaCtrl.getHistoryBySearch);
+        .get(authCtrl.requireSignin,mediaCtrl.getOwnMediaBySearch);
 
 router.route('/media/popular')
           .get(mediaCtrl.listPopular)
@@ -28,6 +28,9 @@ router.route('/media/watchlater')
         .get(authCtrl.requireSignin,
              mediaCtrl.getOwnMediaList)
 
+router.route('/media/watchlater/search')
+             .get(authCtrl.requireSignin,mediaCtrl.getOwnMediaBySearch);
+     
 router.route('/media/by/:userId')
          .get(mediaCtrl.listByUser) 
 

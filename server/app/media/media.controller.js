@@ -1,14 +1,13 @@
 import Media from './media.model';
 import Keyword from '../keyword/keyword.model';
 import keywordCtrl from '../keyword/keyword.controller';
-import _ from 'lodash';
+import extend from 'lodash/extend';
 import {sendError,sendSuccess,throwIfNoResult,throwError} from '../../helpers/responseHandler';
 import config from '../../config/config';
 import Cloudinary from 'cloudinary';
 import formidable from 'formidable';
 import path from 'path';
 import mongoose from 'mongoose';
-import moment from 'moment';
 
 //lists 
 
@@ -85,8 +84,8 @@ const listByUser = async (req, res) => {
 
 const getOwnMediaList = async (req,res) => {
   let user = req.user;
-  let {page=0,pageSize=5,searchField='history'} = req.query;
-  let start = Number(page*pageSize);
+  let {pageNumber=0,pageSize=5,searchField='history'} = req.query;
+  let start = Number(pageNumber*pageSize);
   let end = start+Number(pageSize);
   let searchArrSlice = user[searchField] ? user[searchField].slice(start,end) : [];
   let ids = searchArrSlice.map(el=>mongoose.Types.ObjectId(el.id));
@@ -111,19 +110,19 @@ const getOwnMediaList = async (req,res) => {
             {$unwind:"$category"}
            ];
    try{
-    let medias = await Media.aggregate(query);                           
+    let medias = await Media.aggregate(query);  
     sendSuccess(res,`Medias of user ${user.firstName} ${user.lastName}`)({medias,total});
   } catch(err){
     sendError(res)(err);
   }
 }
-const getHistoryBySearch = async (req,res) => {
+const getOwnMediaBySearch = async (req,res) => {
   let user = req.user;
-  let {input,page=0,pageSize=5} = req.query;
+  let {input,page=0,pageSize=5,searchField='history'} = req.query;
   pageSize = +pageSize;
   let skip = +(page*pageSize);
-  let historySlice = user.history ? user.history : [];
-  let ids = historySlice.map(el=>mongoose.Types.ObjectId(el.id));
+  let searchArrSlice = user[searchField] ? user[searchField] : [];
+  let ids = searchArrSlice.map(el=>mongoose.Types.ObjectId(el.id));
  
   let query = [
              {$match: {_id: {$in: ids},
@@ -222,7 +221,7 @@ const getUploadDetails =(req,res,next)=>{
 //update
 const update = async (req, res, next) => {
   let media = req.media
-  media = _.extend(media, req.body)
+  media = extend(media, req.body)
   media.updated = Date.now()
   try{
     let updateMedia = await media.save();
@@ -358,5 +357,5 @@ export default {
   update,
   remove,
   like,dislike,
-  getSuggestions,searchByKeywords,getHistoryBySearch
+  getSuggestions,searchByKeywords,getOwnMediaBySearch
 }

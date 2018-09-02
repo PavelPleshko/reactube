@@ -217,7 +217,7 @@ const watchlaterMediaList = (state=initialState,action)=>{
 	const {type,payload} = action;
 	switch(type){
 		case types.LIST_WATCHLATER_MEDIA_REQUEST:
-		case types.SEARCH_HISTORY_REQUEST:
+		case types.SEARCH_WATCHLATER_REQUEST:
 			return {
 				...state,
 				processing:{
@@ -228,12 +228,13 @@ const watchlaterMediaList = (state=initialState,action)=>{
 		break;
 
 		case types.LIST_WATCHLATER_MEDIA_SUCCESS:
-		case types.SEARCH_HISTORY_SUCCESS:
+		case types.SEARCH_WATCHLATER_SUCCESS:
 		let byIds = {};
 		let {total,medias} = payload;
 		medias.forEach(item=>{
 			byIds[item._id] = item
 		});
+		console.log(medias)
 			return {
 				...state,
 				processing:{
@@ -250,7 +251,7 @@ const watchlaterMediaList = (state=initialState,action)=>{
 			}
 		break
 		case types.LIST_WATCHLATER_MEDIA_ERROR:
-		case types.SEARCH_HISTORY_ERROR:
+		case types.SEARCH_WATCHLATER_ERROR:
 			return {
 				...state,
 				isError:{
