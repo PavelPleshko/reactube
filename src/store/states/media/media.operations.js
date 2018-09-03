@@ -1,4 +1,4 @@
-import { push } from 'connected-react-router'
+import { push } from 'connected-react-router/lib/actions';
 import * as mediaApiCalls from './media.api';
 import mediaActions from './media.actions';
 
@@ -48,7 +48,7 @@ const listRelatedMedia = (mediaId) => {
 const listHistoryMedia = (pageNumber,pageSize) => {
 	return (dispatch)=>{
 		dispatch(mediaActions.listHistoryMediaRequest());
-		mediaApiCalls.listHistoryMedia({pageNumber,pageSize})
+		mediaApiCalls.listHistoryMedia({pageNumber,pageSize,searchField:'history'})
 		.then(response=>{
 			let {medias,total} = response.data;	
 			dispatch(mediaActions.listHistoryMediaSuccess({medias,total}));

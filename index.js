@@ -18,7 +18,7 @@ export default ({markup,state,materialCss,mainCss}) => {
                  
 
                ${state}
-          <script type="text/javascript" src="${url}/bundle.js"> 
+          <script async type="text/javascript" src="${url}/bundle.js"> 
        </script>
         </body>
       </html>` 

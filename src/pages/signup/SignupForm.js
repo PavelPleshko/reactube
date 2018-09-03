@@ -3,16 +3,14 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import CardActions from '@material-ui/core/CardActions';
-import Icon from '@material-ui/core/Icon';
 import {withStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import CheckIcon from '@material-ui/icons/Check';
 
 import { reduxForm,Field } from 'redux-form'
-import { push } from 'connected-react-router'
 import {connect} from 'react-redux';
 
-import {selectIsProcessing,selectIsAuthenticated,selectUserFirstName} from '../../store/states/user';
+import {selectIsProcessing,selectUserFirstName} from '../../store/states/user';
 
 import TextInput from './../../components/UI/controls/TextInput/TextInput';
 import RadioInput from './../../components/UI/controls/RadioInput/RadioInput';
