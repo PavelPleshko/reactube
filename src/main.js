@@ -3,6 +3,7 @@ import { hydrate, render } from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './App';
 import './index.css';
+import 'react-virtualized/styles.css';
 import {configStore,history} from './store/store';
 import JssProvider from 'react-jss/lib/JssProvider';
 import { SheetsRegistry } from 'react-jss/lib/jss'

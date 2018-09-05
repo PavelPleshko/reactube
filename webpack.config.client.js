@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const path = require('path');
 const CURRENT_WORKING_DIR = process.cwd()
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const config = {
   name:"browser",
   mode:"development",
@@ -23,23 +24,27 @@ const config = {
           plugins:["react-loadable/babel"]
         }
       },
-            {
-                test: /\.(ttf|eot|svg|gif|jpg|png)(\?[\s\S]+)?$/,
-                use: 'file-loader'
-            },
      {
-  test: /\.css$/,
-  loader: 'style-loader'
-}, {
-  test: /\.css$/,
-  loader: 'css-loader',
-  query: {
-    modules: true,
-    localIdentName: '[name]-[hash:base64:5]'
-  }
+        test: /\.(ttf|eot|svg|gif|jpg|png)(\?[\s\S]+)?$/,
+        use: 'file-loader'
+     },
+     {
+        test: /\.css$/,
+        loader: 'style-loader'
+     }, 
+     {
+       test: /\.css$/,
+       loader: 'css-loader',
+       query: {
+         modules: true,
+         localIdentName: '[name]-[hash:base64:5]'
+     }
 }
     ]
-    }
+    },
+    plugins:[
+      new BundleAnalyzerPlugin()
+    ]
 
 
 }

@@ -5,7 +5,7 @@ import MediaTileItem from './mediaTile/MediaTileItem';
 
 
 const mediaTile = (props)=>{
-	const {columns=4,items,resourceName="media",resourceKey} = props;
+	const {items,resourceName="media",resourceKey} = props;
 	return (
 		<Grid container spacing={8}>
 	

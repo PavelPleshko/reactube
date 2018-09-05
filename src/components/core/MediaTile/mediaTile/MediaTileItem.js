@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Moment from 'react-moment';
 import {withStyles} from '@material-ui/core/styles';
 import WatchLaterIcon from '@material-ui/icons/WatchLater';
 import CheckIcon from '@material-ui/icons/Check';
@@ -11,7 +10,7 @@ import { push } from 'connected-react-router';
 import {selectMediaFromResource} from '../../../../store/states/media';
 import {selectUser} from '../../../../store/states/user';
 import * as userOperations from '../../../../store/states/user/user.operations';
-import {transformSeconds} from '../../../../utils/pipes/fileDataTransforms';
+import {transformSeconds,fromNow} from '../../../../utils/pipes/fileDataTransforms';
 
 const styles = theme =>({
 	icon: {
@@ -122,11 +121,6 @@ class MediaTileItem extends Component{
     }
   }
 
-  componentDidMount = () =>{
-    const {user,itemId} = this.props;
-    let found = user && user.watchlater && user.watchlater.find(item=>console.log(item));
-  }
-
   handleMouseLeave = (e) =>{
     if(this.state.showWatchLater){
       this.setState({showWatchLater:false});
@@ -177,7 +171,7 @@ class MediaTileItem extends Component{
 				           	  <div className={classes.subheading}>
 					                <div>{item.views} views </div>
                           <div className={classes.date}>
-                            <Moment fromNow>{item.created}</Moment>
+                            {fromNow(item.created)}
                           </div>
 	                		</div>
 		              	</div>

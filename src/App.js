@@ -6,7 +6,6 @@ import MainNav from './components/core/MainNav/MainNav';
 import DrawerNav from './components/core/DrawerNav/DrawerNav';
 
 
-
 class App extends Component{
 componentDidMount() {
     const jssStyles = document.getElementById('jss-server-side');

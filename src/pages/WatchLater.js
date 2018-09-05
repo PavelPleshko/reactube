@@ -72,7 +72,7 @@ class WatchLater extends Component{
 
 	render(){
 		const {classes,watchlaterMedias,loggedIn,
-			isProcessing,noMoreItems,itemsRequested,total} = this.props;
+			isProcessing,noMoreItems,itemsRequested,total,location} = this.props;
 	return (
 		<Grid container spacing={24}>
 			<Grid item sm={12}>
@@ -97,7 +97,7 @@ class WatchLater extends Component{
 					<div> You didn't add anything to watch list </div>) : 
 					<div>
 					You have to be logged in to view watchlist. 
-					<Link to="/signin">Log in</Link>
+					<Link to={{pathname:"/signin",from: location.pathname}}>Log in</Link>
 					</div>}
 				</div>
 			</Grid>

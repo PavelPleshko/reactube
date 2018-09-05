@@ -17,9 +17,11 @@ class Signin extends Component{
 
 
  render() {
+    const {location} = this.props;
+    let from = location.from ? location.from : '/';
     return (
     	<div>   
-         <SigninForm title="Sign in" initialData={{email:this.props.email || ''}}
+         <SigninForm from={from} title="Sign in" initialData={{email:this.props.email || ''}}
           onSubmitForm={this.clickSubmit} serverError={this.props.error}
            processing={this.props.processing} />
     </div>

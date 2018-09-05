@@ -7,7 +7,8 @@ import {bindActionCreators} from 'redux';
 import * as mediaOperations from '../store/states/media/media.operations';
 import * as userOperations from '../store/states/user/user.operations';
 import {selectMedias,selectCurrentPage,
-	selectIsProcessing,noMoreItems,selectPageSize,selectTotal} from '../store/states/media/media.selectors';
+		selectIsProcessing,noMoreItems,
+		selectPageSize,selectTotal} from '../store/states/media/media.selectors';
 import * as userSelectors from '../store/states/user/user.selectors';
 
 import InfiniteScroll from '../components/UI/miscellaneous/InfiniteScroll/InfiniteScroll';
@@ -78,7 +79,8 @@ class History extends Component{
 	 }
 
 	render(){
-		const {classes,historyMedias,loggedIn,isProcessing,itemsRequested,total,noMoreItems} = this.props;
+		const {classes,historyMedias,loggedIn,isProcessing,itemsRequested,total,noMoreItems,location} = this.props;
+
 	return (
 		<Grid container spacing={24}>
 		<Grid item sm={12}>
@@ -104,7 +106,7 @@ class History extends Component{
 			<div> Your view history is empty </div>) : 
 			<div>
 			You have to be logged in to view history. 
-			<Link to="/signin">Log in</Link>
+			<Link to={{pathname:"/signin",from: location.pathname}}>Log in</Link>
 			</div>}
 		</div>
 		

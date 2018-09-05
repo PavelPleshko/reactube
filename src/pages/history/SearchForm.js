@@ -123,7 +123,7 @@ class SearchForm extends Component{
 			<div className={classes.searchActions}>
 				<Button onClick={this.openDialog} className={(!loggedIn || historyCount < 1) ? classes.disabled : ''}>Clear history</Button>
 				<div>
-				<div>
+				<div className={(!loggedIn || historyCount < 1) ? classes.disabled : ''}>
           			<Button onClick={this.handleSaveHistoryChange} className={!loggedIn ? classes.disabled : ''}>
           			Do not save my history</Button>
           				

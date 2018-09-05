@@ -70,7 +70,8 @@ handleSubmit =(values)=>{
 }
 
 redirectAfterTimeout = () => {
-    this.props.dispatch(push('/'));
+    let {from} = this.props;
+    this.props.dispatch(push(from));
 }
 
 	render(){

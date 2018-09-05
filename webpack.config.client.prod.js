@@ -2,6 +2,7 @@ const webpack = require("webpack");
 const path = require('path');
 const CURRENT_WORKING_DIR = process.cwd()
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const config = {
   name:"browser",
@@ -65,7 +66,8 @@ const config = {
     'process.env': {
       'NODE_ENV': JSON.stringify('production')
     }
-  })
+  }),
+  new BundleAnalyzerPlugin()
 ]
 
 

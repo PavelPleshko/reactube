@@ -2,7 +2,7 @@ import React,{Component} from "react";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
-import  MenuItem  from "@material-ui/core/MenuItem";
+import MenuItem  from "@material-ui/core/MenuItem";
 import Downshift from "downshift";
 import Chip from "@material-ui/core/Chip";
 import CancelIcon from "@material-ui/icons/Cancel";

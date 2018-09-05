@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import Moment from 'react-moment';
 
 import {truncate} from '../../../../utils/pipes/truncate';
 
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import {withStyles} from '@material-ui/core/styles';
+import {fromNow} from '../../../../utils/pipes/fileDataTransforms';
 
 
 const styles = theme =>({
@@ -101,8 +101,7 @@ class MediaTileSingle extends Component{
 	      				           	    <div className={classes.separator}>•</div>
 	      					              <div>{item.views} views </div>
 	                              <div className={classes.separator}>•</div>
-	      					             
-	      					              	<Moment fromNow>{item.created}</Moment>
+	      					              	{fromNow(item.created)}
 	      					              
 	                           </div>
 	                           <div className={classes.description}>
