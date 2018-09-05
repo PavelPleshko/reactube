@@ -66,8 +66,8 @@ const config = {
     'process.env': {
       'NODE_ENV': JSON.stringify('production')
     }
-  }),
-  new BundleAnalyzerPlugin()
+  })
+  //new BundleAnalyzerPlugin()
 ]
 
 
