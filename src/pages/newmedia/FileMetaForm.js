@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import MainInfoForm from './fileMetaForm/MainInfoForm';
 import AdditionalInfoForm from './fileMetaForm/AdditionalInfoForm';
+import GradientButton from '../../components/UI/buttons/GradientButton/GradientButton';
 
 
 
@@ -20,10 +21,7 @@ const styles = theme =>({
 		},
 	buttonCreate:{
 		color:'#fff',
-		backgroundColor:theme.palette.primary.success,
-		'&:hover':{
-			backgroundColor:theme.palette.primary.successHover
-		}
+		backgroundColor:theme.palette.primary.light
 	},
 	rightIcon:{
 		marginLeft:'1rem'
@@ -49,27 +47,17 @@ handleSubmit =(values)=>{
 	render(){
 		const {classes,submitBtnText,media} = this.props;
 	return (
-		<form onSubmit={ this.props.handleSubmit(this.handleSubmit) }>
-		
-			
-			
-					<Card className={classes.card}>
-					
-							<MainInfoForm media={media}/>
-					
-					</Card>
-					<Card className={classes.card}>			     
-			         
-							<AdditionalInfoForm media={media}/>
-						
-					</Card>
-		      
-					<Button fullWidth={true} className={classes.buttonCreate} type="submit">
-						{submitBtnText}
-
-						</Button>
-		   
-		  </form>
+		<form onSubmit={ this.props.handleSubmit(this.handleSubmit) }>		
+			  <Card className={classes.card}>				
+					<MainInfoForm media={media}/>				
+			  </Card>
+			  <Card className={classes.card}>			     		         
+					<AdditionalInfoForm media={media}/>					
+			  </Card>
+		      <GradientButton gradientColor={'#00F260'} type="submit" classes={{btn:classes.buttonCreate}} borderRadius="20px">		
+					{submitBtnText}
+		      </GradientButton>
+		</form>
 		
 	)
 	}
@@ -78,5 +66,5 @@ handleSubmit =(values)=>{
 
 
 export default reduxForm({
-  form: 'mediaInfo',
+  form: 'mediaInfo'
 })(withStyles(styles)(FileMetaForm));

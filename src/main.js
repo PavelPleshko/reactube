@@ -14,7 +14,7 @@ import {deepPurple,green,red} from '@material-ui/core/colors';
 const theme = createMuiTheme({
   palette: {
     primary: {
-    light: '#757de8',
+    light: '#0575e6',
     main: '#3f51b5',
     dark: '#002984',
     contrastText: '#fff',
