@@ -12,7 +12,12 @@ const initialState =  {
 			allIds:[],
 			byId:{}
 		},
-		drawerOpened:true
+		drawerOpened:true,
+		snackbar:{
+			opened:false,
+			message:null,
+			variant:null
+		}
 	}
 };
 
@@ -91,6 +96,35 @@ const appReducer = (state=initialState,action) => {
 				}
 			}
 		break;
+
+		case types.SHOW_SNACKBAR:
+			return {
+				...state,
+				data:{
+					...state.data,
+					snackbar:{
+						opened:true,
+						message:payload.message,
+						variant:payload.variant
+					}
+				}
+			}
+			break;
+
+		case types.HIDE_SNACKBAR:
+			return {
+				...state,
+				data:{
+					...state.data,
+					snackbar:{
+						...state.data.snackbar,
+						opened:false,
+						message:null,
+						
+					}
+				}
+			}
+			break;
 		
 		default:
 			return state;

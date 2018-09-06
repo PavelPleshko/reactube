@@ -9,7 +9,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import { change } from 'redux-form';
-import {connect} from 'react-redux';
 
 import UploadProgress from './fileUploader/UploadProgress';
 import FileMetaForm from './FileMetaForm';
@@ -182,4 +181,4 @@ FileUploader.propTypes = {
 
 
 
-export default connect()(withStyles(styles)(FileUploader));
+export default withStyles(styles)(FileUploader);

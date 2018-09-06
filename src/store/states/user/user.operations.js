@@ -1,5 +1,6 @@
 import * as userApiCalls from './user.api';
 import userActions from './user.actions';
+import * as appOperations from '../app/app.operations';
 
 
 
@@ -40,12 +41,11 @@ const addToWatchlater = (mediaId) => {
 	return (dispatch,getState)=>{
 		dispatch(userActions.addWatchLaterRequest());
 		let csrfToken = getState().csrf;
-		let token = getState().user.data.token;
 		userApiCalls.addToWatchlater({csrfToken,mediaId})
 		.then(response=>{
 			let user = response.data.user;
-			//user.token = token;
-			console.log(response);
+			dispatch(appOperations.showSnackbar({message:'Successfully added media to watchlist',
+				variant:'success'}));
 			dispatch(userActions.addWatchLaterSuccess(user));
 		}).catch((error) => {
 			dispatch(userActions.addWatchLaterError(error.message));

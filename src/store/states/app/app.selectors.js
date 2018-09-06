@@ -7,6 +7,10 @@ const selectData = (state,key)=>{
 	return data;
 };
 
+const selectSliceOfData =(state,key) => {
+	return state.data[key];
+}
+
 const selectIsProcessing = (state,key) =>state.processing[key];
 const selectErrorText = (state,key)=>state.isError[key] ? state.isError[key] : null;
 
@@ -14,7 +18,7 @@ const selectDrawerOpened = (state) =>state.data ? state.data.drawerOpened : fals
 
 
 export {
-	selectData,selectIsProcessing,selectErrorText,
+	selectData,selectIsProcessing,selectErrorText,selectSliceOfData,
 
 	selectDrawerOpened
 }

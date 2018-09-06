@@ -40,9 +40,21 @@ const openDrawer = () => {
 }
 
 
+const showSnackbar = ({message,variant}) =>{
+	return dispatch=>{
+		dispatch(appActions.showSnackbar(message,variant))
+	}
+}
+
+const hideSnackbar = () =>{
+	return dispatch=>{
+		dispatch(appActions.hideSnackbar())
+	}
+}
 
 export {
 	getSuggestions,
 	toggleDrawer,
-	closeDrawer,openDrawer
+	closeDrawer,openDrawer,
+	showSnackbar,hideSnackbar
 }

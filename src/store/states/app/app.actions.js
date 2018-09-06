@@ -22,7 +22,17 @@ const closeDrawer = () => ({
 	type:types.CLOSE_DRAWER
 })
 
+const showSnackbar = (message,variant) =>({
+	type:types.SHOW_SNACKBAR,
+	payload:{message,variant}
+})
+
+const hideSnackbar = () => ({
+	type:types.HIDE_SNACKBAR
+})
+
 export default {
 	searchSuggestionsRequest,searchSuggestionsSuccess,searchSuggestionsError,
-	openDrawer,closeDrawer
+	openDrawer,closeDrawer,
+	showSnackbar,hideSnackbar
 }
