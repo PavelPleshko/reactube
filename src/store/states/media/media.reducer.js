@@ -6,52 +6,8 @@ import {combineReducers} from 'redux';
 
 import categoryReducer from './category';
 import tagReducer from './tag';
+import initialState from './media.initial-state';
 
-const initialState = {
-		processing:{
-			all:false,
-			popular:false,
-			related:false,
-			history:false,
-			watchlater:false,
-			singleMedia:false
-		},
-		isError:{
-			all:false,
-			popular:false,
-			related:false,
-			history:false,
-			watchlater:false,
-			singleMedia:false
-		},
-		all:{
-			allIds:[],
-			byId:{}
-		},
-		popular:{
-				allIds:[],
-				byId:{}
-		},
-		related:{
-				allIds:[],
-				byId:{}
-		},		
-		history:{
-				allIds:[],
-				byId:{},
-				currentPage:0,
-				total:0,
-				pageSize:4
-		},
-		watchlater:{
-			allIds:[],
-			byId:{},
-			currentPage:0,
-			total:0,
-			pageSize:4
-		},
-		singleMedia:null		
-	};
 
 const createMedia = (state=initialState,action) => {
 	const { type, payload } = action;
