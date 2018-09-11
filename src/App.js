@@ -27,7 +27,8 @@ onSnackBarClose = () =>{
 
 render(){
   const {snackbarState,drawerOpened} = this.props;
-  const {message='',opened=false,variant="success"} = snackbarState;
+  let {message='',opened=false,variant} = snackbarState;
+  variant = !variant ? 'success' : variant;
 
 	return (	
         <Fragment>

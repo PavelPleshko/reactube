@@ -40,7 +40,6 @@ const appReducer = (state=initialState,action) => {
 					suggestions:null
 				}
 			}
-		break;	
 		case types.SEARCH_SUGGESTIONS_SUCCESS:
 			let byIds = {};
 			payload.forEach(item=>{
@@ -60,7 +59,6 @@ const appReducer = (state=initialState,action) => {
 					}
 				}
 			}
-		break;
 		case types.SEARCH_SUGGESTIONS_ERROR:
 			return {
 				...state,
@@ -77,7 +75,6 @@ const appReducer = (state=initialState,action) => {
 					suggestions:null
 				}
 			}
-		break;
 		case types.OPEN_DRAWER:
 			return {
 				...state,
@@ -86,7 +83,6 @@ const appReducer = (state=initialState,action) => {
 					drawerOpened:true
 				}
 			}
-		break;	
 		case types.CLOSE_DRAWER:
 			return {
 				...state,
@@ -95,8 +91,6 @@ const appReducer = (state=initialState,action) => {
 					drawerOpened:false
 				}
 			}
-		break;
-
 		case types.SHOW_SNACKBAR:
 			return {
 				...state,
@@ -109,8 +103,6 @@ const appReducer = (state=initialState,action) => {
 					}
 				}
 			}
-			break;
-
 		case types.HIDE_SNACKBAR:
 			return {
 				...state,
@@ -123,9 +115,7 @@ const appReducer = (state=initialState,action) => {
 						
 					}
 				}
-			}
-			break;
-		
+			}		
 		default:
 			return state;
 	}

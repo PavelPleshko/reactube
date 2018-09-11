@@ -144,7 +144,7 @@ class MediaTileItem extends Component{
   }
 
 	render(){
-    const {item,classes,resourceName} = this.props;
+    const {item,classes} = this.props;
     const {showWatchLater,addedToWatchlist} = this.state;
 
 	return (

@@ -1,35 +1,15 @@
 import types from './app.types';
+import createAction from '../utils/create-action';
 
-const searchSuggestionsRequest = () => ({
-		type:types.SEARCH_SUGGESTIONS_REQUEST
-})
+const searchSuggestionsRequest = createAction(types.SEARCH_SUGGESTIONS_REQUEST);
+const searchSuggestionsSuccess = createAction(types.SEARCH_SUGGESTIONS_SUCCESS,'payload');
+const searchSuggestionsError = createAction(types.SEARCH_SUGGESTIONS_ERROR,'payload');
 
-const searchSuggestionsSuccess = (comments) => ({
-		type:types.SEARCH_SUGGESTIONS_SUCCESS,
-		payload:comments
-})
+const openDrawer = createAction(types.OPEN_DRAWER);
+const closeDrawer = createAction(types.CLOSE_DRAWER);
 
-const searchSuggestionsError = (error) => ({
-		type:types.SEARCH_SUGGESTIONS_ERROR,
-		payload:error
-})
-
-const openDrawer = () => ({
-	type:types.OPEN_DRAWER
-})
-
-const closeDrawer = () => ({
-	type:types.CLOSE_DRAWER
-})
-
-const showSnackbar = (message,variant) =>({
-	type:types.SHOW_SNACKBAR,
-	payload:{message,variant}
-})
-
-const hideSnackbar = () => ({
-	type:types.HIDE_SNACKBAR
-})
+const showSnackbar = createAction(types.SHOW_SNACKBAR,'payload');
+const hideSnackbar = createAction(types.HIDE_SNACKBAR);
 
 export default {
 	searchSuggestionsRequest,searchSuggestionsSuccess,searchSuggestionsError,

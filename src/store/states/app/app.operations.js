@@ -6,7 +6,6 @@ const getSuggestions = (input) => {
 		dispatch(appActions.searchSuggestionsRequest());
 		getSearchSuggestions({input})
 		.then(response=>{
-			console.log(response);
 			let suggestions = response.data.suggestions;			
 		dispatch(appActions.searchSuggestionsSuccess(suggestions));
 		}).catch((error) => {
@@ -42,7 +41,7 @@ const openDrawer = () => {
 
 const showSnackbar = ({message,variant}) =>{
 	return dispatch=>{
-		dispatch(appActions.showSnackbar(message,variant))
+		dispatch(appActions.showSnackbar({message,variant}))
 	}
 }
 
