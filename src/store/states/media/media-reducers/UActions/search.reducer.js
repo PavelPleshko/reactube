@@ -1,10 +1,10 @@
-import initialState from '../media.initial-state';
-import types from '../media.types';
+import initialState from '../../media.initial-state';
+import types from '../../media.types';
 
-const getMediaList = (state=initialState,action) => {
+const searchMedia = (state=initialState,action) => {
 	const { type, payload } = action;
 	switch(type){
-		case types.GET_MEDIA_LIST_REQUEST:
+		case types.SEARCH_MEDIA_REQUEST:
 			return {
 				...state,
 				processing:{
@@ -18,25 +18,27 @@ const getMediaList = (state=initialState,action) => {
 			}
 		break;	
 
-		case types.GET_MEDIA_LIST_SUCCESS:
-		let byIds = {};
-		payload.forEach(item=>{
-			byIds[item._id] = item
-		});
-			return {
+		case types.SEARCH_MEDIA_SUCCESS:
+			let all = {
+				byId:{},
+				allIds:[]
+			};
+			payload.forEach((item)=>{
+				all.byId[item._id] = item;
+				all.allIds = [...all.allIds,item._id];
+			})
+			return  {
 				...state,
 				processing:{
 					...state.processing,
 					all:false
 				},
-				all:{
-					allIds:Object.keys(byIds),
-					byId:byIds
-				}
+				all:all
+				
 			}
 		break;
 
-		case types.GET_MEDIA_LIST_ERROR:
+		case types.SEARCH_MEDIA_ERROR:
 			return {
 				...state,
 				processing:{
@@ -54,4 +56,4 @@ const getMediaList = (state=initialState,action) => {
 	}	
 }
 
-export default getMediaList;
+export default searchMedia;

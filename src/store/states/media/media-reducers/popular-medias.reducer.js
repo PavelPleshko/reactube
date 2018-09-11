@@ -1,3 +1,6 @@
+import initialState from '../media.initial-state';
+import types from '../media.types';
+
 const getPopularMediaList = (state=initialState,action) => {
 	const { type, payload } = action;
 	switch(type){

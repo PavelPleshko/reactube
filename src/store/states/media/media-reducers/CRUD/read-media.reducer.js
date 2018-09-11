@@ -1,12 +1,13 @@
 import initialState from '../../media.initial-state';
 import types from '../../media.types';
 
-const removeMedia = (state=initialState,action) => {
+const readMedia = (state=initialState,action) => {
 	const { type, payload } = action;
 	switch(type){
-		case types.REMOVE_MEDIA_REQUEST:
+		case types.READ_MEDIA_REQUEST:
 			return {
 				...state,
+				singleMedia:null,
 				processing:{
 					...state.processing,
 					singleMedia:true
@@ -18,24 +19,18 @@ const removeMedia = (state=initialState,action) => {
 			}
 		break;	
 
-		case types.REMOVE_MEDIA_SUCCESS:
-			let newState =  {
+		case types.READ_MEDIA_SUCCESS:
+			return {
 				...state,
 				processing:{
 					...state.processing,
 					singleMedia:false
 				},
-				all:{
-					...state.all,
-					allIds: state.all.allIds.filter(id=>id !== payload._id),
-				},
-				singleMedia:null
+				singleMedia:payload
 			}
-			delete newState.all.byId[payload._id];
-			return newState;
 		break;
 
-		case types.REMOVE_MEDIA_ERROR:
+		case types.READ_MEDIA_ERROR:
 			return {
 				...state,
 				processing:{
@@ -45,12 +40,13 @@ const removeMedia = (state=initialState,action) => {
 					isError:{
 					...state.isError,
 					singleMedia:payload
-				}
+				},
+				singleMedia:null
 			}
 		break;	
 		default:
 			return state;
 	}	
 }
-
-export default removeMedia;
+ 
+export default readMedia;

@@ -1,10 +1,11 @@
 import initialState from '../../media.initial-state';
 import types from '../../media.types';
 
-const removeMedia = (state=initialState,action) => {
+const likeDislikeMedia = (state=initialState,action) => {
 	const { type, payload } = action;
 	switch(type){
-		case types.REMOVE_MEDIA_REQUEST:
+		case types.LIKE_MEDIA_REQUEST:
+		case types.DISLIKE_MEDIA_REQUEST:
 			return {
 				...state,
 				processing:{
@@ -18,8 +19,9 @@ const removeMedia = (state=initialState,action) => {
 			}
 		break;	
 
-		case types.REMOVE_MEDIA_SUCCESS:
-			let newState =  {
+		case types.LIKE_MEDIA_SUCCESS:
+		case types.DISLIKE_MEDIA_SUCCESS:
+			return  {
 				...state,
 				processing:{
 					...state.processing,
@@ -27,15 +29,17 @@ const removeMedia = (state=initialState,action) => {
 				},
 				all:{
 					...state.all,
-					allIds: state.all.allIds.filter(id=>id !== payload._id),
+					byId:{
+						...state.all.byId,
+						[payload._id]:payload
+					}
 				},
-				singleMedia:null
+				singleMedia:payload
 			}
-			delete newState.all.byId[payload._id];
-			return newState;
 		break;
 
-		case types.REMOVE_MEDIA_ERROR:
+		case types.LIKE_MEDIA_ERROR:
+		case types.DISLIKE_MEDIA_ERROR:
 			return {
 				...state,
 				processing:{
@@ -53,4 +57,4 @@ const removeMedia = (state=initialState,action) => {
 	}	
 }
 
-export default removeMedia;
+export default likeDislikeMedia;

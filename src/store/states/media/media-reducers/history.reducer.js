@@ -1,3 +1,9 @@
+import reduceReducers from 'reduce-reducers';
+
+import initialState from '../media.initial-state';
+import types from '../media.types';
+import userTypes from '../../user/user.types';
+
 const historyMediaList = (state=initialState,action)=>{
 	const {type,payload} = action;
 	switch(type){
@@ -10,8 +16,6 @@ const historyMediaList = (state=initialState,action)=>{
 					history:true
 				}
 			}
-		break;
-
 		case types.LIST_HISTORY_MEDIA_SUCCESS:
 		case types.SEARCH_HISTORY_SUCCESS:
 		let byIds = {};
@@ -33,7 +37,6 @@ const historyMediaList = (state=initialState,action)=>{
 					total:total
 				}
 			}
-		break
 		case types.LIST_HISTORY_MEDIA_ERROR:
 		case types.SEARCH_HISTORY_ERROR:
 			return {
@@ -47,10 +50,33 @@ const historyMediaList = (state=initialState,action)=>{
 					history:false
 				}
 			}
-		break;	
 		default:
 		return state;
 	}
 }
 
-export default historyMediaList;
+
+const clearHistory = (state=initialState,action)=>{
+	const {type,payload} = action;
+	switch(type){
+		case userTypes.REMOVE_VIEW_HISTORY_SUCCESS:
+		case types.RESET_HISTORY_LIST:
+			return {
+				...state,
+				history:{
+					...state.history,
+					byId:{},
+					allIds:[],
+					currentPage:0,
+					total:0
+				}
+			}
+		default:
+			return state;
+	}
+}
+
+export default reduceReducers(
+                    historyMediaList,
+                    clearHistory
+                );
