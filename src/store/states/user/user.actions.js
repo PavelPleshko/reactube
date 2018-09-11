@@ -1,85 +1,31 @@
-
+import createAction from '../utils/create-action';
 import types from './user.types';
 
 
 //login
-const loginUserRequest = (user)=>({
-		type:types.LOGIN_USER_REQUEST,
-		payload:user
-})
-
-const loginUserSuccess = (user)=>({
-		type:types.LOGIN_USER_SUCCESS,
-		payload:user
-})
-
-const loginUserError = (error)=>({
-		type:types.LOGIN_USER_ERROR,
-		payload:error
-})
+const loginUserRequest = createAction(types.LOGIN_USER_REQUEST,'payload');
+const loginUserSuccess = createAction(types.LOGIN_USER_SUCCESS,'payload');
+const loginUserError = createAction(types.LOGIN_USER_ERROR,'payload'); 
 
 //update
-const updateHistorySettingsRequest = ()=>({
-		type:types.UPDATE_HISTORY_SETTINGS_REQUEST
-})
-
-const updateHistorySettingsSuccess = (user)=>({
-		type:types.UPDATE_HISTORY_SETTINGS_SUCCESS,
-		payload:user
-})
-
-const updateHistorySettingsError = (error)=>({
-		type:types.UPDATE_HISTORY_SETTINGS_ERROR,
-		payload:error
-})
-
-
-
+const updateHistorySettingsRequest = createAction(types.UPDATE_HISTORY_SETTINGS_REQUEST);
+const updateHistorySettingsSuccess = createAction(types.UPDATE_HISTORY_SETTINGS_SUCCESS,'payload');
+const updateHistorySettingsError = createAction(types.UPDATE_HISTORY_SETTINGS_ERROR,'payload');
 
 //register
-const registerUserRequest = (user) => ({
-	type:types.REGISTER_USER_REQUEST,
-	payload:user
-})
-
-const registerUserSuccess = (user) =>({
-		type:types.REGISTER_USER_SUCCESS,
-		payload:user
-})
-
-const registerUserError = (error) => ({
-		type:types.REGISTER_USER_ERROR,
-		payload:error
-})
+const registerUserRequest = createAction(types.REGISTER_USER_REQUEST,'payload'); 
+const registerUserSuccess = createAction(types.REGISTER_USER_SUCCESS,'payload'); 
+const registerUserError = createAction(types.REGISTER_USER_ERROR,'payload');
 
 //history
-const removeViewHistoryRequest = (user) => ({
-	type:types.REMOVE_VIEW_HISTORY_REQUEST
-})
-
-const removeViewHistorySuccess = (user) =>({
-		type:types.REMOVE_VIEW_HISTORY_SUCCESS,
-		payload:user
-})
-
-const removeViewHistoryError = (error) => ({
-		type:types.REMOVE_VIEW_HISTORY_ERROR,
-		payload:error
-})
+const removeViewHistoryRequest = createAction(types.REMOVE_VIEW_HISTORY_REQUEST); 
+const removeViewHistorySuccess = createAction(types.REMOVE_VIEW_HISTORY_SUCCESS,'payload');
+const removeViewHistoryError = createAction(types.REMOVE_VIEW_HISTORY_ERROR,'payload');
 
 //watch later
-const addWatchLaterRequest = () => ({
-	type:types.ADD_TO_WATCH_LATER_REQUEST
-})
-
-const addWatchLaterSuccess = () =>({
-		type:types.ADD_TO_WATCH_LATER_SUCCESS
-})
-
-const addWatchLaterError = (error) => ({
-		type:types.ADD_TO_WATCH_LATER_ERROR,
-		payload:error
-})
+const addWatchLaterRequest = createAction(types.ADD_TO_WATCH_LATER_REQUEST);
+const addWatchLaterSuccess = createAction(types.ADD_TO_WATCH_LATER_SUCCESS);
+const addWatchLaterError = createAction(types.ADD_TO_WATCH_LATER_ERROR,'payload');
 
 export default {
 	loginUserRequest,loginUserSuccess,loginUserError,
