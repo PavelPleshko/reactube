@@ -1,4 +1,5 @@
 import queryString from 'query-string';
+import {endpoints} from './app.constants';
 
 function handleErrors(response) {
     if (response.ok || response.statusCode == 200) {
@@ -14,7 +15,7 @@ function handleErrors(response) {
 
 const getSearchSuggestions = (params) => {
   let query = queryString.stringify(params);
-  return fetch('/api/media/suggestions?'+query,{
+  return fetch(`${endpoints.GET_SUGGESTIONS}?${query}`,{
     method:'GET',
     headers:{
       'Accept': 'application/json'

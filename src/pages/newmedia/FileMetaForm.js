@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-
 import { reduxForm } from 'redux-form'
 //material ui
 import Typography from '@material-ui/core/Typography';
@@ -54,6 +53,7 @@ handleSubmit =(values)=>{
 			  <Card className={classes.card}>			     		         
 					<AdditionalInfoForm media={media}/>					
 			  </Card>
+			
 		      <GradientButton gradientColor={'#00F260'} type="submit" classes={{btn:classes.buttonCreate}} borderRadius="20px">		
 					{submitBtnText}
 		      </GradientButton>

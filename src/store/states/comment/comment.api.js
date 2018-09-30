@@ -47,7 +47,6 @@ const postComment = (params) => {
 }
 
 const likeComment = (params) => {
-  console.log(params);
   return fetch('/api/comment/like',{
     method:'POST',
     headers:{

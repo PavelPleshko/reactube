@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
-
+import { Prompt } from 'react-router'
+import { isDirty } from 'redux-form'
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -43,12 +44,20 @@ class NewMedia extends Component{
 	}
 
 
+
 	render(){
+		const {formDirty} = this.props;
+		
 		if(this.state.redirect_to_login){
 			return <Redirect to="/signin" />
 		}
 	return (
 		<div>
+		 <Prompt
+      key='block-nav'
+      when={formDirty}
+      message='You have unsaved changes, are you sure you want to leave?'
+    />
 		<FileUploader submitForm={this.submitFormHandler} uploadDetails={this.state.upload_details} categories={this.props.categories} />
 		</div>
 	)
@@ -57,6 +66,9 @@ class NewMedia extends Component{
 
 const boundActionCreators = (dispatch) => bindActionCreators({...mediaOperations,
 	...categoryOperations,...tagOperations},dispatch);
+const mapStateToProps = (state)=>{
+	let formDirty = isDirty('mediaInfo')(state);
+	return {formDirty};
+}
 
-
-export default connect(null,boundActionCreators)(NewMedia);
+export default connect(mapStateToProps,boundActionCreators)(NewMedia);
