@@ -46,11 +46,33 @@ const signin = async (req, res) => {
   } 
 }
 
+const checkSessionAndGetUser = (req,res,next) => {
+  try{
+     let user = req.user;
+     if(req.user){
+      const token = jwt.sign({
+      _id: user._id
+    }, config.jwtSecret);
 
-const signout = (req, res) => {
-  res.clearCookie("t")
-  sendSuccess(res,'Signed out')({user,token});
+    res.cookie("jwt", token, {
+      expire:60*60*1000
+    });
+    sendSuccess(res,'User session resumed')({user,token});
+  }else{
+    sendError(res)({message:'User session expired'});
+  }
+   
+  }catch(err){
+    sendError(res)(error);
+  }
+ 
 }
 
 
-export default { signin, signout, requireSignin, hasAuthorization }
+const signout = (req, res) => {
+  res.clearCookie("t")
+  sendSuccess(res,'Signed out')({user});
+}
+
+
+export default { signin, signout,checkSessionAndGetUser, requireSignin, hasAuthorization }

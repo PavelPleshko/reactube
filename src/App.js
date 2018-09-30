@@ -11,9 +11,11 @@ import Snackbar from './components/core/Notifications/Snackbar/Snackbar';
 
 import {selectSliceOfData} from './store/states/app';
 import * as appOperations from './store/states/app/app.operations';
+import * as userOperations from './store/states/user/user.operations';
 
 class App extends Component{
 componentDidMount() {
+    this.props.checkSession();
     const jssStyles = document.getElementById('jss-server-side');
     if (jssStyles && jssStyles.parentNode) {
       jssStyles.parentNode.removeChild(jssStyles);
@@ -54,7 +56,7 @@ const mapStateToProps = (state) => ({
   router:state.router
 })
 
-const boundActionCreators = (dispatch) => bindActionCreators({...appOperations},dispatch);
+const boundActionCreators = (dispatch) => bindActionCreators({...appOperations,...userOperations},dispatch);
 
 
 export default hot(module)

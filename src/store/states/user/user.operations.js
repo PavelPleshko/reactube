@@ -21,6 +21,23 @@ const login = credentials => {
 	}
 }
 
+const checkSession = () => {
+	return (dispatch) =>{
+		console.log('calling api')
+		userApiCalls.checkSessionAndSignin()
+		.then(response=>{
+			console.log(response);
+			let user = response.data.user;
+			if(response.data.token){
+				user.token = response.data.token;
+			}
+			dispatch(userActions.loginUserSuccess(user));
+		}).catch((error) => {
+		console.log(error);
+		})	
+	}
+}
+
 const updateHistorySettings = historySettings => {
 	return (dispatch,getState)=>{
 		dispatch(userActions.updateHistorySettingsRequest());
@@ -83,7 +100,7 @@ const clearHistory = () =>{
 
 
 export {
-	login,register,
+	login,register,checkSession,
 	clearHistory,
 	addToWatchlater,
 	updateHistorySettings

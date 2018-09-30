@@ -60,9 +60,10 @@ const styles = theme =>({
 		fontSize:'.8rem'
 	},
 	fileActions:{
-		    bottom: 0,
+		    bottom: 10,
 		    position: 'absolute',
-		    left: '14%'
+		    right: 20,
+		    zIndex:5
 	}
 });
 

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
-import { Prompt } from 'react-router'
-import { isDirty } from 'redux-form'
+import { Prompt } from 'react-router';
+import { isDirty } from 'redux-form';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -47,7 +47,7 @@ class NewMedia extends Component{
 
 	render(){
 		const {formDirty} = this.props;
-		
+
 		if(this.state.redirect_to_login){
 			return <Redirect to="/signin" />
 		}

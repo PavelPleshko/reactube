@@ -61,8 +61,11 @@ const styles = theme => ({
     transform:'translateY(-50%)',
     zIndex:55,
     color:'#ffffff'
+  },
+  avatarContainer:{
+    display:'flex',
+    alignItems:'center'
   }
-
 });
 
 
@@ -118,11 +121,12 @@ state = {
         </span>
         </div>
         <Search />
-        <div>
+        <div className={classes.avatarContainer}>
          {
             user && (
               user.token &&
               <React.Fragment>
+                <div>Hi, <strong>{user.firstName}</strong></div>
                  <UserAvatarSmall handleClick={this.handleOpenProfileDropdown} user={user}/>
                   <Menu 
                   id="menu-appbar" 

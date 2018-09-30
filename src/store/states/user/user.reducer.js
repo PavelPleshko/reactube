@@ -1,16 +1,6 @@
 import types from './user.types';
 
-let isLogged = null;
-if (typeof(window) !== "undefined") {
-   JSON.parse(localStorage.getItem('user'));
-}  
-const initialState = isLogged ? 
-	{
-	 processing:false,
-	isError:false,
-	data:isLogged,
-	} : 
-	{
+const initialState = {
 		processing:false,
 		isError:false,
 		data:null,
