@@ -15,6 +15,9 @@ router.route('/media/new')
 router.route('/media/all')
         .get(mediaCtrl.list);
 
+ router.route('/media/by')
+         .get(authCtrl.requireSignin,mediaCtrl.listByUser);
+
 router.route('/media/history')
         .get(authCtrl.requireSignin,mediaCtrl.getOwnMediaList);
 
@@ -30,10 +33,6 @@ router.route('/media/watchlater')
 
 router.route('/media/watchlater/search')
              .get(authCtrl.requireSignin,mediaCtrl.getOwnMediaBySearch);
-     
-router.route('/media/by/:userId')
-         .get(mediaCtrl.listByUser) 
-
 
 router.route('/media/suggestions')
          .get(mediaCtrl.getSuggestions) 
@@ -50,7 +49,8 @@ router.route('/media/dislike')
 router.route('/media/related/:mediaId')
         .get(mediaCtrl.listRelated)
 
-    
+
+   
 router.route('/media/:mediaId')
 	.get(authCtrl.requireSignin,mediaCtrl.incrementViews,userCtrl.addToHistory,
 	     mediaCtrl.read)
@@ -67,7 +67,7 @@ router.route('/media/:mediaId')
        
 
 router.param('mediaId', mediaCtrl.mediaByID)
-router.param('userId', userCtrl.userByID)
+//router.param('userId', userCtrl.userByID)
 
 
 export default router;

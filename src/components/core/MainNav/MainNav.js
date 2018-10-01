@@ -141,10 +141,12 @@ state = {
                           }}
                   open={open}
                   onClose={this.handleCloseProfileDropdown}>
-                           <MenuItem>
-                           <Link to={"/user/" + user._id}>My Profile</Link>
+                           <MenuItem onClick={this.handleCloseProfileDropdown}>
+                           <Link to="/user/me">My Profile</Link>
                           </MenuItem>
-                          <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                          <MenuItem onClick={this.handleCloseProfileDropdown}>
+                            Logout
+                          </MenuItem>
                  </Menu>
            </React.Fragment>
         )}

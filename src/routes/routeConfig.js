@@ -76,6 +76,12 @@ const routes = [
   }}),
     loadData: (params) => read(params),
     reduxAction:(data)=>mediaActions.readMediaSuccess(data)
+  },
+  {
+    path: '/user/me',
+    component: Loadable({loader:()=>import('../pages/Profile'),loading() {
+    return <div>Loading...</div>
+  }})
   }
 
 	]

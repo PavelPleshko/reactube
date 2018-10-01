@@ -120,13 +120,16 @@ const listRelated = ({mediaId}) => {
   .then(res=>res.json())
 }
 
-const listByUser = ({userId}) => {
-  return fetch('/api/media/by/'+ userId, {
+const listByUser = (userId) => {
+  //userId = userId ? userId : '';
+
+  return fetch(`/api/media/by`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
-    }
+    },
+    credentials:'include'
   })
   .then(handleErrors)
   .then(res=>res.json())

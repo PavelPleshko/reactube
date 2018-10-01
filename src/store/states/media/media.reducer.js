@@ -11,6 +11,7 @@ import initialState from './media.initial-state';
 import createMedia from './media-reducers/create-media.reducer';
 import getMediaList from './media-reducers/get-media-list.reducer';
 import historyMediaList from './media-reducers/history.reducer';
+import userMediaList from './media-reducers/user-media.reducer';
 import watchlaterMediaList from './media-reducers/watchlater.reducer';
 import getPopularMediaList from './media-reducers/popular-medias.reducer';
 import getRelatedMediaList from './media-reducers/related-media.reducer';
@@ -46,6 +47,7 @@ const listManipulations = (state=initialState,action)=> {
 const mediaReducer = reduceReducers(
 	createMedia,
 	getMediaList,
+	userMediaList,
 	getPopularMediaList,
 	getRelatedMediaList,
 	historyMediaList,

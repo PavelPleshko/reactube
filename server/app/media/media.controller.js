@@ -71,9 +71,11 @@ const listRelated = async (req, res) => {
 }
 
 const listByUser = async (req, res) => {
-  let user = req.profile;
+  let user = req.user;
+  console.log(user);
+  let userId = req.params.userId || user._id;
   try{
-    let medias = await Media.find({postedBy:user._id })
+    let medias = await Media.find({postedBy:userId })
                              .populate('postedBy', '_id firstName lastName')
                              .sort('-created')
     sendSuccess(res,`Media by user ${user.firstName} ${user.lastName}`)({medias});

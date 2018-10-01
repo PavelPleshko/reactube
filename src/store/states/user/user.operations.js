@@ -3,7 +3,6 @@ import userActions from './user.actions';
 import * as appOperations from '../app/app.operations';
 
 
-
 const login = credentials => {
 	return (dispatch,getState)=>{
 		dispatch(userActions.loginUserRequest(credentials));
@@ -23,10 +22,8 @@ const login = credentials => {
 
 const checkSession = () => {
 	return (dispatch) =>{
-		console.log('calling api')
 		userApiCalls.checkSessionAndSignin()
 		.then(response=>{
-			console.log(response);
 			let user = response.data.user;
 			if(response.data.token){
 				user.token = response.data.token;

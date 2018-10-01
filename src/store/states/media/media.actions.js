@@ -18,7 +18,7 @@ const createMediaError = (error) => ({
 
 
 //listing
-//popular
+//popular listUserMediaRequest
 const listPopularMediaRequest = () => ({
 		type:types.LIST_POPULAR_MEDIA_REQUEST
 })
@@ -32,6 +32,22 @@ const listPopularMediaError = (error) => ({
 		type:types.LIST_POPULAR_MEDIA_ERROR,
 		payload:error
 })
+
+//byUser
+const listUserMediaRequest = () => ({
+		type:types.LIST_USER_MEDIA_REQUEST
+})
+
+const listUserMediaSuccess = (medias) => ({
+		type:types.LIST_USER_MEDIA_SUCCESS,
+		payload:medias
+})
+
+const listUserMediaError = (error) => ({
+		type:types.LIST_USER_MEDIA_ERROR,
+		payload:error
+})
+
 //history
 const listHistoryMediaRequest = () => ({
 		type:types.LIST_HISTORY_MEDIA_REQUEST
@@ -218,6 +234,7 @@ export default {
 	listRelatedMediaRequest,listRelatedMediaSuccess,listRelatedMediaSuccess,
 	listHistoryMediaRequest,listHistoryMediaSuccess,listHistoryMediaError,
 	listWatchlaterMediaRequest,listWatchlaterMediaSuccess,listWatchlaterMediaError,
+	listUserMediaRequest,listUserMediaSuccess,listUserMediaError,
 	
 	//list manipulations
 	replaceMediaFromList,

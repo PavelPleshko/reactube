@@ -5,12 +5,13 @@ import MediaTileItem from './mediaTile/MediaTileItem';
 
 
 const mediaTile = (props)=>{
-	const {items,resourceName="media",resourceKey} = props;
+	const {items,resourceName="media",resourceKey,columns=6} = props;
+	const coefficientCol = 12/columns;
 	return (
 		<Grid container spacing={8}>
 	
 			{items.map(item=>(
-				<Grid item sm={2} key={item._id} style={{height:230}} >
+				<Grid item sm={coefficientCol} key={item._id} style={{height:230}} >
 				
 				 <MediaTileItem itemId={item._id}
 				  resourceKey={resourceKey}

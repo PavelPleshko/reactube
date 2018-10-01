@@ -5,7 +5,8 @@ const initialState = {
         related:false,
         history:false,
         watchlater:false,
-        singleMedia:false
+        singleMedia:false,
+        user:false
     },
     isError:{
         all:false,
@@ -13,7 +14,8 @@ const initialState = {
         related:false,
         history:false,
         watchlater:false,
-        singleMedia:false
+        singleMedia:false,
+        user:false
     },
     all:{
         allIds:[],
@@ -40,6 +42,10 @@ const initialState = {
         currentPage:0,
         total:0,
         pageSize:4
+    },
+    user:{
+        allIds:[],
+        byId:{}
     },
     singleMedia:null		
 };

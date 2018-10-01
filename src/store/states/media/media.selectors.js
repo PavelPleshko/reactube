@@ -4,18 +4,18 @@ const selectMediasByKey = (state,key)=>{
 	let byId = state[key].byId;
 	let allIds = state[key].allIds;
 	return allIds.map(id=>byId[id]);
-}
+};
 
 const selectMedias = createSelector(
 	selectMediasByKey,
 	(medias)=>medias
-)
+);
 
 const selectMediaFromResource = (state,mediaId,key)=>{
 	let byId = state[key] && state[key].byId;
 	let media = byId[mediaId];
 	return media;
-}
+};
 
 const selectIsProcessing = (state,key) =>state.processing[key];
 
