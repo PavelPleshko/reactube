@@ -25,7 +25,7 @@ class Home extends Component{
 	return (
 		<Grid container spacing={24}>
 		<Grid item sm={12}>
-			<MediaTile columns={4} items={popularMedias} resourceKey={'popular'}/>
+			<MediaTile columns={6} items={popularMedias} resourceKey={'popular'}/>
 		</Grid>
 		</Grid>
 	)

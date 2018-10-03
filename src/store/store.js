@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware,compose } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './states/root.reducer';
 import { connectRouter, routerMiddleware } from 'connected-react-router'
@@ -15,7 +15,6 @@ else {
 const getInitialState = ()=>{
 	if (typeof window !== 'undefined' && window.__APP_STATE) {	
 		let state= window.__APP_STATE;
-		console.log(state);
 		delete state.router; //to disable redirect to base href
 		delete window.__APP_STATE;
 		let initialScriptDom = document.getElementById('initialState');
@@ -25,15 +24,17 @@ const getInitialState = ()=>{
   return null;
 }
 
+
+
 const configStore =  function(defaultState=getInitialState()){
 
 const store  = createStore(connectRouter(history)(rootReducer),
-defaultState,compose(
+defaultState,
 	applyMiddleware(
 		thunk,
 		routerMiddleware(history)
 		)
-	));	
+	);	
 
 if(module.hot){
 	module.hot.accept(()=>{

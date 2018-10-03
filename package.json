@@ -92,6 +92,7 @@
     "reselect": "^3.0.1",
     "screenfull": "^3.3.2",
     "spdy": "^3.4.7",
+    "victory": "^30.4.1",
     "webpack-log": "^1.2.0"
   }
 }
