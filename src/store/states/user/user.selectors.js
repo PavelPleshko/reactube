@@ -8,9 +8,11 @@ const selectIsProcessing = (state) =>state.processing;
 const selectErrorText = (state)=>state.isError ? state.isError : null;
 const selectIsAuthenticated = (state)=>state.data && state.data.token;
 
+const selectUserChannels = (state,userId)=>state.data && state.data.channels;
 
 export {
 	selectUser,selectUserEmail,selectUserFullname,selectUserFirstName,
 	selectIsProcessing,selectErrorText,
-	selectIsAuthenticated
+	selectIsAuthenticated,
+	selectUserChannels
 }

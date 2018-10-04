@@ -35,6 +35,19 @@ const checkSession = () => {
 	}
 }
 
+const getUserChannels = userId => {
+	return dispatch => {
+		dispatch(userActions.getUsersChannelsRequest());
+		userApiCalls.getUserChannels(userId)
+.then(response=>{
+			let channels = response.data.channels;
+			dispatch(userActions.getUsersChannelsSuccess(channels,userId));
+		}).catch((error) => {
+		dispatch(userActions.getUsersChannelsError(error));
+		})	
+	}
+}
+
 const updateHistorySettings = historySettings => {
 	return (dispatch,getState)=>{
 		dispatch(userActions.updateHistorySettingsRequest());
@@ -100,5 +113,6 @@ export {
 	login,register,checkSession,
 	clearHistory,
 	addToWatchlater,
-	updateHistorySettings
+	updateHistorySettings,
+	getUserChannels
 }

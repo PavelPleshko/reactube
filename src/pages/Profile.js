@@ -4,22 +4,16 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {selectUser,selectUserFullname} from '../store/states/user/user.selectors';
-import {selectMedias} from '../store/states/media/media.selectors';
-import * as mediaOperations from '../store/states/media/media.operations';
-
 
 //meterial ui
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import {withStyles} from '@material-ui/core/styles';
 
-//victory
-import { VictoryPie } from 'victory';
+
 import UserAvatarBig from '../components/UI/miscellaneous/UserAvatarBig/UserAvatarBig';
 import MediaTile from '../components/core/MediaTile/MediaTile';
+import ProfileTabs from './profile/ProfileTabs';
 
 const styles = theme => ({
 	root:{
@@ -57,16 +51,8 @@ const styles = theme => ({
 	},
 	mainInfo:{
 
-	},
-	alignCenter:{
-		textAlign:'center'
 	}
 });
-
-const colorMap = {
-	1:'blue',
-	2:'purple'
-};
 
 const TabContainer = ({children}) =>{
 	return (<div style={{padding:'1rem 2rem'}}>	
@@ -76,20 +62,10 @@ const TabContainer = ({children}) =>{
 }
 
 class Profile extends Component{
- state = {
-    value: 0
-  };
-
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
-	componentDidMount = () =>{
-		this.props.listUserMedia();
-	}
 	
 	render(){
-		const {classes,user,userFullName,userMedias,channels} = this.props;
-		const { value } = this.state;
+		const {classes,user,userFullName} = this.props;
+		
 	return (
 		<Paper elevation={2} className={classes.root}>
 			<div className={classes.profileMeta}>
@@ -109,115 +85,7 @@ class Profile extends Component{
 				: null
 			}
 			</div>
-			<div className={classes.mainInfo}>
-			 <Tabs
-          value={this.state.value}
-          indicatorColor="primary"
-          textColor="primary"
-          onChange={this.handleChange}
-        >
-          <Tab value={0} label="My stats" />          
-          <Tab value={1} label="My channels" />
-          <Tab value={2} label="Main settings" />    
-        </Tabs>
-        	{value === 0 && <TabContainer>
-        	<div>
-        		<h4 className={classes.alignCenter}>Your statistics</h4>
-        		<Grid container>
-        			<Grid item sm={4}>
-        			<div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-        				<div>New subscribers</div>
-        				<div style={{width:200,height:200}}>
-	        				 <svg viewBox="0 0 300 300">
-	        				 	<VictoryPie standalone={false}
-	        				 	width={300} height={300}
-	        				 	innerRadius={65}
-	        				 	labelRadius={80}
-	        				 	 data={[
-	            { x: 5, y: 5 ,idx:1}, { x: 10, y: 10,idx:2 }
-	          ]}
-	          style={{
-              data: { fill: (d) => {
-               return colorMap[d.idx];
-              }
-              },
-              labels:{
-              	fill:'white',
-              	fontSize:18
-              }
-            }}
-	        				 	/>
-	        				 </svg>
-        				 </div>
-        				 </div>
-        			</Grid>
-
-        			<Grid item sm={4}>
-						
-						<div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-        			<div>New views</div>
-        				<div style={{width:200,height:200}}>
-	        				 <svg viewBox="0 0 300 300">
-	        				 	<VictoryPie standalone={false}
-	        				 	width={300} height={300}
-	        				 	innerRadius={65}
-	        				 	labelRadius={80}
-	        				 	 data={[
-	            { x: 5, y: 5 ,idx:1}, { x: 10, y: 10,idx:2 }
-	          ]}
-	          style={{
-              data: { fill: (d) => {
-               return colorMap[d.idx];
-              }
-              },
-              labels:{
-              	fill:'white',
-              	fontSize:18
-              }
-            }}
-	        				 	/>
-	        				 </svg>
-        				 </div>
-        				 </div>
-        			</Grid>  
-        			<Grid item sm={4}>
-						
-						<div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-        				<div>New something</div>
-        				<div style={{width:200,height:200}}>
-	        				 <svg viewBox="0 0 300 300">
-	        				 	<VictoryPie standalone={false}
-	        				 	width={300} height={300}
-	        				 	innerRadius={65}
-	        				 	labelRadius={80}
-	        				 	 data={[
-	            { x: 5, y: 5 ,idx:1}, { x: 10, y: 10,idx:2 }
-	          ]}
-	          style={{
-              data: { fill: (d) => {
-               return colorMap[d.idx];
-              }
-              },
-              labels:{
-              	fill:'white',
-              	fontSize:18
-              }
-            }}
-	        				 	/>
-	        				 </svg>
-        				 </div>
-        				 </div>
-        			</Grid>
-        		</Grid>
-
-        	</div></TabContainer>}
-        	{value === 1 && 
-        		<TabContainer>
-        			{channels ? <div>Channels</div> : <div>
-        				You don't have any channels now. <Button variant="contained" color="primary">Create</Button></div>}
-        		</TabContainer>}
-        	{value === 2 && <TabContainer><div>Configurations</div></TabContainer>}
-			</div>
+		<ProfileTabs />
 		</Paper>
 	)
 	}
@@ -226,11 +94,9 @@ class Profile extends Component{
 const mappedStateToProps = (state) =>(
 {
   user:selectUser(state.user),
-  userFullName:selectUserFullname(state.user),
-  userMedias:selectMedias(state.media.medias,'user')
+  userFullName:selectUserFullname(state.user)
 }
   );
-const boundActionCreators = (dispatch) => bindActionCreators({...mediaOperations},dispatch);
 
 
-export default connect(mappedStateToProps,boundActionCreators)(withStyles(styles)(Profile));
+export default connect(mappedStateToProps)(withStyles(styles)(Profile));

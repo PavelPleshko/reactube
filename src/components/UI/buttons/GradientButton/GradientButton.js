@@ -7,7 +7,8 @@ class GradientButton extends Component{
 		gradientVisible:false,
 		gradientLeft:0,
 		gradientTop:0,
-		gradientRadius:0
+		gradientRadius:0,
+		rootDimensions:null
 	}
 
 	mouseEnterHandler = (e) =>{
@@ -23,8 +24,8 @@ class GradientButton extends Component{
 	}
 
 	mouseMoveHandler = (e) =>{
-		let gradientLeft = e.pageX - this.rootRef.offsetLeft;
-		let gradientTop = e.pageY - this.rootRef.offsetTop;
+		let gradientLeft = e.pageX - (this.state.rootDimensions.left || 0);
+		let gradientTop = e.pageY - (this.state.rootDimensions.top || 0);
 		this.setState({
 			gradientLeft,
 			gradientTop
@@ -55,8 +56,9 @@ class GradientButton extends Component{
 	}
 
 	componentDidMount = () => {
-		let gradientRadius = this.rootRef.getBoundingClientRect().width;
-		this.setState({gradientRadius});
+		let rootDimensions = this.rootRef.getBoundingClientRect();
+		let gradientRadius = rootDimensions.width;
+		this.setState({gradientRadius,rootDimensions});
 	}
 
 	getButtonClasses = () =>{

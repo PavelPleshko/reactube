@@ -27,6 +27,11 @@ const addWatchLaterRequest = createAction(types.ADD_TO_WATCH_LATER_REQUEST);
 const addWatchLaterSuccess = createAction(types.ADD_TO_WATCH_LATER_SUCCESS);
 const addWatchLaterError = createAction(types.ADD_TO_WATCH_LATER_ERROR,'payload');
 
+
+const getUsersChannelsRequest = createAction(types.GET_USERS_CHANNELS_REQUEST);
+const getUsersChannelsSuccess = createAction(types.GET_USERS_CHANNELS_SUCCESS,'payload');
+const getUsersChannelsError = createAction(types.GET_USERS_CHANNELS_ERROR,'payload');
+
 export default {
 	loginUserRequest,loginUserSuccess,loginUserError,
 
@@ -36,5 +41,7 @@ export default {
 
 	removeViewHistoryRequest,removeViewHistorySuccess,removeViewHistoryError,
 
-	addWatchLaterRequest,addWatchLaterSuccess,addWatchLaterError
+	addWatchLaterRequest,addWatchLaterSuccess,addWatchLaterError,
+
+	getUsersChannelsRequest,getUsersChannelsSuccess,getUsersChannelsError
 }

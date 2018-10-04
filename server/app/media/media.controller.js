@@ -72,7 +72,6 @@ const listRelated = async (req, res) => {
 
 const listByUser = async (req, res) => {
   let user = req.user;
-  console.log(user);
   let userId = req.params.userId || user._id;
   try{
     let medias = await Media.find({postedBy:userId })

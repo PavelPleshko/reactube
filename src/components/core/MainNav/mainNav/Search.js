@@ -92,9 +92,15 @@ class Search extends Component{
 	};
 
 	componentDidMount = () =>{
-		document.addEventListener('click',(e)=>{
-			this.setState({opened:false,focused:false})
-		})
+		document.addEventListener('click',this.closeAndUnfocusSearch);
+	}
+
+	componentWillUnmount = () => {
+				document.removeEventListener('click',this.closeAndUnfocusSearch);	
+	}
+
+	closeAndUnfocusSearch = () => {
+		this.setState({opened:false,focused:false})
 	}
 
 	handleChange = e =>{
@@ -121,9 +127,7 @@ class Search extends Component{
 	}
 
 	searchSelectedMedia = () =>{
-
 		if(!this.props.mediaIsProcessing){
-			console.log(this.props.mediaIsProcessing);
 				let {searchText} = this.state;
 				this.props.searchMedia(searchText);
 		}
@@ -157,8 +161,7 @@ class Search extends Component{
 				{(suggestions.length && !selected && opened) ?
 					 <div style={{padding:'10px 0'}}>
 						{suggestions.map(item=>{
-							return <Suggestion selected={this.selectedHandler} item={item.text} searchText={searchText} key={item._id} />
-							
+							return <Suggestion selected={this.selectedHandler} item={item.text} searchText={searchText} key={item._id} />							
 							
 						})}
 					</div>

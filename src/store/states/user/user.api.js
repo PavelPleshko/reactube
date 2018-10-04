@@ -54,6 +54,19 @@ const checkSessionAndSignin = () => {
   .then(res=>res.json())
 }
 
+const getUserChannels = () => {
+  return fetch('/api/user/channels', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
 const clearHistory = ({csrfToken}) => {
   return fetch('/api/users/history/clear', {
       method: 'PUT',
@@ -107,5 +120,7 @@ export {
 
   addToWatchlater,
   
-  update
+  update,
+
+  getUserChannels
 }

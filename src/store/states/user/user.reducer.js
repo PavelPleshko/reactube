@@ -135,6 +135,34 @@ const userReducer = (state=initialState,action) => {
 			}
 		break;
 
+		case types.GET_USERS_CHANNELS_REQUEST:
+			return {
+				...state,
+				processing:true,
+				isError:null
+			}
+		break;
+
+		case types.GET_USERS_CHANNELS_SUCCESS:
+			return {
+				...state,
+				processing:false,
+				data:{
+					...state.data,
+					channels:payload
+				}
+			}
+		break;
+		
+		case types.GET_USERS_CHANNELS_ERROR:
+			return {
+				...state,
+				processing:false,
+				isError:payload
+			}
+		break;
+
+
 		default:
 			return state;
 	}
