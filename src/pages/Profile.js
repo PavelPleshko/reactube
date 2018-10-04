@@ -11,6 +11,7 @@ import * as mediaOperations from '../store/states/media/media.operations';
 //meterial ui
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import {withStyles} from '@material-ui/core/styles';
@@ -87,7 +88,7 @@ class Profile extends Component{
 	}
 	
 	render(){
-		const {classes,user,userFullName,userMedias} = this.props;
+		const {classes,user,userFullName,userMedias,channels} = this.props;
 		const { value } = this.state;
 	return (
 		<Paper elevation={2} className={classes.root}>
@@ -115,9 +116,9 @@ class Profile extends Component{
           textColor="primary"
           onChange={this.handleChange}
         >
-          <Tab value={0} label="Main" />
-          <Tab value={1} label="Subscriptions" />
-          <Tab value={2} label="My videos" />
+          <Tab value={0} label="My stats" />          
+          <Tab value={1} label="My channels" />
+          <Tab value={2} label="Main settings" />    
         </Tabs>
         	{value === 0 && <TabContainer>
         	<div>
@@ -210,8 +211,12 @@ class Profile extends Component{
         		</Grid>
 
         	</div></TabContainer>}
-        	{value === 1 && <TabContainer><div>You are not subscribed to anything yet</div></TabContainer>}
-        	{value === 2 && <TabContainer><MediaTile resourceKey="user" items={userMedias} columns={4} /></TabContainer>}
+        	{value === 1 && 
+        		<TabContainer>
+        			{channels ? <div>Channels</div> : <div>
+        				You don't have any channels now. <Button variant="contained" color="primary">Create</Button></div>}
+        		</TabContainer>}
+        	{value === 2 && <TabContainer><div>Configurations</div></TabContainer>}
 			</div>
 		</Paper>
 	)

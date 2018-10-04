@@ -12,6 +12,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import * as mediaOperations from '../../../store/states/media/media.operations';
+import * as userOperations from '../../../store/states/user/user.operations';
 
 import LikeActions from '../../../components/UI/miscellaneous/LikeActions/LikeActions';
 import SecondaryActions from './mediaMeta/SecondaryActions';
@@ -41,6 +42,11 @@ likeMedia = () =>{
 
 dislikeMedia = () =>{
 	this.props.dislikeMedia(this.props.media._id);
+}
+
+subscribeTo = () => {
+	const {media} = this.props;
+	console.log('Subscribing to channel ', media.postedBy);
 }
 
 
@@ -73,7 +79,7 @@ dislikeMedia = () =>{
 					   {(user && user._id
 						    === media.postedBy._id) && <SecondaryActions mediaId={media._id} mediaTitle={media.title} />}
 					      {(user && user._id
-						    !== media.postedBy._id) && (<Button variant="contained" color="secondary">Subscribe</Button>)}
+						    !== media.postedBy._id) && (<Button variant="contained" color="secondary" onClick={this.subscribeTo}>Subscribe</Button>)}
 					</ListItem>
 
 					<ListItem>
@@ -85,6 +91,6 @@ dislikeMedia = () =>{
 		
 }
 
-const boundActionCreators = (dispatch) => bindActionCreators({...mediaOperations},dispatch);
+const boundActionCreators = (dispatch) => bindActionCreators({...mediaOperations,...userOperations},dispatch);
 
 export default connect(null,boundActionCreators)(withStyles(styles)(MediaMeta));

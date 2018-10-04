@@ -66,7 +66,6 @@ state = {
 } 
 
 componentDidMount = () => {
-  console.log(this.state,this.props.media);
   if (screenfull.enabled) {
      screenfull.on('change', () => {
          let fullscreen = screenfull.isFullscreen ? true : false 
