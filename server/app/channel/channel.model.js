@@ -15,8 +15,8 @@ const ChannelSchema = new mongoose.Schema({
     required: 'Description is required'
   },
   topic: {
-    type: String,
-    trim: true
+    type: ObjectId,
+    ref: 'ChannelTopic'
   },
   iconImage:{
     type:String

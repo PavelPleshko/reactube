@@ -1,12 +1,8 @@
 import Channel from './channel.model';
-import extend from 'lodash/extend';
-import errorHandler from '../../helpers/dbErrorHandler';
-import config from './../../config/config';
 //import Cloudinary from 'cloudinary';
 //import formidable from 'formidable';
 import {sendSuccess,sendError} from '../../helpers/responseHandler';
-import path from 'path';
-import request from 'request';
+
 
 const create = async (req, res, next) => {
   try{

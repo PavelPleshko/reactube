@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import { reduxForm } from 'redux-form';
+import { reduxForm,Field } from 'redux-form';
 import {connect} from 'react-redux';
-import { Field } from 'redux-form'
+import {bindActionCreators} from 'redux';
 
 //material ui
 import Typography from '@material-ui/core/Typography';
@@ -13,7 +13,9 @@ import GradientButton from '../../../../components/UI/buttons/GradientButton/Gra
 import TextInput from '../../../../components/UI/controls/TextInput/TextInput';
 import SelectInput from '../../../../components/UI/controls/SelectInput/SelectInput';
 
-
+import {selectChannelTopics} from '../../../../store/states/channel';
+import * as channelOperations from '../../../../store/states/channel/channel.operations';
+import validators from '../../../../utils/form-validators/form-validators';
 
 const styles = theme =>({
 	card:{
@@ -24,7 +26,8 @@ const styles = theme =>({
 	buttonCreate:{
 		marginTop:'1rem',
 		position:'relative',
-		display:'block'
+		display:'inline-block',
+		float:'right'
 	},
 	rightIcon:{
 		marginLeft:'1rem'
@@ -43,23 +46,30 @@ const styles = theme =>({
 class CreateChannelForm extends Component{
 
 
+componentDidMount = () => {
+	const {channelTopics,getChannelsTopics} = this.props;
+	if(!channelTopics || channelTopics.length === 0){
+		getChannelsTopics();
+	}
+}
+
+
 handleSubmit =(values)=>{	
 	console.log(values);
 	//this.props.submitForm(values);
 }
 
 	render(){
-		const {classes,submitBtnText='create channel'} = this.props;
-
+		const {classes,submitBtnText='next',channelTopics} = this.props;
 	return (
 		<form onSubmit={ this.props.handleSubmit(this.handleSubmit) }>		
-			 		     		         
-				<Field label="Title*" required helperText="Displayed title" name="title" component={TextInput}/>
-				<Field label="Description*" required helperText="Shortly describe your channel" multiline={true} name="description"component={TextInput}/>
-				<Field label="Topic*" required name="topic" component={SelectInput} options={[]} />
+			 	<h3>New channel</h3>         
+				<Field label="Title *" validate={[validators.required]} helperText="Displayed title" name="title" component={TextInput}/>
+				<Field label="Description *" validate={[validators.required]} helperText="Shortly describe your channel" multiline={true} name="description"component={TextInput}/>
+				<Field label="Topic *" validate={[validators.required]} name="topic" component={SelectInput} options={channelTopics} />
 			
 			
-		      <Button type="submit" variant="contained" color="primary" classes={{root:classes.buttonCreate}}>		
+		      <Button type="submit" disabled={this.props.invalid} variant="contained" color="primary" classes={{root:classes.buttonCreate}}>		
 					{submitBtnText}
 		      </Button>
 		</form>
@@ -68,8 +78,15 @@ handleSubmit =(values)=>{
 	}
 }
 
+const mappedStateToProps = (state) =>(
+{
+  channelTopics:selectChannelTopics(state.channel)
+}
+  );
+
+const boundActionCreators = (dispatch) => bindActionCreators({...channelOperations},dispatch);
 
 
-export default reduxForm({
+export default connect(mappedStateToProps,boundActionCreators)(reduxForm({
   form: 'createChannel'
-})(withStyles(styles)(CreateChannelForm));
+})(withStyles(styles)(CreateChannelForm)));

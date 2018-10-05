@@ -15,7 +15,8 @@ import {
   categoryRoutes,
   tagRoutes,
   commentRoutes,
-  mediaRoutes
+  mediaRoutes,
+  channelRoutes
 } from "./app/allRoutes";
 import passport from "passport";
 import session from "express-session";
@@ -90,6 +91,7 @@ app.use("/api", mediaRoutes);
 app.use("/api", tagRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", commentRoutes);
+app.use("/api", channelRoutes);
 
 app.get("/*", (req, res, next) => {
   if (
@@ -100,7 +102,7 @@ app.get("/*", (req, res, next) => {
     return next();
   }
 
-  let csrfToken = req.csrfToken() || null;
+  let csrfToken = req.csrfToken ? req.csrfToken() : null;
   res.cookie("csrfToken", csrfToken, { sameSite: true, httpOnly: true });
   const context = {};
 

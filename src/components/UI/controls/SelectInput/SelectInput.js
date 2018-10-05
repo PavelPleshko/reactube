@@ -25,7 +25,7 @@ class SelectInput extends Component{
     }
 	return (
 		    <FormControl className={classes.formControl}>
-              <InputLabel htmlFor={label}>Category</InputLabel>
+              <InputLabel htmlFor={label}>{label}</InputLabel>
               <Select
                 value={value}
                 onChange={onChange}
