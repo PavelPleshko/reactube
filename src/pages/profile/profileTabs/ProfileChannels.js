@@ -8,6 +8,7 @@ import {withStyles} from '@material-ui/core/styles';
 
 import {selectUserChannels} from '../../../store/states/user/user.selectors';
 import * as userOperations from '../../../store/states/user/user.operations';
+import * as channelOperations from '../../../store/states/channel/channel.operations';
 import CreateChannelForm from './profileChannels/CreateChannelForm';
 
 const OWN_NO_CHANNELS_CAPTION = `You don't have any channels now.`;
@@ -60,6 +61,11 @@ handleCloseModal = () => {
 	}
 }
 
+afterFormSubmitted = (values) => {
+	if(values) this.props.createNewChannel(values);
+	//go to the channel page when response gets back, control in operations
+}
+
 render(){
 	const {channels,classes} = this.props;
 	const {noChannelsCaption,createChannelModalOpen} = this.state;
@@ -73,7 +79,7 @@ render(){
     onClose={this.handleCloseModal}
         >
 <div className={classes.modal}>
-	<CreateChannelForm />
+	<CreateChannelForm formSubmitted={this.afterFormSubmitted} />
 </div>
 
         </Modal>
@@ -97,7 +103,8 @@ return {
 }
 
 
-const boundActionCreators = (dispatch) => bindActionCreators({...userOperations},dispatch);
+const boundActionCreators = (dispatch) => 
+bindActionCreators({...userOperations,...channelOperations},dispatch);
 
 export default connect(mappedStateToProps,boundActionCreators)
 (withStyles(styles)(ProfileChannels));

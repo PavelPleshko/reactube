@@ -46,31 +46,31 @@ const postComment = (params) => {
   .then(res=>res.json()) 
 }
 
-const likeComment = (params) => {
+const likeComment = ({commentId,csrfToken}) => {
   return fetch('/api/comment/like',{
     method:'POST',
     headers:{
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'CSRF-Token': params.csrfToken
+      'CSRF-Token': csrfToken
     },
      credentials: 'include',
-     body: JSON.stringify({commentId:params.commentId})
+     body: JSON.stringify({commentId})
   })
   .then(handleErrors)
   .then(res=>res.json()) 
 }
 
-const dislikeComment = (params) => {
+const dislikeComment = ({commentId,csrfToken}) => {
 	return fetch('/api/comment/dislike',{
 		method:'POST',
 		headers:{
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'CSRF-Token': params.csrfToken
+      'CSRF-Token': csrfToken
     },
      credentials: 'include',
-     body: JSON.stringify({commentId:params.commentId})
+     body: JSON.stringify({commentId})
 	})
   .then(handleErrors)
   .then(res=>res.json()) 

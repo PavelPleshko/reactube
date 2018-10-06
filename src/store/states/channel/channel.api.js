@@ -20,9 +20,26 @@ const getChannelsTopics = () => {
   .then(res=>res.json())
 }
 
+const createNewChannel = ({channelData,csrfToken}) => {
+  return fetch('/api/channels/create', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'CSRF-Token': csrfToken
+      },
+      credentials:'include',
+      body: JSON.stringify(channelData)
+    })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
+
 
 
 
 export {
-	getChannelsTopics
+	getChannelsTopics,
+  createNewChannel
 }

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import slug from 'slug';
 
 const ObjectId = mongoose.Schema.ObjectId;
 
@@ -31,6 +32,10 @@ const ChannelSchema = new mongoose.Schema({
     type:ObjectId,
     ref:'User'
   },
+  slug:{
+    type:String,
+    required:true
+  },
   verified:{
     type:Boolean,
     default:false
@@ -40,6 +45,14 @@ const ChannelSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   }
+})
+
+ChannelSchema.pre('save',function(next){
+  this.slug = slug(`${this.title}${this.created}`);
+  if(this.slug) 
+      return next();
+  throw new Error('Didnt save this time');
+
 })
 
 export default mongoose.model('Channel', ChannelSchema);

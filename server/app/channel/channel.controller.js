@@ -6,7 +6,10 @@ import {sendSuccess,sendError} from '../../helpers/responseHandler';
 
 const create = async (req, res, next) => {
   try{
-    const channel = new Channel(req.body);
+    let owner = req.user && req.user._id;
+    let data = {...req.body,owner};
+      console.log(data);
+    const channel = new Channel(data);
     let newChannel = await channel.save();
     sendSuccess(res)({newChannel});
   }catch(err){

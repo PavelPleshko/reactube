@@ -54,9 +54,9 @@ componentDidMount = () => {
 }
 
 
+
 handleSubmit =(values)=>{	
-	console.log(values);
-	//this.props.submitForm(values);
+	this.props.formSubmitted(values);
 }
 
 	render(){
