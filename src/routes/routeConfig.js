@@ -82,6 +82,12 @@ const routes = [
     component: Loadable({loader:()=>import('../pages/Profile'),loading() {
     return <div>Loading...</div>
   }})
+  },
+  {
+    path: '/channel/:channelId',
+    component: Loadable({loader:()=>import('../pages/Channel'),loading() {
+    return <div>Loading...</div>
+  }})
   }
 
 	]

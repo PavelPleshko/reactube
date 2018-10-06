@@ -34,7 +34,7 @@ const ChannelSchema = new mongoose.Schema({
   },
   slug:{
     type:String,
-    required:true
+    unique:true
   },
   verified:{
     type:Boolean,
@@ -48,9 +48,10 @@ const ChannelSchema = new mongoose.Schema({
 })
 
 ChannelSchema.pre('save',function(next){
-  this.slug = slug(`${this.title}${this.created}`);
-  if(this.slug) 
+  this.slug = slug(this.title);
+  if(this.slug){
       return next();
+    }
   throw new Error('Didnt save this time');
 
 })

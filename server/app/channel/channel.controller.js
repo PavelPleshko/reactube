@@ -13,6 +13,17 @@ const create = async (req, res, next) => {
     let newChannel = await channel.save();
     sendSuccess(res)({newChannel});
   }catch(err){
+    console.log(err);
+    sendError(res)(err);
+  }
+}
+
+const readBySlug = async (req, res, next) => {
+  try{
+    const slug = req.params.channelSlug;
+    const channel = await Channel.findOne({slug});
+    sendSuccess(res)({channel});
+  }catch(err){
     sendError(res)(err);
   }
 }
@@ -40,6 +51,6 @@ const isOwner = (req,res,next) => {
 
 
 export default {
-  create,
+  create,readBySlug,
   isOwner
 }

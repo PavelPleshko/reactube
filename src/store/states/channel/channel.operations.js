@@ -17,7 +17,7 @@ const getChannelsTopics = () => {
 	}
 }
 
-const createNewchannel = (channelData) => {
+const createNewChannel = (channelData) => {
 	return (dispatch,getState)=>{
 		dispatch(channelActions.createNewChannelRequest());
 		let csrfToken = getState().csrf;
@@ -33,6 +33,20 @@ const createNewchannel = (channelData) => {
 	}
 }
 
+const getChannelBySlug = (slug) => {
+	return (dispatch)=>{
+		dispatch(channelActions.getChannelBySlugRequest());
+		channelApiCalls.getChannelBySlug(slug)
+		.then(response=>{
+			console.log(response);
+			let channel = response.data.channel;	
+			dispatch(channelActions.getChannelBySlugSuccess(newChannel));
+		}).catch((error) => {
+			dispatch(channelActions.getChannelBySlugError(error.message));
+		})	
+	}
+}
+
 
 
 
@@ -43,5 +57,6 @@ const createNewchannel = (channelData) => {
 
 export {
 getChannelsTopics,
-createNewchannel
+createNewChannel,
+getChannelBySlug
 }

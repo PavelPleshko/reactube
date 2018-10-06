@@ -4,6 +4,7 @@ const initialState = {
 		processing:false,
 		isError:false,
 		data:null,
+		single:null,
 		topics:[]
 	};
 
@@ -17,7 +18,6 @@ const channelReducer = (state=initialState,action) => {
 				processing:true,
 				isError:null
 			}
-		break;	
 
 		case types.GET_CHANNELS_TOPICS_SUCCESS:
 			return {
@@ -25,7 +25,6 @@ const channelReducer = (state=initialState,action) => {
 				processing:false,
 				topics:payload
 			}
-		break;
 
 		case types.GET_CHANNELS_TOPICS_ERROR:
 			return {
@@ -33,7 +32,48 @@ const channelReducer = (state=initialState,action) => {
 				processing:false,
 				isError:payload				
 			}
-		break;
+
+		case types.CREATE_NEW_CHANNEL_REQUEST:
+			return {
+				...state,
+				processing:false,
+				isError:payload				
+			}
+
+		case types.CREATE_NEW_CHANNEL_SUCCESS:
+			return {
+				...state,
+				processing:false,
+				single:payload				
+			}
+
+		case types.CREATE_NEW_CHANNEL_ERROR:
+			return {
+				...state,
+				processing:false,
+				isError:payload				
+			}	
+		case types.GET_CHANNEL_BY_SLUG_REQUEST:
+			return {
+				...state,
+				processing:false,
+				isError:payload				
+			}
+
+		case types.GET_CHANNEL_BY_SLUG_SUCCESS:
+			return {
+				...state,
+				processing:false,
+				single:payload				
+			}
+
+		case types.GET_CHANNEL_BY_SLUG_ERROR:
+			return {
+				...state,
+				processing:false,
+				isError:payload				
+			}
+
 
 
 
