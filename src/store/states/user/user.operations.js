@@ -35,7 +35,7 @@ const checkSession = () => {
 	}
 }
 
-const getUserChannels = userId => {
+const getUserChannels = userId => { //TODO put it in channel store
 	return dispatch => {
 		dispatch(userActions.getUsersChannelsRequest());
 		userApiCalls.getUserChannels(userId)

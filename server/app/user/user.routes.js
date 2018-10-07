@@ -14,10 +14,13 @@ router.route('/users/profile/update')
 
 router.route('/users/profile/watchlater')
   .put(authCtrl.requireSignin,userCtrl.addWatchlater)
-  
+
+
 router.route('/users/history/clear')
   .put(authCtrl.requireSignin,userCtrl.clearHistory)
 
-router.param('userId', userCtrl.userByID);
+ router.route('/users/:userId/channels')
+  .get(userCtrl.listUserChannels)
+  
 
 export default router;

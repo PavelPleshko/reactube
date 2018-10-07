@@ -45,8 +45,7 @@ const checkSessionAndSignin = () => {
   return fetch('/api/auth/signin/', {
       method: 'GET',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Accept': 'application/json'
       },
       credentials: 'include'
     })
@@ -54,14 +53,12 @@ const checkSessionAndSignin = () => {
   .then(res=>res.json())
 }
 
-const getUserChannels = () => {
-  return fetch('/api/user/channels', {
+const getUserChannels = (userId) => {
+  return fetch(`/api/users/${userId}/channels`, {
       method: 'GET',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include'
+        'Accept': 'application/json'
+      }
     })
   .then(handleErrors)
   .then(res=>res.json())

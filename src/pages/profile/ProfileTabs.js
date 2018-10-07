@@ -47,7 +47,7 @@ class ProfileTabs extends Component {
   };
 
   render(){
-  			const {classes} = this.props;
+  			const {classes, userId} = this.props;
 
 const { activeTab } = this.state;
   	return (
@@ -155,7 +155,7 @@ const { activeTab } = this.state;
         	</div></TabContainer>}
         	{activeTab === 1 && 
         		<TabContainer>
-        			<ProfileChannels />
+        			<ProfileChannels userId={userId} />
         		</TabContainer>}
         	{activeTab === 2 && <TabContainer><div>Configurations</div></TabContainer>}
 			</div>

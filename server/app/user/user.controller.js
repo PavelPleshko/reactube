@@ -1,4 +1,5 @@
 import User from './user.model';
+import Channel from '../channel/channel.model';
 import extend from 'lodash/extend';
 import errorHandler from '../../helpers/dbErrorHandler';
 import config from './../../config/config';
@@ -134,6 +135,16 @@ const clearHistory = async (req,res,next) =>{
   }
 }
 
+const listUserChannels = async (req,res) => {
+  const userId = req.params.userId;
+  try {
+    const channels = await Channel.find({owner:userId});
+    sendSuccess(res,`Channels for user ${userId}`)({channels});
+  }catch(err){
+    sendError(res)(err);
+  }
+}
+
 const remove = (req, res, next) => {
   let user = req.profile
   user.remove((err, deletedUser) => {
@@ -244,7 +255,8 @@ export default {
   removeFollower,removeFollowing,
   addFollower,addFollowing,
   addWatchlater,
-  addToHistory,clearHistory
+  addToHistory,clearHistory,
+  listUserChannels
   
 
 }

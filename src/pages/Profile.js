@@ -85,7 +85,7 @@ class Profile extends Component{
 				: null
 			}
 			</div>
-		<ProfileTabs />
+		<ProfileTabs userId={user && user._id} />
 		</Paper>
 	)
 	}

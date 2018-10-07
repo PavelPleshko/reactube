@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
@@ -63,15 +63,14 @@ handleCloseModal = () => {
 
 afterFormSubmitted = (values) => {
 	if(values) this.props.createNewChannel(values);
-	//go to the channel page when response gets back, control in operations
 }
 
 render(){
 	const {channels,classes} = this.props;
 	const {noChannelsCaption,createChannelModalOpen} = this.state;
-
+console.log(channels);
 	return (
-<React.Fragment>
+<Fragment>
  <Modal
           aria-labelledby="create-channel"
           aria-describedby="create-channel"
@@ -83,11 +82,27 @@ render(){
 </div>
 
         </Modal>
-{channels ? <div>Channels</div> : <div>
+{channels ? <div>
+		<div>
+			Channels
+		</div>
+		<ul>
+		{channels.map(channel=>{
+			return (
+				<li style={{display:'flex'}} key={channel._id}>
+					<img width="50" height="50" style={{backgroundColor:'#dedede',borderRadius:'50%'}} />
+					<div>{channel.title} </div>
+				</li>
+				)
+		})}
+		</ul>
+	</div>
+	 : 
+	 <div>
         				{noChannelsCaption} <Button variant="contained" color="primary" onClick={this.openModal}>Create</Button></div>
         			}
 		
-</React.Fragment>
+</Fragment>
 )
 
 }
