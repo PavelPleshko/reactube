@@ -4,12 +4,14 @@ import {bindActionCreators} from 'redux';
 
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
+import List from '@material-ui/core/List';
 import {withStyles} from '@material-ui/core/styles';
 
 import {selectUserChannels} from '../../../store/states/user/user.selectors';
 import * as userOperations from '../../../store/states/user/user.operations';
 import * as channelOperations from '../../../store/states/channel/channel.operations';
 import CreateChannelForm from './profileChannels/CreateChannelForm';
+import ChannelSingle from './profileChannels/ChannelSingle';
 
 const OWN_NO_CHANNELS_CAPTION = `You don't have any channels now.`;
 const OTHER_NO_CHANNELS_CAPTION = `User doesn't have any channels now.`;
@@ -84,18 +86,16 @@ console.log(channels);
         </Modal>
 {channels ? <div>
 		<div>
-			Channels
+			Channels <strong>({channels.length || 0})</strong>
 		</div>
-		<ul>
+		<List>
 		{channels.map(channel=>{
-			return (
-				<li style={{display:'flex'}} key={channel._id}>
-					<img width="50" height="50" style={{backgroundColor:'#dedede',borderRadius:'50%'}} />
-					<div>{channel.title} </div>
-				</li>
-				)
+			return <ChannelSingle channel={channel} key={channel._id} />
+					
+
+				
 		})}
-		</ul>
+		</List>
 	</div>
 	 : 
 	 <div>

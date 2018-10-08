@@ -37,10 +37,12 @@ const styles = theme =>({
     justifyContent: 'center',
     color:'#ffffff',
     backgroundColor:'#000000',
-    borderRadius:3
+    borderRadius:3,
+    transition:'.2s'
   },
   hide:{
-    display:'none'
+    opacity:0,
+    pointerEvents:'none'
   },
   category:{
   	position:'absolute',

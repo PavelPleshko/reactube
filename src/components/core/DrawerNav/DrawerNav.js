@@ -51,6 +51,7 @@ const styles = theme => ({
     zIndex:1100,
     backgroundColor:'#f5f5f5',
     paddingBottom:'1rem',
+    transform:'translate3d(0,0,0)'
 
   },
   backdrop:{
