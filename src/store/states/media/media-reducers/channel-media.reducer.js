@@ -1,7 +1,7 @@
 import initialState from '../media.initial-state';
 import types from '../media.types';
 
-const getUserMediaList = (state=initialState,action) => {
+const getChannelMediaList = (state=initialState,action) => {
 	const { type, payload } = action;
 	switch(type){
 		case types.LIST_USER_MEDIA_REQUEST:
@@ -9,26 +9,26 @@ const getUserMediaList = (state=initialState,action) => {
 				...state,
 				processing:{
 					...state.processing,
-					user:true
+					channel:true
 				},
 				isError:{
 					...state.isError,
-					user:null
+					channel:null
 				}
 			}
 
 		case types.LIST_USER_MEDIA_SUCCESS:
 		let byIds = {};
 		payload.medias.forEach(item=>{
-			byIds[item._id] = {...item,type:'user'}
+			byIds[item._id] = {...item,type:'channel'}
 		});
 			return {
 				...state,
 				processing:{
 					...state.processing,
-					user:false
+					channel:false
 				},
-				user:{
+				channel:{
 					allIds:Object.keys(byIds),
 					byId:byIds
 				}
@@ -39,11 +39,11 @@ const getUserMediaList = (state=initialState,action) => {
 				...state,
 				processing:{
 					...state.processing,
-					user:false
+					channel:false
 				},
 					isError:{
 					...state.isError,
-					user:payload
+					channel:payload
 				}
 			}
 		default:
@@ -51,4 +51,4 @@ const getUserMediaList = (state=initialState,action) => {
 	}	
 }
 
-export default getUserMediaList;
+export default getChannelMediaList;

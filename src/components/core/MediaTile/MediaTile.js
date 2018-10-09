@@ -13,7 +13,7 @@ const mediaTile = (props)=>{
 			{items.map(item=>(
 				<Grid item sm={coefficientCol} key={item._id} style={{height:230}} >
 				
-				 <MediaTileItem itemId={item._id}
+				 <MediaTileItem item={item} itemId={item._id}
 				  resourceKey={resourceKey}
 				   resourceName={resourceName}/>   
               

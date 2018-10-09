@@ -9,8 +9,14 @@ const router = express.Router();
 router.route('/channels/create')
   .post(authCtrl.requireSignin,channelCtrl.create);
 
+router.route('/channels/:channelId/media')
+  .get(channelCtrl.listChannelMedia);
+
 router.route('/channels/:channelSlug')
   .get(channelCtrl.readBySlug);
+
+
+
 
 router.use('/channels',channelTopicRouter);
 

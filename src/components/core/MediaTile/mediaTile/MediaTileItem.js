@@ -129,6 +129,11 @@ class MediaTileItem extends Component{
     }
   }
 
+  shouldComponentUpdate = (newProps,newState)=>{
+    return ((newProps.itemId  && this.props.itemId) && newProps.itemId != this.props.itemId) || 
+    newState != this.state;
+  }
+
   addRemoveFromWatchList = (e) => {
     e.stopPropagation();
     this.props.addToWatchlater(this.props.itemId);
@@ -183,11 +188,8 @@ class MediaTileItem extends Component{
 }
 
 const boundActionCreators = (dispatch) => bindActionCreators({...userOperations,dispatch},dispatch);
-const mapStateToProps = (state,ownProps)=>{
-  let itemId = ownProps.itemId;
-  let resourceKey = ownProps.resourceKey;
+const mapStateToProps = (state)=>{
   return {
-    item:selectMediaFromResource(state.media.medias,itemId,resourceKey),
     user:selectUser(state.user)
   }
 }

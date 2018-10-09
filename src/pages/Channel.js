@@ -69,8 +69,9 @@ class Channel extends Component{
 	render(){
 		const {classes,user,channel} = this.props;
 		const owner = channel ? channel.owner : null;
-		
+		console.log(channel);
 	return (
+
 		<Paper elevation={2} className={classes.root}>
 			<div className={classes.profileMeta}>
 				<div className={classes.avatarGroup}>
@@ -89,7 +90,7 @@ class Channel extends Component{
 				: null
 			}
 			</div>
-		<ChannelTabs />
+		<ChannelTabs channelId={channel && channel._id}/>
 		</Paper>
 	)
 	}

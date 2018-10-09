@@ -17,6 +17,20 @@ const getChannelsTopics = () => {
 	}
 }
 
+const getChannelMedia = (channelId) => {
+	return (dispatch)=>{
+		dispatch(channelActions.getChannelMediaRequest());
+		channelApiCalls.getChannelMedia(channelId)
+		.then(response=>{
+			console.log(response);
+			let media = response.data.media;	
+			dispatch(channelActions.getChannelMediaSuccess(media));
+		}).catch((error) => {
+			dispatch(channelActions.getChannelMediaError(error.message));
+		})	
+	}
+}
+
 const createNewChannel = (channelData) => {
 	return (dispatch,getState)=>{
 		dispatch(channelActions.createNewChannelRequest());
@@ -38,9 +52,8 @@ const getChannelBySlug = (slug) => {
 		dispatch(channelActions.getChannelBySlugRequest());
 		channelApiCalls.getChannelBySlug(slug)
 		.then(response=>{
-			console.log(response);
 			let channel = response.data.channel;	
-			dispatch(channelActions.getChannelBySlugSuccess(newChannel));
+			dispatch(channelActions.getChannelBySlugSuccess(channel));
 		}).catch((error) => {
 			dispatch(channelActions.getChannelBySlugError(error.message));
 		})	
@@ -57,6 +70,7 @@ const getChannelBySlug = (slug) => {
 
 export {
 getChannelsTopics,
+getChannelMedia,
 createNewChannel,
 getChannelBySlug
 }

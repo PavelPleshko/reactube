@@ -13,7 +13,11 @@ const createNewChannelError = createAction(types.CREATE_NEW_CHANNEL_ERROR,'paylo
 
 const getChannelBySlugRequest = createAction(types.GET_CHANNEL_BY_SLUG_REQUEST);
 const getChannelBySlugSuccess = createAction(types.GET_CHANNEL_BY_SLUG_SUCCESS,'payload');
-const getChannelBySlugError = createAction(types.GET_CHANNEL_BY_SLUG_ERROR,'payload'); 
+const getChannelBySlugError = createAction(types.GET_CHANNEL_BY_SLUG_ERROR,'payload');
+
+const getChannelMediaRequest = createAction(types.GET_CHANNEL_MEDIA_REQUEST);
+const getChannelMediaSuccess = createAction(types.GET_CHANNEL_MEDIA_SUCCESS,'payload');
+const getChannelMediaError = createAction(types.GET_CHANNEL_MEDIA_ERROR,'payload'); 
 
 
 
@@ -22,5 +26,7 @@ export default {
 
 	createNewChannelRequest,createNewChannelSuccess,createNewChannelError,
 
-	getChannelBySlugRequest,getChannelBySlugSuccess,getChannelBySlugError
+	getChannelBySlugRequest,getChannelBySlugSuccess,getChannelBySlugError,
+
+	getChannelMediaRequest,getChannelMediaSuccess,getChannelMediaError
 }

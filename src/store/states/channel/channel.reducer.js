@@ -10,7 +10,6 @@ const initialState = {
 
 const channelReducer = (state=initialState,action) => {
 	const {type,payload} = action;
-
 	switch(type){
 		case types.GET_CHANNELS_TOPICS_REQUEST:
 			return {
@@ -68,6 +67,29 @@ const channelReducer = (state=initialState,action) => {
 			}
 
 		case types.GET_CHANNEL_BY_SLUG_ERROR:
+			return {
+				...state,
+				processing:false,
+				isError:payload				
+			}
+		case types.GET_CHANNEL_MEDIA_REQUEST:
+			return {
+				...state,
+				processing:false,
+				isError:payload				
+			}
+
+		case types.GET_CHANNEL_MEDIA_SUCCESS:
+			return {
+				...state,
+				processing:false,
+				single:{
+					...state.single,
+					medias:payload
+				}				
+			}
+
+		case types.GET_CHANNEL_MEDIA_ERROR:
 			return {
 				...state,
 				processing:false,

@@ -6,7 +6,7 @@ const initialState = {
         history:false,
         watchlater:false,
         singleMedia:false,
-        user:false
+        channel:false
     },
     isError:{
         all:false,
@@ -15,7 +15,7 @@ const initialState = {
         history:false,
         watchlater:false,
         singleMedia:false,
-        user:false
+        channel:false
     },
     all:{
         allIds:[],

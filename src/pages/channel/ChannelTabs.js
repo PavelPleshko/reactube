@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import {withStyles} from '@material-ui/core/styles';
 //victory
 
+import ChannelMedia from './channelTabs/ChannelMedia';
 
 
 const styles = theme => ({
@@ -38,7 +39,7 @@ class ChannelTabs extends Component {
   };
 
   render(){
-  			const {classes} = this.props;
+  			const {classes,channelId} = this.props;
 
 const { activeTab } = this.state;
   	return (
@@ -60,7 +61,7 @@ const { activeTab } = this.state;
         	</div></TabContainer>}
         	{activeTab === 1 && 
         		<TabContainer>
-        		  <div>Media here</div>
+        		  <ChannelMedia channelId={channelId}/>
         		</TabContainer>}
         	{activeTab === 2 && <TabContainer><div>Configurations</div></TabContainer>}
 			</div>

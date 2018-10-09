@@ -20,6 +20,18 @@ const getChannelsTopics = () => {
   .then(res=>res.json())
 }
 
+const getChannelMedia = (channelId) => {
+  console.log(channelId);
+  return fetch(`/api/channels/${channelId}/media`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
 const getChannelBySlug = (slug) => {
   return fetch(`/api/channels/${slug}`, {
       method: 'GET',
@@ -53,5 +65,6 @@ const createNewChannel = ({channelData,csrfToken}) => {
 export {
 	getChannelsTopics,
   getChannelBySlug,
+  getChannelMedia,
   createNewChannel
 }

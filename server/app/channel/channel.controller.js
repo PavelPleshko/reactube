@@ -1,4 +1,5 @@
 import Channel from './channel.model';
+import Media from '../media/media.model';
 //import Cloudinary from 'cloudinary';
 //import formidable from 'formidable';
 import {sendSuccess,sendError} from '../../helpers/responseHandler';
@@ -28,6 +29,18 @@ const readBySlug = async (req, res, next) => {
   }
 }
 
+const listChannelMedia = async (req, res, next) => {
+  try{
+    const channelId = req.params.channelId;
+        console.log(channelId);
+
+    const media = await Media.find({channel:channelId});
+    sendSuccess(res)({media});
+  }catch(err){
+    sendError(res)(err);
+  }
+}
+
 const isOwner = (req,res,next) => {
   const user = req.user;
   const channel = req.channel;
@@ -51,6 +64,6 @@ const isOwner = (req,res,next) => {
 
 
 export default {
-  create,readBySlug,
+  create,readBySlug,listChannelMedia,
   isOwner
 }

@@ -29,7 +29,8 @@ const MediaSchema = new mongoose.Schema({
   },
   channel:{
     type:objectId,
-    required:false
+    ref:'Channel',
+    required:true
   },
   views: {type: Number, default: 0},
 
