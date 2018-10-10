@@ -26,6 +26,9 @@ const styles = theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing.unit * 4,
     outline:'none'
+  },
+  channelsHeader:{
+  	marginRight:'2rem'
   }
 });
 
@@ -70,7 +73,6 @@ afterFormSubmitted = (values) => {
 render(){
 	const {channels,classes} = this.props;
 	const {noChannelsCaption,createChannelModalOpen} = this.state;
-console.log(channels);
 	return (
 <Fragment>
  <Modal
@@ -86,7 +88,8 @@ console.log(channels);
         </Modal>
 {channels ? <div>
 		<div>
-			Channels <strong>({channels.length || 0})</strong>
+			<span className={classes.channelsHeader}>Channels <strong>({channels.length || 0})</strong></span>
+			<Button variant="contained" color="primary" onClick={this.openModal}>Add channel</Button>
 		</div>
 		<List>
 		{channels.map(channel=>{
@@ -99,7 +102,7 @@ console.log(channels);
 	</div>
 	 : 
 	 <div>
-        				{noChannelsCaption} <Button variant="contained" color="primary" onClick={this.openModal}>Create</Button></div>
+        				{noChannelsCaption} </div>
         			}
 		
 </Fragment>

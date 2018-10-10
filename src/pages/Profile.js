@@ -3,7 +3,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {selectUser,selectUserFullname} from '../store/states/user/user.selectors';
+import {selectUser,selectUserFullname,selectUserChannels} from '../store/states/user';
+import * as userOperations from '../store/states/user/user.operations';
 
 //meterial ui
 import Grid from '@material-ui/core/Grid';
@@ -35,12 +36,12 @@ const styles = theme => ({
 		fontWeight:500,
 		marginLeft:5
 	},
-	userSubscribers:{
+	userChannels:{
 		fontSize:'1.1rem',
 		display:'flex',
 		alignItems:'center'
 	},
-	subscribersNumber:{
+	channelsNumber:{
 		color:theme.palette.primary.light,
 		fontSize:'1.9rem',
 		fontWeight:200,
@@ -63,8 +64,16 @@ const TabContainer = ({children}) =>{
 
 class Profile extends Component{
 	
+	componentDidMount = () => {
+		const {user,userChannels,getUserChannels} = this.props;
+		if(!userChannels || userChannels.length === 0){
+			let userId = user._id;
+			getUserChannels(userId);
+		}
+	}
+
 	render(){
-		const {classes,user,userFullName} = this.props;
+		const {classes,user,userChannels,userFullName} = this.props;
 		
 	return (
 		<Paper elevation={2} className={classes.root}>
@@ -73,13 +82,13 @@ class Profile extends Component{
 					<UserAvatarBig user={user || {}} classes={{icon:classes.icon}} />		
 					<div className={classes.userFullname}>{userFullName}</div>
 				</div>
-				{user && user.subscribed ?
-				<div className={classes.userSubscribers}>
-					<span className={classes.subscribersNumber}>
-						{user.subscribed.length}
+				{userChannels ?
+				<div className={classes.userChannels}>
+					<span className={classes.channelsNumber}>
+						{userChannels.length}
 					</span>
 					<span>
-						subscribers
+						channels
 					</span>
 				</div>
 				: null
@@ -94,9 +103,12 @@ class Profile extends Component{
 const mappedStateToProps = (state) =>(
 {
   user:selectUser(state.user),
-  userFullName:selectUserFullname(state.user)
+  userFullName:selectUserFullname(state.user),
+  userChannels:selectUserChannels(state.user)
 }
   );
 
+const boundActionCreators = (dispatch) => 
+bindActionCreators({...userOperations},dispatch);
 
-export default connect(mappedStateToProps)(withStyles(styles)(Profile));
+export default connect(mappedStateToProps,boundActionCreators)(withStyles(styles)(Profile));

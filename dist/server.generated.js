@@ -2318,6 +2318,17 @@ eval("module.exports = require(\"@material-ui/icons/FileUpload\");\n\n//# source
 
 /***/ }),
 
+/***/ "@material-ui/icons/Folder":
+/*!********************************************!*\
+  !*** external "@material-ui/icons/Folder" ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"@material-ui/icons/Folder\");\n\n//# sourceURL=webpack:///external_%22@material-ui/icons/Folder%22?");
+
+/***/ }),
+
 /***/ "@material-ui/icons/History":
 /*!*********************************************!*\
   !*** external "@material-ui/icons/History" ***!

@@ -81,7 +81,7 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nconst truncate = (amount, str) => {\n  if (!amount) {\n    return str;\n  } else {\n    let lastIndex = /[\\.\\,\\s\\!\\?]/i.exec(str.slice(amount));\n    return str.length > amount ? str.slice(0, amount + Number(lastIndex.index)) + '...' : str;\n  }\n};\n\nexports.truncate = truncate;\n\n//# sourceURL=webpack:///./src/utils/pipes/truncate.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n\tvalue: true\n});\nconst truncate = (amount, str) => {\n\tif (!amount) {\n\t\treturn str;\n\t} else {\n\t\tlet lastIndex = /[\\.\\,\\s\\!\\?]/i.exec(str.slice(amount));\n\t\treturn str.length > amount ? str.slice(0, amount + Number(lastIndex.index)) + '...' : str;\n\t}\n};\n\nconst trimInTheMiddle = (str, fromLeft, fromRight) => {\n\tlet leftStr = str.slice(0, fromLeft);\n\tlet rightStr = str.slice(-fromRight);\n\tlet newStr = `${leftStr}...${rightStr}`;\n\treturn newStr;\n};\n\nexports.truncate = truncate;\nexports.trimInTheMiddle = trimInTheMiddle;\n\n//# sourceURL=webpack:///./src/utils/pipes/truncate.js?");
 
 /***/ })
 

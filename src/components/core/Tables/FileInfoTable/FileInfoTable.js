@@ -10,28 +10,51 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import StorageIcon from '@material-ui/icons/Storage';
 import SizeIcon from '@material-ui/icons/PhotoSizeSelectActual';
+import FolderIcon from '@material-ui/icons/Folder';
 import { withStyles } from '@material-ui/core/styles';
 
-import {transformBytes,transformSeconds} from '../../../utils/pipes/fileDataTransforms';
+import {transformBytes,transformSeconds} from '../../../../utils/pipes/fileDataTransforms';
+import {trimInTheMiddle} from '../../../../utils/pipes/truncate';
 
 
 const styles = theme =>({
 	card:{
-		padding:'.2rem 1rem',
+		padding:'.2rem 0',
 		marginBottom:'.5rem'
-	}
+	},
+  listItem:{
+    paddingLeft:0
+  }
 })
-class FileInformation extends PureComponent{
+class FileInfoTable extends PureComponent{
 
-	
+
+isImage = (type) =>{
+  return type.includes('image');
+}
+
 
 	render(){
-	const {file:{bytes,duration,width,height},classes} = this.props;
-
+	let {file:{bytes,name,type,size,duration,width,height},classes} = this.props;
+  const isImage = this.isImage(type);
+  if(isImage){
+    bytes = size;
+  }
 	return (
-		<Card className={classes.card}>
-			   <List subheader={<ListSubheader>About the file</ListSubheader>}>
-          {duration && <ListItem>
+		<div className={classes.card}>
+        
+			   <List subheader={<ListSubheader component="div">About the file</ListSubheader>}>
+         <ListItem className={classes.listItem}>
+            <ListItemIcon>
+              <FolderIcon />
+            </ListItemIcon>
+            <ListItemText primary="Name" />
+            <ListItemSecondaryAction>
+                <span title={name}>{trimInTheMiddle(name,10,10)}</span>
+            </ListItemSecondaryAction>
+          </ListItem>
+
+          {duration && <ListItem className={classes.listItem}>
             <ListItemIcon>
               <AccessTimeIcon />
             </ListItemIcon>
@@ -41,7 +64,7 @@ class FileInformation extends PureComponent{
             </ListItemSecondaryAction>
           </ListItem>
         }
-          <ListItem>
+          <ListItem className={classes.listItem}>
             <ListItemIcon>
               <StorageIcon />
             </ListItemIcon>
@@ -51,7 +74,7 @@ class FileInformation extends PureComponent{
             </ListItemSecondaryAction>
           </ListItem> 
 
-           <ListItem>
+           {!isImage && <ListItem className={classes.listItem}>
             <ListItemIcon>
               <SizeIcon />
             </ListItemIcon>
@@ -60,13 +83,13 @@ class FileInformation extends PureComponent{
          	     {width} x {height}
             </ListItemSecondaryAction>
           </ListItem>
-
+        }
         </List>
-		</Card>
+		</div>
 		)
 
 }
 }
 
 
-export default withStyles(styles)(FileInformation);
+export default withStyles(styles)(FileInfoTable);

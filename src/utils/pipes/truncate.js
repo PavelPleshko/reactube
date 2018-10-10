@@ -7,7 +7,14 @@ const truncate = (amount,str) => {
         }
 }
 
+const trimInTheMiddle = (str,fromLeft,fromRight,padding='...') => {
+	if(str.length <= fromLeft+fromRight+padding.length) return str;
+	let leftStr = str.slice(0,fromLeft);
+	let rightStr = str.slice(-fromRight);
+	let newStr = `${leftStr}${padding}${rightStr}`;
+	return newStr;
+}
 
 export {
-	truncate
+	truncate,trimInTheMiddle
 }
