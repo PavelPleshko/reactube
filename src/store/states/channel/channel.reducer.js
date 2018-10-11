@@ -33,13 +33,15 @@ const channelReducer = (state=initialState,action) => {
 			}
 
 		case types.CREATE_NEW_CHANNEL_REQUEST:
+		case types.UPDATE_CHANNEL_REQUEST:
 			return {
 				...state,
-				processing:false,
+				processing:true,
 				isError:payload				
 			}
 
 		case types.CREATE_NEW_CHANNEL_SUCCESS:
+		case types.UPDATE_CHANNEL_SUCCESS:
 			return {
 				...state,
 				processing:false,
@@ -47,6 +49,7 @@ const channelReducer = (state=initialState,action) => {
 			}
 
 		case types.CREATE_NEW_CHANNEL_ERROR:
+		case types.UPDATE_CHANNEL_ERROR:
 			return {
 				...state,
 				processing:false,
@@ -55,7 +58,7 @@ const channelReducer = (state=initialState,action) => {
 		case types.GET_CHANNEL_BY_SLUG_REQUEST:
 			return {
 				...state,
-				processing:false,
+				processing:true,
 				isError:payload				
 			}
 
@@ -75,7 +78,7 @@ const channelReducer = (state=initialState,action) => {
 		case types.GET_CHANNEL_MEDIA_REQUEST:
 			return {
 				...state,
-				processing:false,
+				processing:true,
 				isError:payload				
 			}
 

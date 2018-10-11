@@ -22,7 +22,6 @@ const getChannelMedia = (channelId) => {
 		dispatch(channelActions.getChannelMediaRequest());
 		channelApiCalls.getChannelMedia(channelId)
 		.then(response=>{
-			console.log(response);
 			let media = response.data.media;	
 			dispatch(channelActions.getChannelMediaSuccess(media));
 		}).catch((error) => {
@@ -43,6 +42,20 @@ const createNewChannel = (channelData) => {
 			dispatch(push(`/channel/${slug}`));
 		}).catch((error) => {
 			dispatch(channelActions.createNewChannelError(error.message));
+		})	
+	}
+}
+
+const updateChannel = (channelPartial,channelId) => {
+	return (dispatch,getState)=>{
+		dispatch(channelActions.updateChannelRequest());
+		let csrfToken = getState().csrf;
+		channelApiCalls.updateChannel({channelPartial,channelId,csrfToken})
+		.then(response=>{
+			let updatedChannel = response.data.updatedChannel;	
+			dispatch(channelActions.updateChannelSuccess(updatedChannel));
+		}).catch((error) => {
+			dispatch(channelActions.updateChannelError(error.message));
 		})	
 	}
 }
@@ -72,5 +85,6 @@ export {
 getChannelsTopics,
 getChannelMedia,
 createNewChannel,
+updateChannel,
 getChannelBySlug
 }

@@ -19,6 +19,10 @@ const getChannelMediaRequest = createAction(types.GET_CHANNEL_MEDIA_REQUEST);
 const getChannelMediaSuccess = createAction(types.GET_CHANNEL_MEDIA_SUCCESS,'payload');
 const getChannelMediaError = createAction(types.GET_CHANNEL_MEDIA_ERROR,'payload'); 
 
+const updateChannelRequest = createAction(types.UPDATE_CHANNEL_REQUEST);
+const updateChannelSuccess = createAction(types.UPDATE_CHANNEL_SUCCESS,'payload');
+const updateChannelError = createAction(types.UPDATE_CHANNEL_ERROR,'payload'); 
+
 
 
 export default {
@@ -28,5 +32,7 @@ export default {
 
 	getChannelBySlugRequest,getChannelBySlugSuccess,getChannelBySlugError,
 
-	getChannelMediaRequest,getChannelMediaSuccess,getChannelMediaError
+	getChannelMediaRequest,getChannelMediaSuccess,getChannelMediaError,
+
+	updateChannelRequest,updateChannelSuccess,updateChannelError
 }

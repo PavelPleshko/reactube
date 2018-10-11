@@ -1,7 +1,9 @@
 import Channel from './channel.model';
 import Media from '../media/media.model';
-//import Cloudinary from 'cloudinary';
-//import formidable from 'formidable';
+import config from '../../config/config';
+import Cloudinary from 'cloudinary';
+import formidable from 'formidable';
+import extend from 'lodash/extend';
 import {sendSuccess,sendError} from '../../helpers/responseHandler';
 
 
@@ -41,6 +43,45 @@ const listChannelMedia = async (req, res, next) => {
   }
 }
 
+const updateChannel = async (req, res) => {
+  try{
+    const channelId = req.params.channelId;
+    let channel = await Channel.findById(channelId);
+
+    const form = new formidable.IncomingForm()
+    form.keepExtensions = true;
+    form.parse(req, async (err, fields, files) => {
+      if(err) throw err;
+
+      extend(channel,fields);
+      if(files.iconImage){
+        const pathToPhoto = files.iconImage.path;
+        Cloudinary.v2.uploader.upload(pathToPhoto,config.cloudinary,async (err,result) => {
+            if(result){
+              let previousUrl = channel.iconImage;
+              if(previousUrl){
+                let previousId = /(?:(upload.+))(?:\/)(.+)(?:\.(jpg|jpeg|png))$/gm.exec(previousUrl)[2];
+                let cloudDelete = await Cloudinary.v2.api
+                .delete_resources([previousId],{...config.cloudinary,resource_type:'image'});
+                console.log(cloudDelete);
+              }
+             
+              let secure_url = result.secure_url;
+              channel.iconImage = secure_url;
+              let updatedChannel = await channel.save();
+              sendSuccess(res)({updatedChannel});
+            }
+        })
+      }else{
+      let updatedChannel = await channel.save();
+      sendSuccess(res)({updatedChannel});
+      }
+});  
+  }catch(err){
+    sendError(res)(err);
+  }
+}
+
 const isOwner = (req,res,next) => {
   const user = req.user;
   const channel = req.channel;
@@ -65,5 +106,6 @@ const isOwner = (req,res,next) => {
 
 export default {
   create,readBySlug,listChannelMedia,
+  updateChannel,
   isOwner
 }

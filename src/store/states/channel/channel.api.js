@@ -21,7 +21,6 @@ const getChannelsTopics = () => {
 }
 
 const getChannelMedia = (channelId) => {
-  console.log(channelId);
   return fetch(`/api/channels/${channelId}/media`, {
       method: 'GET',
       headers: {
@@ -58,6 +57,20 @@ const createNewChannel = ({channelData,csrfToken}) => {
   .then(res=>res.json())
 }
 
+const updateChannel = ({channelPartial,channelId,csrfToken}) => {
+  return fetch(`/api/channels/${channelId}`, {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'CSRF-Token': csrfToken
+      },
+      credentials:'include',
+      body: channelPartial
+    })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
 
 
 
@@ -66,5 +79,6 @@ export {
 	getChannelsTopics,
   getChannelBySlug,
   getChannelMedia,
+  updateChannel,
   createNewChannel
 }

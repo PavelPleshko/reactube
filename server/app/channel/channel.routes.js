@@ -12,6 +12,10 @@ router.route('/channels/create')
 router.route('/channels/:channelId/media')
   .get(channelCtrl.listChannelMedia);
 
+
+router.route('/channels/:channelId')
+  .patch(authCtrl.requireSignin,channelCtrl.updateChannel);
+
 router.route('/channels/:channelSlug')
   .get(channelCtrl.readBySlug);
 
