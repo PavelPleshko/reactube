@@ -62,7 +62,7 @@ class AdjustThumbnail extends Component{
 
 	render(){
 	 	const {classes,video:{duration}} =this.props;
-	 	const {thumb_url} = this.state;
+	 	const {thumb_url,offset_value} = this.state;
 	 	
 		return (
 			<div>
@@ -70,7 +70,7 @@ class AdjustThumbnail extends Component{
 				   <div>
 				   <h5 className={classes.caption}>Customize thumbnail for your video</h5>
 					  <img src={thumb_url} width="100%" height="auto"/>
-				   	  <Slider value={this.state.offset_value} min={0} max={duration} step={5} onChange={this.handleThumbChange} />
+				   	  <Slider value={offset_value} min={0} max={duration} step={5} onChange={this.handleThumbChange} />
 				   </div>
 				: <FileUpload className={classes.uploadIcon} />
 

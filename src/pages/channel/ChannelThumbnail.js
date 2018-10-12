@@ -6,41 +6,23 @@ import {bindActionCreators} from 'redux';
 //meterial ui
 import ImageIcon from '@material-ui/icons/Image';
 import EditIcon from '@material-ui/icons/Edit';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
+import Slider from '@material-ui/lab/Slider';
 import {withStyles} from '@material-ui/core/styles';
 
-import FileInfoTable from '../../components/core/Tables/FileInfoTable/FileInfoTable';
+import AvatarEditor from 'react-avatar-editor'
+
+import EditThumbnailModal from './channelThumbnail/EditThumbnailModal';
+
 import * as channelOperations from '../../store/states/channel/channel.operations';
 import {selectProcessing} from '../../store/states/channel';
 
 const styles = theme => ({
-	  modal: {
-    position: 'absolute',
-    top:'50%',
-    left:'50%',
-    minWidth:'30%',
-    transform:'translate(-50%,-50%)',
-    borderRadius:7,
-    overflow:'hidden',
-    boxShadow: theme.shadows[5],
-    outline:'none'
-  },
-  modalBody:{
-  	    padding: theme.spacing.unit * 2,
-  	        backgroundColor: '#fff'
-  },
-  modalHeader:{
-  	position:'relative',
-  	textAlign:'center',
-  	top:0,
-  	left:0,
-  	color:'#fff',
-  	padding:'1rem',
-  	backgroundColor:theme.palette.primary.light
-  },
-	channelThumnbnail:{
+	channelThumbnailWrapper:{
 		display:'flex',
 		alignItems:'center',
 		justifyContent:'center',
@@ -56,9 +38,7 @@ const styles = theme => ({
 	},
 	channelThumbnail:{
 		width:'100%',
-		height:'100%',
-		backgroundPosition:'50% 50%',
-		backgroundSize:'cover'
+		height:'100%'
 	},
 	editIconBtn:{
 		position:'absolute',
@@ -72,16 +52,13 @@ const styles = theme => ({
 	},
 	thumbInputLabel:{
 		position:'relative',
-		left:'50%',
-		transform:'translateX(-50%)',
 		padding:'.3rem .7rem',
 		borderRadius:4,
 		display: 'inline-block',
-		textTransform:'uppercase',
 		color:'rgba(0, 0, 0, 0.54)',
 		backgroundColor:'transparent',
 		transition:'background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-		fontSize:'.85rem',
+		fontSize:'.9rem',
 		'&:hover':{
 			backgroundColor:'rgba(63, 81, 181, 0.08)',
 			cursor:'pointer'
@@ -91,89 +68,44 @@ const styles = theme => ({
 
 class ChannelThumbnail extends Component{
 
-
-		state = {
-		modalOpened:false,
-		file:null,
-		submitted:false
+	state = {
+		modalOpened:false
 	}
 
-	componentDidMount = () => {
-		this.formData = new FormData();
+	openModal = () => {
+		this.setState({modalOpened:true});
 	}
 
-	toggleModal = () => {
-		const {modalOpened} = this.state;
-		this.setState({modalOpened:!modalOpened});
-		if(modalOpened){
-			this.resetState();
-		}
-	}
-	fileChosenHandler = (e) => {
-		let iconImage = e.target.files[0];
-		 this.setState({ file: iconImage});
-		 this.formData.set('iconImage',iconImage);
-
+	closeModal = () => {
+		this.setState({modalOpened:false});
 	}
 
-	resetState = () => {
-		this.setState({file:null,modalOpened:false,submitted:false});
-	}
-
-	updateThumbnail = () => {
+	updateThumbnail = (formData) => {
 		if(!this.props.processing){
 			const {updateChannel,channelId} = this.props;
-			if(this.state.file){
-				
-				this.setState({submitted:true},()=>updateChannel(this.formData,channelId));		
+			if(formData){
+				updateChannel(formData,channelId);	
 			}
 		}
 	}
 
-	componentDidUpdate = (nextProps,nextState) => {
-		if(nextState.submitted){
-			const {processing} = this.props;
-			if(!processing){
-				this.resetState();
-			}
-		}
-	}
-	
 	render(){
 
-		const {modalOpened, file} = this.state;
+		const {modalOpened,submitted} = this.state;
 		const {iconImage,classes,processing} = this.props;
 
 		return (
 			<Fragment>
-			 <Modal
-          aria-labelledby="edit-channel-thumbnail"
-          aria-describedby="edit-channel-thumbnail"
-          open={modalOpened}
-   		  onClose={this.toggleModal}
-        >
-			<div className={classes.modal}>
-				<div className={classes.modalHeader}>Change channel's thumbnail</div>
-				<div className={classes.modalBody}>
-					<label htmlFor="thumbnail-file" className={classes.thumbInputLabel}>
-						{file ? 'Choose another file' : 'Choose file'}
-					</label>
-				
-				<input type="file" accept="image/*" hidden onChange={this.fileChosenHandler} id="thumbnail-file" />
-				{file && <Fragment>
-						<FileInfoTable file={file} />
-						<Button variant="contained" color="primary" onClick={this.updateThumbnail}>{processing ? 'Updating...' : 'Update'}</Button>
-					</Fragment>}
-
-				</div>
-			</div>
-        </Modal>
-        				<div className={classes.channelThumnbnail}>
+					{modalOpened && <EditThumbnailModal processing={processing}
+					updateResource={this.updateThumbnail}
+					 closeModal={this.closeModal}
+					 modalOpened={modalOpened} />}
+        				<div className={classes.channelThumbnailWrapper}>
 					{iconImage ? 
-						<div style={{backgroundImage:`url(${iconImage})`}}
-						className={classes.channelThumbnail}></div>
+						<img src={iconImage}
+						className={classes.channelThumbnail} />
 						: <ImageIcon className={classes.iconNoPhoto} />}
-					 <IconButton onClick={this.toggleModal} color="primary" className={classes.editIconBtn} aria-label="Edit channel thumbnail">
+					 <IconButton onClick={this.openModal} color="primary" className={classes.editIconBtn} aria-label="Edit channel thumbnail">
       					 <EditIcon className={classes.editIcon} />
      				 </IconButton>										
 				</div>

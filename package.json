@@ -71,6 +71,7 @@
     "passport-jwt": "^4.0.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
+    "react-avatar-editor": "^11.0.4",
     "react-dom": "^16.4.1",
     "react-jss": "^8.6.1",
     "react-loadable": "^5.4.0",

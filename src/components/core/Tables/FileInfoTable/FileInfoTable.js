@@ -43,7 +43,7 @@ isImage = (type) =>{
 	return (
 		<div className={classes.card}>
         
-			   <List subheader={<ListSubheader component="div">About the file</ListSubheader>}>
+			   <List>
          <ListItem className={classes.listItem}>
             <ListItemIcon>
               <FolderIcon />
