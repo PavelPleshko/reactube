@@ -73,6 +73,7 @@
     "react": "^16.4.1",
     "react-avatar-editor": "^11.0.4",
     "react-dom": "^16.4.1",
+    "react-image-crop": "^6.0.0",
     "react-jss": "^8.6.1",
     "react-loadable": "^5.4.0",
     "react-player": "^1.6.4",

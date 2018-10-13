@@ -14,6 +14,10 @@ import AvatarEditor from 'react-avatar-editor'
 
 import FileInfoTable from '../../../components/core/Tables/FileInfoTable/FileInfoTable';
 
+const ZOOM_STEP = 0.1;
+const ZOOM_MIN = 0.5;
+const ZOOM_MAX = 2;
+
 const styles = theme => ({
 	  modal: {
     position: 'absolute',
@@ -67,7 +71,6 @@ const styles = theme => ({
   	alignItems:'center',
   	justifyContent:'center',
   	  	borderRadius:5,
-
   },
 	channelThumnbnail:{
 		display:'flex',
@@ -162,13 +165,29 @@ class EditThumbnailModal extends Component{
 			const {processing} = this.props;
 			if(!processing){
 				this.closeModal();
-				//this.resetState();
 			}
 		}
 	}
 
 	handleScaleChange = (e,value) => {
 		this.setState({scale:value});
+	}
+
+	zoomOut = () => {
+		const {scale} = this.state;
+		const adjustedScale= scale - ZOOM_STEP;
+		if(adjustedScale >= ZOOM_MIN){
+			this.setState({scale:adjustedScale});			
+		}
+	}	
+
+
+	zoomIn = () => {
+		const {scale} = this.state;
+		const adjustedScale= scale + ZOOM_STEP;
+		if(adjustedScale <= ZOOM_MAX){
+			this.setState({scale:adjustedScale});			
+		}
 	}
 
 	closeModal = () => {
@@ -216,11 +235,11 @@ class EditThumbnailModal extends Component{
 				</div>
 					<div className={classes.modalFooter}>
 						<div className={classes.sliderGroup}>
-											 <RemoveIcon className={classes.sliderButton} />
+											 <RemoveIcon onClick={this.zoomOut} className={classes.sliderButton} />
 											 <Slider classes={{thumb:classes.sliderThumb,
 												trackAfter:classes.sliderTrackAfter}} value={scale} 
-												min={0.5} max={2} step={.1} onChange={this.handleScaleChange} />
-											 <AddIcon className={classes.sliderButton} />
+												min={ZOOM_MIN} max={ZOOM_MAX} step={ZOOM_STEP} onChange={this.handleScaleChange} />
+											 <AddIcon onClick={this.zoomIn} className={classes.sliderButton} />
 						</div>
 						<Button variant="outlined" color="primary" 
 						onClick={this.updateThumbnail}>{processing && submitted ?

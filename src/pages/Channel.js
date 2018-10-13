@@ -6,7 +6,6 @@ import {bindActionCreators} from 'redux';
 //meterial ui
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import {withStyles} from '@material-ui/core/styles';
 
@@ -14,6 +13,7 @@ import {withStyles} from '@material-ui/core/styles';
 import MediaTile from '../components/core/MediaTile/MediaTile';
 import ChannelTabs from './channel/ChannelTabs';
 import ChannelThumbnail from './channel/ChannelThumbnail';
+import ChannelHeader from './channel/ChannelHeader';
 
 import {selectUser} from '../store/states/user';
 import {selectChannel} from '../store/states/channel';
@@ -22,13 +22,6 @@ import * as channelOperations from '../store/states/channel/channel.operations';
 const styles = theme => ({
 	root:{
 		
-	},
-	profileMeta:{
-		display:'flex',
-		justifyContent:'space-between',
-		alignItems:'center',
-		padding:'1rem 2rem',
-		backgroundColor:'#fafafa'
 	},
 	userFullname:{
 		fontSize:'1.1rem',
@@ -76,7 +69,7 @@ class Channel extends Component{
 
 		<Paper elevation={2} className={classes.root}>
 		
-			<div className={classes.profileMeta}>
+			<ChannelHeader>
 				<ChannelThumbnail channelId={channel && channel._id} iconImage={channelThumbnail} />
 				{channel && channel.subscribers ?
 				<div className={classes.userSubscribers}>
@@ -89,7 +82,8 @@ class Channel extends Component{
 				</div>
 				: null
 			}
-			</div>
+
+			</ChannelHeader>
 		<ChannelTabs channelId={channel && channel._id}/>
 		</Paper>
 	)

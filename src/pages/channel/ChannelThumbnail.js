@@ -21,6 +21,8 @@ import EditThumbnailModal from './channelThumbnail/EditThumbnailModal';
 import * as channelOperations from '../../store/states/channel/channel.operations';
 import {selectProcessing} from '../../store/states/channel';
 
+
+
 const styles = theme => ({
 	channelThumbnailWrapper:{
 		display:'flex',

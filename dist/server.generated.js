@@ -2131,6 +2131,17 @@ eval("module.exports = require(\"@material-ui/core/Toolbar\");\n\n//# sourceURL=
 
 /***/ }),
 
+/***/ "@material-ui/core/Tooltip":
+/*!********************************************!*\
+  !*** external "@material-ui/core/Tooltip" ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"@material-ui/core/Tooltip\");\n\n//# sourceURL=webpack:///external_%22@material-ui/core/Tooltip%22?");
+
+/***/ }),
+
 /***/ "@material-ui/core/Typography":
 /*!***********************************************!*\
   !*** external "@material-ui/core/Typography" ***!
@@ -2194,6 +2205,17 @@ eval("module.exports = require(\"@material-ui/icons/AccessTime\");\n\n//# source
 /***/ (function(module, exports) {
 
 eval("module.exports = require(\"@material-ui/icons/AccountCircle\");\n\n//# sourceURL=webpack:///external_%22@material-ui/icons/AccountCircle%22?");
+
+/***/ }),
+
+/***/ "@material-ui/icons/Add":
+/*!*****************************************!*\
+  !*** external "@material-ui/icons/Add" ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"@material-ui/icons/Add\");\n\n//# sourceURL=webpack:///external_%22@material-ui/icons/Add%22?");
 
 /***/ }),
 
@@ -2392,6 +2414,17 @@ eval("module.exports = require(\"@material-ui/icons/Menu\");\n\n//# sourceURL=we
 /***/ (function(module, exports) {
 
 eval("module.exports = require(\"@material-ui/icons/PhotoSizeSelectActual\");\n\n//# sourceURL=webpack:///external_%22@material-ui/icons/PhotoSizeSelectActual%22?");
+
+/***/ }),
+
+/***/ "@material-ui/icons/Remove":
+/*!********************************************!*\
+  !*** external "@material-ui/icons/Remove" ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"@material-ui/icons/Remove\");\n\n//# sourceURL=webpack:///external_%22@material-ui/icons/Remove%22?");
 
 /***/ }),
 
@@ -2942,6 +2975,28 @@ eval("module.exports = require(\"react-dom/server\");\n\n//# sourceURL=webpack:/
 /***/ (function(module, exports) {
 
 eval("module.exports = require(\"react-hot-loader\");\n\n//# sourceURL=webpack:///external_%22react-hot-loader%22?");
+
+/***/ }),
+
+/***/ "react-image-crop":
+/*!***********************************!*\
+  !*** external "react-image-crop" ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"react-image-crop\");\n\n//# sourceURL=webpack:///external_%22react-image-crop%22?");
+
+/***/ }),
+
+/***/ "react-image-crop/dist/ReactCrop.css":
+/*!******************************************************!*\
+  !*** external "react-image-crop/dist/ReactCrop.css" ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"react-image-crop/dist/ReactCrop.css\");\n\n//# sourceURL=webpack:///external_%22react-image-crop/dist/ReactCrop.css%22?");
 
 /***/ }),
 
