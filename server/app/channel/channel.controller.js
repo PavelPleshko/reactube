@@ -11,7 +11,6 @@ const create = async (req, res, next) => {
   try{
     let owner = req.user && req.user._id;
     let data = {...req.body,owner};
-      console.log(data);
     const channel = new Channel(data);
     let newChannel = await channel.save();
     sendSuccess(res)({newChannel});
@@ -34,8 +33,6 @@ const readBySlug = async (req, res, next) => {
 const listChannelMedia = async (req, res, next) => {
   try{
     const channelId = req.params.channelId;
-        console.log(channelId);
-
     const media = await Media.find({channel:channelId});
     sendSuccess(res)({media});
   }catch(err){
@@ -48,35 +45,45 @@ const updateChannel = async (req, res) => {
     const channelId = req.params.channelId;
     let channel = await Channel.findById(channelId);
 
-    const form = new formidable.IncomingForm()
+    const form = new formidable.IncomingForm();
     form.keepExtensions = true;
     form.parse(req, async (err, fields, files) => {
       if(err) throw err;
-
       extend(channel,fields);
-      if(files.iconImage){
-        const pathToPhoto = files.iconImage.path;
-        Cloudinary.v2.uploader.upload(pathToPhoto,config.cloudinary,async (err,result) => {
+      if(files){
+        const uploadFileFromPath = (path,key) => {
+          return new Promise((resolve,reject)=>{
+            Cloudinary.v2.uploader.upload(path,config.cloudinary,async (err,result) => {
+            if(err){
+              reject(err);
+            }
             if(result){
-              let previousUrl = channel.iconImage;
+              let previousUrl = channel[key];
               if(previousUrl){
+          //TODO make it safer here with Regexp
                 let previousId = /(?:(upload.+))(?:\/)(.+)(?:\.(jpg|jpeg|png))$/gm.exec(previousUrl)[2];
-                let cloudDelete = await Cloudinary.v2.api
-                .delete_resources([previousId],{...config.cloudinary,resource_type:'image'});
-                console.log(cloudDelete);
+            if(previousId){
+                    let cloudDelete = await Cloudinary.v2.api
+                .delete_resources([previousId],{...config.cloudinary,resource_type:'image'});                
+            }
+       
               }
              
               let secure_url = result.secure_url;
-              channel.iconImage = secure_url;
-              let updatedChannel = await channel.save();
-              sendSuccess(res)({updatedChannel});
+              channel[key] = secure_url;
+              resolve(channel);
             }
-        })
-      }else{
-      let updatedChannel = await channel.save();
-      sendSuccess(res)({updatedChannel});
+        });
+          });      
+        };
+        for(let fileName in files){
+           const pathToPhoto = files[fileName].path;
+           channel = await uploadFileFromPath(pathToPhoto,fileName);
+        }
+        const updatedChannel = await channel.save();
+        sendSuccess(res)({updatedChannel});
       }
-});  
+    });
   }catch(err){
     sendError(res)(err);
   }

@@ -31,7 +31,10 @@ const styles = theme => ({
 	userSubscribers:{
 		fontSize:'1.1rem',
 		display:'flex',
-		alignItems:'center'
+		alignItems:'center',
+		padding:'.1rem .6rem',
+		borderRadius:4,
+		backgroundColor:'rgba(255,255,255,.7)'
 	},
 	subscribersNumber:{
 		color:theme.palette.primary.light,
@@ -64,13 +67,14 @@ class Channel extends Component{
 		const {classes,user,channel} = this.props;
 		const owner = channel ? channel.owner : null;
 		const channelThumbnail = channel ? channel.iconImage : null;
-
+		const channelBackground = channel ? channel.backgroundImage : null;
+		const channelId = channel ? channel._id : null;
 	return (
 
 		<Paper elevation={2} className={classes.root}>
 		
-			<ChannelHeader>
-				<ChannelThumbnail channelId={channel && channel._id} iconImage={channelThumbnail} />
+			<ChannelHeader channelId={channelId} channelBackground={channelBackground}>
+				<ChannelThumbnail channelId={channelId} iconImage={channelThumbnail} />
 				{channel && channel.subscribers ?
 				<div className={classes.userSubscribers}>
 					<span className={classes.subscribersNumber}>
@@ -84,7 +88,7 @@ class Channel extends Component{
 			}
 
 			</ChannelHeader>
-		<ChannelTabs channelId={channel && channel._id}/>
+		<ChannelTabs channelId={channelId}/>
 		</Paper>
 	)
 	}

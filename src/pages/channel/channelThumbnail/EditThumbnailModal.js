@@ -18,6 +18,24 @@ const ZOOM_STEP = 0.1;
 const ZOOM_MIN = 0.5;
 const ZOOM_MAX = 2;
 
+function dataURItoBlob(dataURI) {
+    var byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+        byteString = atob(dataURI.split(',')[1]);
+    else
+        byteString = unescape(dataURI.split(',')[1]);
+
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ia], {type:mimeString});
+}
+
+
 const styles = theme => ({
 	  modal: {
     position: 'absolute',
@@ -153,8 +171,9 @@ class EditThumbnailModal extends Component{
 		const {file} = this.state;
 		if(!processing){
 			if(file){
-				const iconImage = this.editor.getImage().toDataURL();
-				this.formData.set('iconImage',iconImage);
+				const dataURL = this.editor.getImage().toDataURL();
+				const fileBlob = dataURItoBlob(dataURL);
+				this.formData.set('iconImage',fileBlob);
 				this.setState({submitted:true},()=>updateResource(this.formData));		
 			}
 		}

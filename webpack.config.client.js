@@ -34,11 +34,7 @@ const config = {
      }, 
      {
        test: /\.css$/,
-       loader: 'css-loader',
-       query: {
-         modules: true,
-         localIdentName: '[name]-[hash:base64:5]'
-     }
+       loader: 'css-loader'
 }
     ]
     },

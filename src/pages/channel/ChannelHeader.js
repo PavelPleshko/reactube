@@ -6,9 +6,57 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import {withStyles} from '@material-ui/core/styles';
 
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
+import * as channelOperations from '../../store/states/channel/channel.operations';
 
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+
+const RECOMMENDED_IMG_WIDTH=2560;
+const RECOMMENDED_IMG_HEIGHT=1440;
+const calculateAspectRatioFit = (srcWidth, srcHeight, maxWidth, maxHeight)=>{
+	const ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
+	return { width: srcWidth*ratio, height: srcHeight*ratio };
+}
+
+const getImageNaturalDimensions = file => {
+  return new Promise ((resolved, rejected)=>{
+    const i = new Image();
+    i.onload = function(){
+      resolved({width: i.naturalWidth, height: i.naturalHeight})
+    };
+    i.src = file;
+  })
+}
+
+const getCroppedImg = (image,origWidth,origHeight, pixelCrop, fileName) => {
+  const canvas = document.createElement('canvas');
+    const ratioX = image.width/origWidth;
+  const ratioY = image.height/origHeight;
+  canvas.width = pixelCrop.width * ratioX;
+  canvas.height = pixelCrop.height* ratioY;
+console.log(ratioY,ratioX);
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(
+    image,
+    pixelCrop.x * ratioX,
+    pixelCrop.y * ratioY,
+    pixelCrop.width * ratioX,
+    pixelCrop.height * ratioY,
+    0,
+    0,
+    pixelCrop.width * ratioX,
+    pixelCrop.height * ratioY
+  );
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(file => {
+      file.name = fileName;
+      resolve(file);
+    }, 'image/jpeg');
+  });
+}
 
 const styles = theme => ({
 	profileMeta:{
@@ -17,7 +65,9 @@ const styles = theme => ({
 		justifyContent:'space-between',
 		alignItems:'center',
 		padding:'1rem 2rem',
-		backgroundColor:'#fafafa'
+		backgroundColor:'#fafafa',
+		backgroundSize:'100% auto',
+		backgroundPosition:'0 0'
 	},
 		editBackgroundIcon:{
 		position:'absolute',
@@ -100,11 +150,15 @@ class ChannelHeader extends Component{
 		crop:{
 			  x: 0,
 			  y: 0,
-			  aspect:16/9,
+			  aspect:21/4,
 			  width: 700
 		},
-		imgHeight:300,
-		imgWidth:700
+		imgWidth:700,
+		imgHeight:300
+	}
+
+		componentDidMount = () => {
+		this.formData = new FormData();
 	}
 
 	toggleModal = () => {
@@ -118,41 +172,54 @@ class ChannelHeader extends Component{
 		reader.readAsDataURL(iconImage);
 		reader.onload = ()=>{
 			 const {result} = reader;
-			 this.setState({ file: iconImage,dataUrl:result});				 
+			 this.updateImage(result);
+			 this.setState({ file: iconImage,dataUrl:result})
 		}
 	}
 
-	onChange = (crop) => {
-  this.setState({ crop });
-}
 
-setRef = img => {
-	let imgHeight = img.naturalHeight;
-	let imgWidth = img.naturalWidth;
-	console.log(imgHeight,imgWidth,'before')
-	 while(imgHeight > 300 || imgWidth > 700){
-      imgWidth *= 0.97;
-      imgHeight *=0.97;
-    }
-    console.log(imgHeight,imgWidth,'after')
-	this.setState({
-		imgHeight,imgWidth
-	});
-	this.imgref = img;
-}
+	updateImage = async (dataUrl) =>{
+		const {width,height} = await getImageNaturalDimensions(dataUrl);
+		const dims = calculateAspectRatioFit(width,height,700,300);
+		this.setState({
+			imgHeight:dims.height,imgWidth:dims.width
+		});
+	}
+
+	onChange = (crop) => {
+  		this.setState({ crop });
+	}
+
+	updateBackground = () =>{
+		const {crop,dataUrl,file,imgWidth,imgHeight} = this.state;
+		const {updateChannel,channelId} = this.props;
+		const image = new Image();
+		image.src = dataUrl;
+		image.onload = async () =>{
+			
+			const pixelCrop = Object.assign({},crop);
+			pixelCrop.x = (imgWidth/100) *pixelCrop.x;
+			pixelCrop.y = (imgHeight/100) *pixelCrop.y;
+			pixelCrop.width = (imgWidth/100) *pixelCrop.width;
+			pixelCrop.height = (imgHeight/100) *pixelCrop.height;
+			console.log(image.width,image.height,pixelCrop);
+			const croppedImage = await getCroppedImg(image,imgWidth,imgHeight,pixelCrop,file.name);
+			this.formData.set('backgroundImage',croppedImage);
+			updateChannel(this.formData,channelId);
+		}
+	}
+
 
 	render(){
 		const {file,submitted,dataUrl,scale,modalOpened,imgHeight,imgWidth} = this.state;
-		const {classes,processing} = this.props;
-		console.log(imgWidth,imgHeight,'render');
+		const {classes,processing,channelBackground} = this.props;
 			return (
-				<div className={classes.profileMeta}>
+				<div className={classes.profileMeta} style={{backgroundImage:channelBackground ? `url(${channelBackground})` : ''}}>
 					 <Modal
 			          aria-labelledby="edit-channel-background"
 			          aria-describedby="edit-channel-background"
 			          open={modalOpened}
-			   		  onClose={this.toggleModal}
-			        >
+			   		  onClose={this.toggleModal} >
 						<div className={classes.modal}>
 							<div className={classes.modalHeader}>Edit Background
 									<label htmlFor="background-file" className={classes.thumbInputLabel}>
@@ -161,15 +228,13 @@ setRef = img => {
 									<input type="file" accept="image/*" hidden onChange={this.fileChosenHandler} id="background-file" />
 								</div>
 							<div className={classes.modalBody}>
-							
-							
-							<div className={[classes.thumbnailPreview,dataUrl ? '' : classes.dashed].join(' ')}>
-								{dataUrl ?
-									<div className={classes.backgroundWrapper} style={{width:imgWidth,height:imgHeight}}> 
-										<img width="100%" height="100%" src={dataUrl} ref={this.setRef} />
-									</div> 
+											
+							<div className={[classes.thumbnailPreview,dataUrl ? '' : classes.dashed].join(' ')}>							
+									{dataUrl ? <div className={classes.backgroundWrapper}> 
+										<ReactCrop src={dataUrl} onChange={this.onChange} crop={this.state.crop} imageStyle={{height:imgHeight,width:imgWidth}}/>
+										</div>
 									: <div>
-										Recommended size of image is 2560x1440
+										Recommended size of image is {`${RECOMMENDED_IMG_WIDTH}x${RECOMMENDED_IMG_HEIGHT}`}
 									</div>
 									}
 							</div>
@@ -178,7 +243,7 @@ setRef = img => {
 							</div>
 								<div className={classes.modalFooter}>
 									<Button variant="outlined" color="primary" 
-									onClick={this.updateThumbnail}>{processing && submitted ?
+									onClick={this.updateBackground}>{processing && submitted ?
 									 'Saving...' : 'Save'}</Button>
 									</div>
 						</div>
@@ -194,4 +259,6 @@ setRef = img => {
 	}
 }
 
-export default withStyles(styles)(ChannelHeader);
+const boundActionCreators = (dispatch) => bindActionCreators({...channelOperations},dispatch);
+
+export default connect(null,boundActionCreators)(withStyles(styles)(ChannelHeader));

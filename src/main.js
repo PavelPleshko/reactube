@@ -3,7 +3,6 @@ import { hydrate, render } from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './App';
 import './index.css';
-import 'react-virtualized/styles.css';
 import {configStore,history} from './store/store';
 import JssProvider from 'react-jss/lib/JssProvider';
 import { SheetsRegistry } from 'react-jss/lib/jss'
@@ -14,7 +13,7 @@ import {deepPurple,green,red} from '@material-ui/core/colors';
 const theme = createMuiTheme({
   palette: {
     primary: {
-    light: '#0575e6',
+    light: '#2cabec',
     main: '#3f51b5',
     dark: '#002984',
     contrastText: '#fff',
