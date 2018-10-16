@@ -28,6 +28,7 @@ const theme = createMuiTheme({
   }
 },
  typography:{
+    fontFamily:'Roboto Condensed, sans-serif',
     mainFont:'Roboto Condensed, sans-serif'
   }
 });

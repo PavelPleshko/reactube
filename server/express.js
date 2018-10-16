@@ -107,23 +107,26 @@ app.get("/*", (req, res, next) => {
   const context = {};
 
   const theme = createMuiTheme({
-    palette: {
-      primary: {
-        light: "#757de8",
-        main: "#3f51b5",
-        dark: "#002984",
-        contrastText: "#fff",
-        error: red[500],
-        errorHover: red[600],
-        success: green[400],
-        successHover: green[600],
-        standard: deepPurple[500],
-        standardHover: deepPurple[600],
-        grey: "#8091a5",
-        lightGrey: "#c3cfd5"
-      }
-    }
-  });
+  palette: {
+    primary: {
+    light: '#fff',
+    active: 'rgb(50,97,195)',
+    textColor:'#c8c8c8',
+    contrastText: '#000',
+    error:red[500],
+    errorHover:red[600],
+    success:green[400],
+    successHover:green[600],
+    standard:deepPurple[500],
+    standardHover:deepPurple[600],
+    grey:'#8091a5',
+    lightGrey:'#f8f8f8',
+  }
+},
+ typography:{
+    mainFont:'Roboto Condensed, sans-serif'
+  }
+});
   const sheetsRegistry = new SheetsRegistry();
   const generateClassName = createGenerateClassName();
   const store = configStore({

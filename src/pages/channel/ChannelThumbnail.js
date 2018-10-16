@@ -28,9 +28,12 @@ const styles = theme => ({
 		display:'flex',
 		alignItems:'center',
 		justifyContent:'center',
+		flexShrink:0,
 		position:'relative',
-		width:'7rem',
-		height:'7rem',
+		width:'6rem',
+		height:'6rem',
+		borderRadius:'50%',
+		overflow:'hidden',
 		backgroundColor:theme.palette.primary.lightGrey
 	},
 	iconNoPhoto:{

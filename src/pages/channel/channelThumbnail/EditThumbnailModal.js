@@ -71,16 +71,17 @@ const styles = theme => ({
 		display:'flex',
   	alignItems:'center',
   	justifyContent:'center',
-  	  	borderRadius:5,
+  	  	borderRadius:'50%'
   },
 	channelThumnbnail:{
 		display:'flex',
 		alignItems:'center',
 		justifyContent:'center',
 		position:'relative',
-		width:'7rem',
-		height:'7rem',
-		backgroundColor:theme.palette.primary.lightGrey
+		width:'6rem',
+		height:'6rem',
+		backgroundColor:theme.palette.primary.lightGrey,
+		borderRadius:'50%'
 	},
 	iconNoPhoto:{
 		color:'#fff',
@@ -240,7 +241,7 @@ class EditThumbnailModal extends Component{
 					{dataUrl ? 
 						<AvatarEditor
 						 ref={this.setEditorRef}
-						 image={dataUrl} scale={scale} width={120} height={120} border={20} />
+						 image={dataUrl} scale={scale} width={120} height={120} border={20} borderRadius={300} />
 						: <div className={classes.thumbnailBackground}>
 							<ImageIcon className={classes.iconNoPhoto} style={{fontSize:'6rem'}} />
 						</div>

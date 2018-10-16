@@ -22,14 +22,15 @@ const RECOMMENDED_IMG_HEIGHT=1440;
 
 const styles = theme => ({
 	profileMeta:{
+		height:'200px',
 		display:'flex',
 		position:'relative',
 		justifyContent:'space-between',
 		alignItems:'center',
 		padding:'1rem 2rem',
 		backgroundColor:'#fafafa',
-		backgroundSize:'100% auto',
-		backgroundPosition:'0 0'
+		backgroundSize:'cover',
+		backgroundPosition:'50% 50%'
 	},
 		editBackgroundIcon:{
 		position:'absolute',
@@ -77,7 +78,7 @@ const styles = theme => ({
   	display:'flex',
   	alignItems:'center',
   	justifyContent:'center',
-  	 minHeight:300,
+  	minHeight:300,
   	width:'90%',
   },
   backgroundWrapper:{
@@ -214,7 +215,6 @@ class ChannelHeader extends Component{
 									</div>
 						</div>
 		        	</Modal>
-					{this.props.children}
 					<Tooltip title="Edit background">
 						<IconButton className={classes.editBackgroundIcon} onClick={this.toggleModal}>
 							<EditIcon />

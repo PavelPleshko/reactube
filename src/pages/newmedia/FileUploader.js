@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component,Fragment} from 'react';
 import PropTypes from 'prop-types';
 
 //materialui
@@ -38,9 +38,7 @@ const styles = theme =>({
 		display:'flex',
 		flexDirection:'column',
 		textAlign:'center',
-		alignItems: 'center',
-				fontFamily:theme.typography.mainFont
-
+		alignItems: 'center'
 	},	
 	btnIcon:{
 		marginRight:'.4rem'
@@ -52,7 +50,6 @@ const styles = theme =>({
 	chooseFile:{
 		marginBottom:'.4rem',
 		fontWeight:'700',
-		fontFamily:theme.typography.mainFont,
 		'&:hover':{
 			color:theme.palette.primary.active,
 			cursor:'pointer'
@@ -60,8 +57,7 @@ const styles = theme =>({
 	},
 	fileName:{
 		marginTop:'.3rem',
-		fontSize:'.8rem',
-		fontFamily:theme.typography.mainFont
+		fontSize:'.8rem'
 	},
 	fileActions:{
 		    bottom: 10,
@@ -119,7 +115,7 @@ class FileUploader extends Component{
 	render(){
 		const {classes} = this.props;		
 	return (
-		<React.Fragment>
+		<Fragment>
 				<DialogWithType 
 				open={!!(this.state.error && this.state.dialogOpened)}
 				close={this.closeDialog}
@@ -150,16 +146,10 @@ class FileUploader extends Component{
 										</label>
 									 <input accept="video/*" onChange={this.handleChange}
 		        	     				className={classes.input} id="icon-button-file" type="file" />
-		        	       		
-
-
 
 		<UploadProgress progress={this.state.progress} startUploading={this.startUploading}
-		 status={this.state.status} />
-
-							          
+		 status={this.state.status} />							          
 								</div>
-
 							</CardContent>
 						</Card>
 					</Grid>
@@ -168,7 +158,7 @@ class FileUploader extends Component{
 						<FileMetaForm submitForm={this.props.submitForm} submitBtnText="Publish media" />
 					</Grid>
 				</Grid>
-			</React.Fragment>
+			</Fragment>
 	)
 	}
 }

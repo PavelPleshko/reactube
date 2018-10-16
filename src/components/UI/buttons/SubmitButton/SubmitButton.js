@@ -11,10 +11,10 @@ const styles = theme =>({
 })
 
 const submitButton = (props)=>{
-const {classes,formName} = props;
+const {classes,formName,processing} = props;
 
 let btnClasses = [];
-if(props.processing){
+if(processing){
 	btnClasses.push(classes.isProcessing)
 }
 	return (

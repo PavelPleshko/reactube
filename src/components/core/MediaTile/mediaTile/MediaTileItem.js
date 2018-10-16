@@ -51,8 +51,7 @@ const styles = theme =>({
   	backgroundColor:'rgba(255,255,255,.5)',
   	borderRadius:'5px',
   	padding:'0 3px',
-  	fontSize:'.9rem',
-    fontFamily:theme.typography.mainFont
+  	fontSize:'.9rem'
   },
   duration:{
     position:'absolute',
@@ -62,8 +61,7 @@ const styles = theme =>({
     backgroundColor:'#000000',
     color:'#ffffff',
     bottom:2,
-    right:3,
-    fontFamily:theme.typography.mainFont
+    right:3
   },
   meta:{
   	display:'flex',
@@ -82,9 +80,7 @@ const styles = theme =>({
       fontWeight:500,
       margin:'5px 0',
       maxHeight: '2rem',
-      lineHeight: '1rem',
-          fontFamily:theme.typography.mainFont
-
+      lineHeight: '1rem'
   },
   subheading: {
   	display:'flex',
@@ -93,9 +89,7 @@ const styles = theme =>({
   	color:theme.palette.primary.grey,
   	overflowX:'hidden',
   	textOverflow:'ellipsis',	
-  	fontWeight:500,
-        fontFamily:theme.typography.mainFont
-
+  	fontWeight:500
   },
   author:{
     overflowX: 'hidden',
@@ -106,17 +100,13 @@ const styles = theme =>({
     fontWeight:500,
     opacity:.9,
     marginBottom:'3px',
-        fontFamily:theme.typography.mainFont,
-
     '&:hover':{
     	opacity:1,
     	cursor:'pointer'
     }
   },
   date:{
-  	marginTop:'3px',
-        fontFamily:theme.typography.mainFont
-
+  	marginTop:'3px'
   }
 });
 

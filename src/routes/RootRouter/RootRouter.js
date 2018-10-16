@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component,Fragment} from 'react';
 import { renderRoutes } from 'react-router-config'
 import routes from '../routeConfig';
 
@@ -9,9 +9,9 @@ const RootRouter = ({route})=>{
 	
 	
 	return (
-	<div>	
-	{renderRoutes(routes)}
-	</div>
+	<Fragment>	
+		{renderRoutes(routes)}
+	</Fragment>
 
 	)
 	

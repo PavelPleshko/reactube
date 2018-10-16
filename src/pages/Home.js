@@ -23,11 +23,13 @@ class Home extends Component{
 	render(){
 		const {popularMedias} = this.props;
 	return (
-		<Grid container spacing={24}>
-		<Grid item sm={12}>
-			<MediaTile columns={6} items={popularMedias} resourceKey={'popular'}/>
-		</Grid>
-		</Grid>
+		<div style={{margin:'3rem'}}>
+			<Grid container spacing={24}>
+			<Grid item sm={12}>
+				<MediaTile columns={6} items={popularMedias} resourceKey={'popular'}/>
+			</Grid>
+			</Grid>
+		</div>
 	)
 	}
 }

@@ -103,7 +103,8 @@ const styles = theme => ({
     fontWeight:700
   },
   backgroundActive:{
-   backgroundColor: 'rgba(0, 0, 0, 0.08)'
+   backgroundColor: 'rgba(0, 0, 0, 0.08)',
+   borderRight:`4px solid ${theme.palette.primary.active}`
   },
   listItem:{
        fontFamily:theme.typography.mainFont
@@ -173,6 +174,7 @@ class DrawerNav extends React.Component {
                         {item.icon}
                       </ListItemIcon>}
                       <ListItemText classes={{primary:[classes.listItem,isActive(pathName,item.link) ? classes.active : ''].join(' ')}} primary={item.title} />
+                    
                     </ListItem>
                    </Link>
           })}

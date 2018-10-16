@@ -41,9 +41,9 @@ render(){
               onClose={this.onSnackBarClose} />
               <DrawerNav>
                 <MainNav />
-                    <div style={{margin:'3rem'}}>
+                  
                       <RootRouter />
-                    </div>
+                    
               </DrawerNav>
 			  </Fragment>
  				)

@@ -12,11 +12,12 @@ import GradientButton from '../../components/UI/buttons/GradientButton/GradientB
 
 
 const styles = theme =>({
+	root:{
+		backgroundColor:'#fff'
+	},
 	card:{
 			padding:'1rem 2.5rem',
-			marginBottom:'.5rem',
-			overflow:'visible'
-			
+			overflow:'visible'		
 		},
 	buttonCreate:{
 		color:'#fff',
@@ -46,15 +47,15 @@ handleSubmit =(values)=>{
 	render(){
 		const {classes,submitBtnText,media} = this.props;
 	return (
-		<form onSubmit={ this.props.handleSubmit(this.handleSubmit) }>		
-			  <Card className={classes.card}>				
+		<form className={classes.root} onSubmit={ this.props.handleSubmit(this.handleSubmit) }>		
+			  <div className={classes.card}>				
 					<MainInfoForm media={media}/>				
-			  </Card>
-			  <Card className={classes.card}>			     		         
+			  </div>
+			  <div className={classes.card}>			     		         
 					<AdditionalInfoForm media={media}/>					
-			  </Card>
+			  </div>
 			
-		      <GradientButton gradientColor={'#00F260'} type="submit" classes={{btn:classes.buttonCreate}} borderRadius="20px">		
+		      <GradientButton gradientColor={'#00F260'} type="submit" classes={{btn:classes.buttonCreate}} borderRadius="0">		
 					{submitBtnText}
 		      </GradientButton>
 		</form>

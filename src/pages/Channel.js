@@ -12,7 +12,6 @@ import {withStyles} from '@material-ui/core/styles';
 
 import MediaTile from '../components/core/MediaTile/MediaTile';
 import ChannelTabs from './channel/ChannelTabs';
-import ChannelThumbnail from './channel/ChannelThumbnail';
 import ChannelHeader from './channel/ChannelHeader';
 
 import {selectUser} from '../store/states/user';
@@ -28,25 +27,9 @@ const styles = theme => ({
 		fontWeight:500,
 		marginLeft:5
 	},
-	userSubscribers:{
-		fontSize:'1.1rem',
-		display:'flex',
-		alignItems:'center',
-		padding:'.1rem .6rem',
-		borderRadius:4,
-		backgroundColor:'rgba(255,255,255,.7)'
-	},
-	subscribersNumber:{
-		color:theme.palette.primary.light,
-		fontSize:'1.9rem',
-		fontWeight:200,
-		marginRight:5
-	},
+
 	icon:{
 		color:theme.palette.primary.light
-	},
-	mainInfo:{
-
 	}
 });
 
@@ -66,27 +49,13 @@ class Channel extends Component{
 	render(){
 		const {classes,user,channel,processing} = this.props;
 		const owner = channel ? channel.owner : null;
-		const channelThumbnail = channel ? channel.iconImage : null;
 		const channelBackground = channel ? channel.backgroundImage : null;
 		const channelId = channel ? channel._id : null;
 	return (
 
-		<Paper elevation={2} className={classes.root}>	
-			<ChannelHeader processing={processing} channelId={channelId} channelBackground={channelBackground}>
-				<ChannelThumbnail channelId={channelId} iconImage={channelThumbnail} />
-				{channel && channel.subscribers ?
-				<div className={classes.userSubscribers}>
-					<span className={classes.subscribersNumber}>
-						{channel.subscribers.length || 0}
-					</span>
-					<span>
-						subscribers
-					</span>
-				</div>
-				: null
-			}
-			</ChannelHeader>
-			<ChannelTabs channelId={channelId}/>
+		<Paper elevation={1} className={classes.root}>	
+			<ChannelHeader processing={processing} channelId={channelId} channelBackground={channelBackground} />
+			<ChannelTabs channel={channel}/>
 		</Paper>
 	)
 	}
