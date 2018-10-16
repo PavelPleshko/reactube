@@ -8,7 +8,9 @@ export default ({markup,state,materialCss,mainCss}) => {
           <title>Reactube</title>
           <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400">
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-           
+           <style>
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700');
+</style>
         </head>
         <body>
                <div id="root">${markup}</div>

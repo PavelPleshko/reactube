@@ -1,4 +1,4 @@
-.btnElement{
+.gradientBtnElement{
 	padding:.5rem 1.5rem;
 	font-size: .9rem;
 	display: block;
@@ -12,15 +12,15 @@
 	overflow:hidden;
 }
 
-.btnElement:not(.disabled){
+.gradientBtnElement:not(.disabled){
 	cursor:pointer;
 }
 
-.btnElement.fullWidth{
+.gradientBtnElement.fullWidth{
 	width:100%;
 }
 
-.btnElement.disabled{
+.gradientBtnElement.disabled{
 	pointer-events: none;
 	opacity: .7;
 }

@@ -64,9 +64,9 @@ class GradientButton extends Component{
 	getButtonClasses = () =>{
 		const {fullWidth,disabled} = this.props;
 		return [
-		styles.btnElement,
-		fullWidth && styles.fullWidth,
-		disabled && styles.disabled
+		'gradientBtnElement',
+		fullWidth && 'fullWidth',
+		disabled && 'disabled'
 		].join(' ');
 	}
 

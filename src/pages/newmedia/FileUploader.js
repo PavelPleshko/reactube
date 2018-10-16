@@ -38,7 +38,9 @@ const styles = theme =>({
 		display:'flex',
 		flexDirection:'column',
 		textAlign:'center',
-		alignItems: 'center'
+		alignItems: 'center',
+				fontFamily:theme.typography.mainFont
+
 	},	
 	btnIcon:{
 		marginRight:'.4rem'
@@ -50,14 +52,16 @@ const styles = theme =>({
 	chooseFile:{
 		marginBottom:'.4rem',
 		fontWeight:'700',
+		fontFamily:theme.typography.mainFont,
 		'&:hover':{
-			color:theme.palette.primary.light,
+			color:theme.palette.primary.active,
 			cursor:'pointer'
 		}
 	},
 	fileName:{
 		marginTop:'.3rem',
-		fontSize:'.8rem'
+		fontSize:'.8rem',
+		fontFamily:theme.typography.mainFont
 	},
 	fileActions:{
 		    bottom: 10,
@@ -112,13 +116,8 @@ class FileUploader extends Component{
 		this.setState({dialogOpened:false});
 	}
 
-
-
-
-	
 	render(){
-		const {classes} = this.props;
-		
+		const {classes} = this.props;		
 	return (
 		<React.Fragment>
 				<DialogWithType 
@@ -132,7 +131,6 @@ class FileUploader extends Component{
 				<Grid container spacing={24} className={classes.root}>
 					<Grid item xs={8}>
 						<Card>
-
 							<CardContent className={classes.cardContent}>
 								<div className={classes.fileActions}>
 									<FileActions />

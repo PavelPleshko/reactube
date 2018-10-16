@@ -13,50 +13,12 @@ import * as channelOperations from '../../store/states/channel/channel.operation
 
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+import {calculateAspectRatioFit,getImageNaturalDimensions,
+getCroppedImg} from '../../utils/image-processing/image-processing';
 
 const RECOMMENDED_IMG_WIDTH=2560;
 const RECOMMENDED_IMG_HEIGHT=1440;
-const calculateAspectRatioFit = (srcWidth, srcHeight, maxWidth, maxHeight)=>{
-	const ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
-	return { width: srcWidth*ratio, height: srcHeight*ratio };
-}
 
-const getImageNaturalDimensions = file => {
-  return new Promise ((resolved, rejected)=>{
-    const i = new Image();
-    i.onload = function(){
-      resolved({width: i.naturalWidth, height: i.naturalHeight})
-    };
-    i.src = file;
-  })
-}
-
-const getCroppedImg = (image,origWidth,origHeight, pixelCrop, fileName) => {
-  const canvas = document.createElement('canvas');
-    const ratioX = image.width/origWidth;
-  const ratioY = image.height/origHeight;
-  canvas.width = pixelCrop.width * ratioX;
-  canvas.height = pixelCrop.height* ratioY;
-console.log(ratioY,ratioX);
-  const ctx = canvas.getContext('2d');
-  ctx.drawImage(
-    image,
-    pixelCrop.x * ratioX,
-    pixelCrop.y * ratioY,
-    pixelCrop.width * ratioX,
-    pixelCrop.height * ratioY,
-    0,
-    0,
-    pixelCrop.width * ratioX,
-    pixelCrop.height * ratioY
-  );
-  return new Promise((resolve, reject) => {
-    canvas.toBlob(file => {
-      file.name = fileName;
-      resolve(file);
-    }, 'image/jpeg');
-  });
-}
 
 const styles = theme => ({
 	profileMeta:{
@@ -157,7 +119,7 @@ class ChannelHeader extends Component{
 		imgHeight:300
 	}
 
-		componentDidMount = () => {
+	componentDidMount = () => {
 		this.formData = new FormData();
 	}
 
@@ -166,7 +128,7 @@ class ChannelHeader extends Component{
 		this.setState({modalOpened:!modalOpened});
 	}
 
-		fileChosenHandler = (e) => {
+	fileChosenHandler = (e) => {
 		const iconImage = e.target.files[0];
 		const reader = new FileReader();
 		reader.readAsDataURL(iconImage);
@@ -195,23 +157,27 @@ class ChannelHeader extends Component{
 		const {updateChannel,channelId} = this.props;
 		const image = new Image();
 		image.src = dataUrl;
-		image.onload = async () =>{
-			
-			const pixelCrop = Object.assign({},crop);
-			pixelCrop.x = (imgWidth/100) *pixelCrop.x;
-			pixelCrop.y = (imgHeight/100) *pixelCrop.y;
-			pixelCrop.width = (imgWidth/100) *pixelCrop.width;
-			pixelCrop.height = (imgHeight/100) *pixelCrop.height;
-			console.log(image.width,image.height,pixelCrop);
+		this.setState({submitted:true});
+		image.onload = async () =>{		
+			const pixelCrop = this.pixelateCrop(crop,imgWidth,imgHeight);		
 			const croppedImage = await getCroppedImg(image,imgWidth,imgHeight,pixelCrop,file.name);
 			this.formData.set('backgroundImage',croppedImage);
 			updateChannel(this.formData,channelId);
 		}
 	}
 
+	pixelateCrop = (crop,imgWidth,imgHeight) => {
+		const pixelCrop = Object.assign({},crop);
+		pixelCrop.x = (imgWidth/100) *pixelCrop.x;
+		pixelCrop.y = (imgHeight/100) *pixelCrop.y;
+		pixelCrop.width = (imgWidth/100) *pixelCrop.width;
+		pixelCrop.height = (imgHeight/100) *pixelCrop.height;
+		return pixelCrop;
+	}
+
 
 	render(){
-		const {file,submitted,dataUrl,scale,modalOpened,imgHeight,imgWidth} = this.state;
+		const {file,submitted,dataUrl,modalOpened,imgHeight,imgWidth} = this.state;
 		const {classes,processing,channelBackground} = this.props;
 			return (
 				<div className={classes.profileMeta} style={{backgroundImage:channelBackground ? `url(${channelBackground})` : ''}}>

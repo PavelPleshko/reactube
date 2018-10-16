@@ -4,11 +4,18 @@ import {Link} from 'react-router-dom';
 
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import {withStyles} from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 
+const styles = theme => ({
+  icon:{
+    color:theme.palette.primary.textColor,
+    fontSize:'2.5rem'
+  }
+})
 
 const userAvatarSmall = (props)=>{
-	const {user,open,handleClick,link=false} = props;
+	const {user,open,handleClick,link=false,classes} = props;
 	return (
 		         <IconButton
                           aria-owns={open ? 'menu-appbar' : null}
@@ -17,14 +24,14 @@ const userAvatarSmall = (props)=>{
                           color="inherit"
                         >
                         {link && <Link to={`/profile/${user._id}`}>
-                          {user.avatar ? <Avatar src={user.avatar} /> : <AccountCircle style={{fontSize:'2.5rem'}} />}
+                          {user.avatar ? <Avatar src={user.avatar} /> : <AccountCircle className={classes.icon}/>}
                          </Link>}  
                         {!link && 
-                          (user.avatar ? <Avatar src={user.avatar} /> : <AccountCircle style={{fontSize:'2.5rem'}}/>)
+                          (user.avatar ? <Avatar src={user.avatar} /> : <AccountCircle className={classes.icon}/>)
                         }
                           </IconButton>
 		)
 }
 
 
-export default userAvatarSmall;
+export default withStyles(styles)(userAvatarSmall);

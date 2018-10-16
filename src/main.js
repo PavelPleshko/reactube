@@ -13,10 +13,10 @@ import {deepPurple,green,red} from '@material-ui/core/colors';
 const theme = createMuiTheme({
   palette: {
     primary: {
-    light: '#2cabec',
-    main: '#3f51b5',
-    dark: '#002984',
-    contrastText: '#fff',
+    light: '#fff',
+    active: 'rgb(50,97,195)',
+    textColor:'#c8c8c8',
+    contrastText: '#000',
     error:red[500],
     errorHover:red[600],
     success:green[400],
@@ -24,9 +24,12 @@ const theme = createMuiTheme({
     standard:deepPurple[500],
     standardHover:deepPurple[600],
     grey:'#8091a5',
-    lightGrey:'#c3cfd5'
+    lightGrey:'#f8f8f8',
   }
-}
+},
+ typography:{
+    mainFont:'Roboto Condensed, sans-serif'
+  }
 });
 
 

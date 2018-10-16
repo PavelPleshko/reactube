@@ -13,29 +13,12 @@ import {withStyles} from '@material-ui/core/styles';
 import AvatarEditor from 'react-avatar-editor'
 
 import FileInfoTable from '../../../components/core/Tables/FileInfoTable/FileInfoTable';
+import {dataURItoBlob} from '../../../utils/file-processing/file-processing';
+import Webworker from './EditThumbnailWebworker';
 
 const ZOOM_STEP = 0.1;
 const ZOOM_MIN = 0.5;
 const ZOOM_MAX = 2;
-
-function dataURItoBlob(dataURI) {
-    var byteString;
-    if (dataURI.split(',')[0].indexOf('base64') >= 0)
-        byteString = atob(dataURI.split(',')[1]);
-    else
-        byteString = unescape(dataURI.split(',')[1]);
-
-    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-    var ia = new Uint8Array(byteString.length);
-    for (var i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-    }
-
-    return new Blob([ia], {type:mimeString});
-}
-
-
 const styles = theme => ({
 	  modal: {
     position: 'absolute',
@@ -167,16 +150,32 @@ class EditThumbnailModal extends Component{
 	}
 
 	updateThumbnail = () => {
-		const {updateResource,processing} = this.props;
+		const {processing} = this.props;
 		const {file} = this.state;
 		if(!processing){
 			if(file){
 				const dataURL = this.editor.getImage().toDataURL();
-				const fileBlob = dataURItoBlob(dataURL);
-				this.formData.set('iconImage',fileBlob);
-				this.setState({submitted:true},()=>updateResource(this.formData));		
+				let fileBlob; 
+				if(window.Worker){
+					const worker = new Worker(Webworker);
+					worker.postMessage({action:dataURItoBlob.toString(),args:[dataURL]});
+					worker.onmessage = (e)=>{
+						fileBlob = e.data;
+						this.appendDataAndSubmit(fileBlob);
+						worker.terminate();
+					}
+				}else{
+					fileBlob = dataURItoBlob(dataURL);
+					this.appendDataAndSubmit(fileBlob);
 			}
+				}
 		}
+	}
+
+	appendDataAndSubmit = (data) =>{
+		const {updateResource} = this.props;
+		this.formData.set('iconImage',data);
+		this.setState({submitted:true},()=>updateResource(this.formData));	
 	}
 
 	componentDidUpdate = (nextProps,nextState) => {

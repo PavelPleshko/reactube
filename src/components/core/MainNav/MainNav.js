@@ -27,7 +27,7 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
     backgroundColor:theme.palette.primary.light,
-    boxShadow:'1px 1px 3px 0px rgba(0,0,0,.3)',
+    boxShadow:'0px 0px 2px 2px rgba(0,0,0,.1)',
     position:'fixed',
     left:0,
     top:0,
@@ -52,15 +52,20 @@ const styles = theme => ({
     alignItems:'center'
   },
   icon:{
-    marginRight:'.3rem'
+    marginLeft:'.5rem',
+    color: theme.palette.primary.textColor,
+  },
+  iconActive:{
+    marginLeft:'.5rem',
+    color: theme.palette.primary.textColor,
+    textShadow:'1px 1px 3px rgba(0,0,0,.3)'
   },
   menuIcon:{
     position:'absolute',
     left:'2rem',
     top:'50%',
     transform:'translateY(-50%)',
-    zIndex:55,
-    color:'#ffffff'
+    zIndex:55
   },
   avatarContainer:{
     display:'flex',
@@ -70,10 +75,7 @@ const styles = theme => ({
 
 
 const isActive = (activePath, path) => {
-  if (activePath == path)
-    return {color: '#fff',fontWeight:900,textShadow:'1px 1px 3px rgba(0,0,0,.3)'}
-  else
-    return {color: '#fff',textShadow:'1px 1px 3px rgba(0,0,0,.3)'}
+  return activePath === path;
 }
 
 
@@ -99,7 +101,7 @@ state = {
 
 
   render(){
-    const open = Boolean(this.state.anchorEl);
+    const open = !!(this.state.anchorEl);
     const {classes,user,pathname} = this.props;
     return (
   <AppBar position="fixed" className={classes.root}>
@@ -112,11 +114,9 @@ state = {
            <Logo />
       </span>
          <span>
-          <Link to="/add/media">
-            <Button style={isActive(pathname, "/add/media")}>
-               <AddVideoIcon className={classes.icon} />              
-              Add media
-            </Button>
+          <Link to="/add/media">         
+               <AddVideoIcon className={[classes.icon,isActive(pathname, "/add/media") ?
+                classes.iconActive : ''].join(' ')}/>              
           </Link>
         </span>
         </div>
@@ -154,11 +154,11 @@ state = {
                   !user && (
                     <span>
                     <Link to="/signup">
-                      <Button style={isActive(pathname, "/signup")}>Sign up
+                      <Button>Sign up
                       </Button>
                     </Link>
                     <Link to="/signin">
-                      <Button style={isActive(pathname, "/signin")}>Sign In
+                      <Button>Sign In
                       </Button>
                     </Link>
                   </span>)

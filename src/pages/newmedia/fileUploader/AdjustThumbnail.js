@@ -10,7 +10,7 @@ import Slider from '@material-ui/lab/Slider';
 const styles = theme =>({
 		uploadIcon:{
 		fontSize:'14rem',
-		color:theme.palette.primary.light,
+		color:theme.palette.primary.active,
 		opacity:'.2',
 		
 	},

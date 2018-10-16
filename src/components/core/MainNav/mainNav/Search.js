@@ -27,26 +27,31 @@ const styles = theme => ({
 	    border: 'none',
 	    height: '100%',
 	    minWidth:'20rem',
-	    borderTopLeftRadius:3,
-	    background: '#a4aaf8',
+	    borderRadius:20,
+	    background: theme.palette.primary.lightGrey,
 	    transition:'.3s',
-	    paddingLeft:'5px',
-	    color:'#fff',
+	    padding:'0 2rem 0 8px',
+	    color:theme.palette.primary.textColor,
 	    boxSizing:'border-box',
-	    
+	    cursor:'pointer',
+	    fontFamily:theme.typography.mainFont
 	},
 	inputFocused:{
 	    	minWidth:'23rem',
 	    	backgroundColor:'#fff',
 	    	outline:'none',
 	    	border: '1px solid rgba(50,97,195,.8)',
-	    	color:'#000000'	    
+	    	color:'#000000',
+	    	cursor:'text'    
 	},
 	inputGroup:{
-		height:'1.8rem',
 		position:'relative',
 		margin:0,
 		padding:0
+	},
+	inputGroupInner:{
+		display:'flex',
+		height:'1.8rem',
 	},
 	suggestions:{
 		display:'flex',
@@ -59,17 +64,25 @@ const styles = theme => ({
 		fontSize:'.9rem',
         boxSizing: 'border-box',
 	},
-
 	inputAddon:{
 		height:'100%',
-		paddingLeft:3,
-		border:'1px solid #a4aaf8',
-		borderLeft:'none',
+		transform:'translateX(-100%)',
+		display:'flex',
+		justifyContent:'center',
+		width:'2rem',
 		transition:'.2s',
+		borderTopRightRadius:20,
+		borderBottomRightRadius:20,
 	    boxSizing:'border-box',
 	    cursor:'pointer',
+	    color:'rgba(50,97,195,.5)',
+		pointerEvents:'none'
+	},
+	inputAddonActive:{
+		pointerEvents:'unset',
+		borderLeft:'1px solid rgba(50,97,195,.8)',
 		'&:hover':{
-			backgroundColor:'#696fb4'
+			color:'rgba(50,97,195,.9)'
 		}
 	},
 	searchIcon:{
@@ -151,11 +164,22 @@ class Search extends Component{
 
 	render(){
 		const {classes,suggestions,suggestionsProcessing,mediaIsProcessing} = this.props;
-		const {searchText,selected,opened} = this.state;
+		const {searchText,selected,opened,focused} = this.state;
 	return (
 		<div className={classes.root}>
 		<div className={classes.inputGroup}>
-				<input type="text" onFocus={this.setFocus} onClick={this.setOpened} ref={this.setInputRef} className={[classes.input,this.state.focused ? classes.inputFocused : ''].join(' ')} value={this.state.searchText} onChange={this.handleChange}/>
+		<div className={classes.inputGroupInner}>
+				<input type="text" onFocus={this.setFocus} 
+				onClick={this.setOpened} ref={this.setInputRef} 
+				className={[classes.input,focused ?
+				 classes.inputFocused : ''].join(' ')} 
+				 placeholder="Search videos..."
+				 value={this.state.searchText} 
+				 onChange={this.handleChange}/>
+				 <div className={[classes.inputAddon,focused ? classes.inputAddonActive : ''].join(' ')} onClick={this.searchSelectedMedia}>
+					 <SearchIcon className={classes.searchIcon} />
+				</div>
+		</div>
 				<div className={classes.suggestions}>
 				{suggestionsProcessing && <CircularProgress style={{margin:'5px auto'}} size={25} />}
 				{(suggestions.length && !selected && opened) ?
@@ -169,9 +193,7 @@ class Search extends Component{
 		</div>
 		</div>
 
-			<div className={[classes.inputAddon,mediaIsProcessing ? classes.disabled : ''].join(' ')} onClick={this.searchSelectedMedia}>
-				 <SearchIcon className={classes.searchIcon} />
-			</div>
+
 		</div>
 	)
 	}

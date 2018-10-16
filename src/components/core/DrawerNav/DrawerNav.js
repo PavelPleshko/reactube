@@ -51,8 +51,7 @@ const styles = theme => ({
     zIndex:1100,
     backgroundColor:'#f5f5f5',
     paddingBottom:'1rem',
-    transform:'translate3d(0,0,0)'
-
+    transform:'translate3d(0,0,0)',
   },
   backdrop:{
     backgroundColor:'rgba(0,0,0,.6)',
@@ -100,10 +99,14 @@ const styles = theme => ({
     height:'3rem'
   },
   active:{
-    color:`${theme.palette.primary.light}`
+    color:`${theme.palette.primary.active}`,
+    fontWeight:700
   },
   backgroundActive:{
    backgroundColor: 'rgba(0, 0, 0, 0.08)'
+  },
+  listItem:{
+       fontFamily:theme.typography.mainFont
   }
 });
 
@@ -169,7 +172,7 @@ class DrawerNav extends React.Component {
                       {item.icon && <ListItemIcon className={isActive(pathName,item.link) ? classes.active : ''}>
                         {item.icon}
                       </ListItemIcon>}
-                      <ListItemText primary={item.title} />
+                      <ListItemText classes={{primary:[classes.listItem,isActive(pathName,item.link) ? classes.active : ''].join(' ')}} primary={item.title} />
                     </ListItem>
                    </Link>
           })}
@@ -182,7 +185,7 @@ class DrawerNav extends React.Component {
                       {item.icon && <ListItemIcon className={isActive(pathName,item.link) ? classes.active : ''}>
                         {item.icon}
                       </ListItemIcon>}
-                      <ListItemText primary={item.title} />
+                      <ListItemText classes={{primary:[classes.listItem,isActive(pathName,item.link) ? classes.active : ''].join(' ')}} primary={item.title} />
                     </ListItem>
                    </Link>
           })}

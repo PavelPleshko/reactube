@@ -16,7 +16,7 @@ import ChannelThumbnail from './channel/ChannelThumbnail';
 import ChannelHeader from './channel/ChannelHeader';
 
 import {selectUser} from '../store/states/user';
-import {selectChannel} from '../store/states/channel';
+import {selectChannel,selectProcessing} from '../store/states/channel';
 import * as channelOperations from '../store/states/channel/channel.operations';
 
 const styles = theme => ({
@@ -64,16 +64,15 @@ class Channel extends Component{
 
 
 	render(){
-		const {classes,user,channel} = this.props;
+		const {classes,user,channel,processing} = this.props;
 		const owner = channel ? channel.owner : null;
 		const channelThumbnail = channel ? channel.iconImage : null;
 		const channelBackground = channel ? channel.backgroundImage : null;
 		const channelId = channel ? channel._id : null;
 	return (
 
-		<Paper elevation={2} className={classes.root}>
-		
-			<ChannelHeader channelId={channelId} channelBackground={channelBackground}>
+		<Paper elevation={2} className={classes.root}>	
+			<ChannelHeader processing={processing} channelId={channelId} channelBackground={channelBackground}>
 				<ChannelThumbnail channelId={channelId} iconImage={channelThumbnail} />
 				{channel && channel.subscribers ?
 				<div className={classes.userSubscribers}>
@@ -86,9 +85,8 @@ class Channel extends Component{
 				</div>
 				: null
 			}
-
 			</ChannelHeader>
-		<ChannelTabs channelId={channelId}/>
+			<ChannelTabs channelId={channelId}/>
 		</Paper>
 	)
 	}
@@ -97,7 +95,8 @@ class Channel extends Component{
 const mappedStateToProps = (state) =>(
 {
   user:selectUser(state.user),
-  channel:selectChannel(state.channel,'single')
+  channel:selectChannel(state.channel,'single'),
+  processing:selectProcessing(state.channel)
 }
   );
 const boundActionCreators = (dispatch) => bindActionCreators({...channelOperations},dispatch);

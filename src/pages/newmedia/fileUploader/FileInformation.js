@@ -18,8 +18,11 @@ import {transformBytes,transformSeconds} from '../../../utils/pipes/fileDataTran
 const styles = theme =>({
 	card:{
 		padding:'.2rem 1rem',
-		marginBottom:'.5rem'
-	}
+		marginBottom:'.5rem',
+	},
+  listItem:{
+        fontFamily:theme.typography.mainFont
+  }
 })
 class FileInformation extends PureComponent{
 
@@ -35,7 +38,7 @@ class FileInformation extends PureComponent{
             <ListItemIcon>
               <AccessTimeIcon />
             </ListItemIcon>
-            <ListItemText primary="Duration" />
+            <ListItemText classes={{primary:classes.listItem}} primary="Duration" />
             <ListItemSecondaryAction>
             	{transformSeconds(duration)}
             </ListItemSecondaryAction>
@@ -45,7 +48,7 @@ class FileInformation extends PureComponent{
             <ListItemIcon>
               <StorageIcon />
             </ListItemIcon>
-            <ListItemText primary="Size" />
+            <ListItemText classes={{primary:classes.listItem}} primary="Size" />
             <ListItemSecondaryAction>
          	     {transformBytes(bytes)}
             </ListItemSecondaryAction>
@@ -55,7 +58,7 @@ class FileInformation extends PureComponent{
             <ListItemIcon>
               <SizeIcon />
             </ListItemIcon>
-            <ListItemText primary="Dimensions" />
+            <ListItemText classes={{primary:classes.listItem}} primary="Dimensions" />
             <ListItemSecondaryAction>
          	     {width} x {height}
             </ListItemSecondaryAction>
