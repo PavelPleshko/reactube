@@ -57,40 +57,27 @@ const read = (req, res) => {
 }
 
 const update = async (req, res, next) => {
- 
- // let form = new formidable.IncomingForm();
- //  form.keepExtensions = true;
- //   form.parse(req, (err, fields, files) => {
- //    if (err) {
- //      return res.status(400).json({
- //        error: 'Cant upload photo'
- //      })
- //    }
-     let user = req.user;
-     console.log(user,'\n',req.body);
+      let user = req.user;
      try{
         user = extend(user, req.body);
         user.updated = Date.now();
-        let updatedProfile  = await user.save();
-        sendSuccess(res,'Profile updated')({user:updatedProfile});
+        const files = req.files;
+        if(files && files.photo){
+          const pathToPhoto = files.photo.path;
+          Cloudinary.v2.uploader.upload(pathToPhoto,config.cloudinary,async (err,result)=>{
+            if(result){
+              user.photo = result.secure_url;
+              const updatedProfile  = await user.save();
+              sendSuccess(res,'Profile updated')({user:updatedProfile});
+            }
+           })    
+        }else{
+          const updatedProfile  = await user.save();
+          sendSuccess(res,'Profile updated')({user:updatedProfile});
+        }  
      }catch(err){
         sendError(res)(err);
      }
-
-    // if(files.photo){
-    //  var pathToPhoto = files.photo.path;
-    //  Cloudinary.v2.uploader.upload(pathToPhoto,config.cloudinary,function(err,result){
-    //   if(result){
-    //     user.photo = result.secure_url;
-    //     saveUser(user,res);
-    //   }
-    //  })    
-    // }else{
-  //  }
-       
-      
- // })
-
 }
 
 

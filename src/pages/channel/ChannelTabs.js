@@ -1,15 +1,21 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Grid from '@material-ui/core/Grid';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 import Button from '@material-ui/core/Button';
 import {withStyles} from '@material-ui/core/styles';
 //victory
 
 import ChannelMedia from './channelTabs/ChannelMedia';
-import ChannelThumbnail from './ChannelThumbnail';
+import ChannelThumbnail from '../../components/core/Modals/AvatarWithUpdateModal';
+
+import * as channelOperations from '../../store/states/channel/channel.operations';
+import {selectProcessing} from '../../store/states/channel';
+
 
 const styles = theme => ({
 	mainInfo:{
@@ -47,7 +53,27 @@ const styles = theme => ({
   },
   subscribeBtn:{
     backgroundColor:theme.palette.primary.active,
-    color:'#fff'
+    color:'#fff',
+    opacity:.9,
+    '&:hover':{
+      backgroundColor:theme.palette.primary.active,
+      opacity:1
+    }
+  },
+  unsubsribeBtn:{
+    backgroundColor:theme.palette.primary.mediumGrey,
+    color:theme.palette.primary.grey
+  },
+  subscribeBtnCont:{
+    display:'flex',
+    alignItems:'center'
+  },
+  notificationsIcon:{
+    color:theme.palette.primary.grey,
+    margin:'0 4px',
+    '&:hover':{
+      cursor:'pointer'
+    }
   }
 });
 
@@ -70,8 +96,15 @@ class ChannelTabs extends Component {
     this.setState({ activeTab });
   };
 
+  updateChannelThumbnail = formData =>{
+    if(formData){
+      const {updateChannel,channel} = this.props;
+      channel && updateChannel(formData,channel._id);
+    }
+  }
+
   render(){
-  			const {classes,channel} = this.props;
+  			const {classes,channel,processing} = this.props;
         const channelThumbnail = channel && channel.iconImage;
         const channelId= channel && channel._id;
         const { activeTab } = this.state;
@@ -79,7 +112,10 @@ class ChannelTabs extends Component {
   			<div className={classes.mainInfo}>
         <div className={classes.tabsContainer}>
         <div className={classes.metadataContainer}>
-           <ChannelThumbnail channelId={channelId} iconImage={channelThumbnail} />
+           <ChannelThumbnail processing={processing} 
+           resourceKey="iconImage" 
+           avatar={channelThumbnail} 
+           submitForm={this.updateChannelThumbnail} />
            <div className={classes.metaWrapper}>
              <div className={classes.headerBlock}>
                  <div className={classes.channelTitle}>
@@ -96,6 +132,13 @@ class ChannelTabs extends Component {
               <Button variant="contained" className={classes.subscribeBtn}>
                   {`Subscribe ${(channel && channel.subscribers) && channel.subscribers.length}`}
               </Button>
+              {false &&  <div className={classes.subscribeBtnCont}>
+              <Button className={classes.unsubsribeBtn}>
+                    {`You are subscribed ${(channel && channel.subscribers) && channel.subscribers.length}`}
+                </Button>
+                <NotificationsIcon className={classes.notificationsIcon} />
+              </div>
+            }
               </div>
           </div>
        </div>
@@ -129,5 +172,14 @@ class ChannelTabs extends Component {
   }
 }
 
+const mappedStateToProps = (state) =>(
+{
+  processing:selectProcessing(state.channel,'single')
+}
+  );
 
-export default withStyles(styles)(ChannelTabs);
+
+const boundActionCreators = (dispatch) => bindActionCreators({...channelOperations},dispatch);
+
+
+export default connect(mappedStateToProps,boundActionCreators)(withStyles(styles)(ChannelTabs));

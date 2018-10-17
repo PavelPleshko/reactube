@@ -48,18 +48,18 @@ const getUserChannels = userId => { //TODO put it in channel store
 	}
 }
 
-const updateHistorySettings = historySettings => {
+const updateUser = partialProfile => {
 	return (dispatch,getState)=>{
-		dispatch(userActions.updateHistorySettingsRequest());
+		dispatch(userActions.updateUserRequest());
 		let csrfToken = getState().csrf;
 		let token = getState().user.data.token;
-		userApiCalls.update({partialProfile:historySettings,csrfToken})
+		userApiCalls.update({partialProfile,csrfToken})
 		.then(response=>{
 			let user = response.data.user;
 			user.token = token;
-			dispatch(userActions.updateHistorySettingsSuccess(user));
+			dispatch(userActions.updateUserSuccess(user));
 		}).catch((error) => {
-			dispatch(userActions.updateHistorySettingsError(error.message));
+			dispatch(userActions.updateUserError(error.message));
 		})	
 	}
 }
@@ -113,6 +113,6 @@ export {
 	login,register,checkSession,
 	clearHistory,
 	addToWatchlater,
-	updateHistorySettings,
+	updateUser,
 	getUserChannels
 }

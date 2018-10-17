@@ -13,12 +13,13 @@ class ChannelSingle extends Component {
 
 	render(){
 		const {channel={}} = this.props;
+		const iconImage = channel.iconImage;
 
 	return (
 				<ListItem>
 					<Link to={`/channel/${channel.slug}`}>
-						<Avatar>
-							<ImageIcon />
+						<Avatar src={iconImage}>
+							{!iconImage && <ImageIcon />}
 						</Avatar>
 					</Link>
 					<ListItemText primary={channel.title} secondary={channel.description} />

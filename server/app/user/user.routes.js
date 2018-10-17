@@ -10,7 +10,7 @@ router.route('/users/signup')
 
 
 router.route('/users/profile/update')
-  .put(authCtrl.requireSignin,userCtrl.update)
+  .patch(authCtrl.requireSignin,userCtrl.update)
 
 router.route('/users/profile/watchlater')
   .put(authCtrl.requireSignin,userCtrl.addWatchlater)

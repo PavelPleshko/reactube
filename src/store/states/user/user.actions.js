@@ -8,9 +8,9 @@ const loginUserSuccess = createAction(types.LOGIN_USER_SUCCESS,'payload');
 const loginUserError = createAction(types.LOGIN_USER_ERROR,'payload'); 
 
 //update
-const updateHistorySettingsRequest = createAction(types.UPDATE_HISTORY_SETTINGS_REQUEST);
-const updateHistorySettingsSuccess = createAction(types.UPDATE_HISTORY_SETTINGS_SUCCESS,'payload');
-const updateHistorySettingsError = createAction(types.UPDATE_HISTORY_SETTINGS_ERROR,'payload');
+const updateUserRequest = createAction(types.UPDATE_USER_REQUEST);
+const updateUserSuccess = createAction(types.UPDATE_USER_SUCCESS,'payload');
+const updateUserError = createAction(types.UPDATE_USER_ERROR,'payload');
 
 //register
 const registerUserRequest = createAction(types.REGISTER_USER_REQUEST,'payload'); 
@@ -35,7 +35,7 @@ const getUsersChannelsError = createAction(types.GET_USERS_CHANNELS_ERROR,'paylo
 export default {
 	loginUserRequest,loginUserSuccess,loginUserError,
 
-	updateHistorySettingsRequest,updateHistorySettingsSuccess,updateHistorySettingsError,
+	updateUserRequest,updateUserSuccess,updateUserError,
 
 	registerUserRequest,registerUserSuccess,registerUserError,
 

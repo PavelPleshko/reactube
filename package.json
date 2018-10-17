@@ -54,6 +54,7 @@
     "csurf": "^1.9.0",
     "downshift": "^2.0.12",
     "express": "^4.16.3",
+    "express-formidable": "^1.0.0",
     "express-jwt": "^5.3.1",
     "express-rate-limit": "^2.11.0",
     "express-session": "^1.15.6",

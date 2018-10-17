@@ -24,6 +24,7 @@ const theme = createMuiTheme({
     standard:deepPurple[500],
     standardHover:deepPurple[600],
     grey:'#8091a5',
+    mediumGrey:'#eeeeee',
     lightGrey:'#f8f8f8',
   }
 },

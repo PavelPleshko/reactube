@@ -12,9 +12,9 @@ import {withStyles} from '@material-ui/core/styles';
 
 import AvatarEditor from 'react-avatar-editor'
 
-import FileInfoTable from '../../../components/core/Tables/FileInfoTable/FileInfoTable';
-import {dataURItoBlob} from '../../../utils/file-processing/file-processing';
-import Webworker from './EditThumbnailWebworker';
+import FileInfoTable from '../../Tables/FileInfoTable/FileInfoTable';
+import {dataURItoBlob} from '../../../../utils/file-processing/file-processing';
+import Webworker from './EditAvatarWebworker';
 
 const ZOOM_STEP = 0.1;
 const ZOOM_MIN = 0.5;
@@ -174,8 +174,8 @@ class EditThumbnailModal extends Component{
 	}
 
 	appendDataAndSubmit = (data) =>{
-		const {updateResource} = this.props;
-		this.formData.set('iconImage',data);
+		const {updateResource,resourceKey} = this.props;
+		this.formData.set(resourceKey,data);
 		this.setState({submitted:true},()=>updateResource(this.formData));	
 	}
 
@@ -222,8 +222,8 @@ class EditThumbnailModal extends Component{
 
 		return (
 			 <Modal
-          aria-labelledby="edit-channel-thumbnail"
-          aria-describedby="edit-channel-thumbnail"
+          aria-labelledby="edit-thumbnail"
+          aria-describedby="edit-thumbnail"
           open={modalOpened}
    		  onClose={this.closeModal}
         >

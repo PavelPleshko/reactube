@@ -41,6 +41,8 @@ import routes from "./../src/routes/routeConfig";
 import "isomorphic-fetch";
 import { configStore } from "./../src/store/store";
 import { Provider } from "react-redux";
+import multiParser from './middlewares/multiparser';
+
 
 const CURRENT_WORKING_DIR = process.cwd();
 const app = express();
@@ -50,7 +52,7 @@ const apiLimiter = new RateLimiter({
   delayMs: 0
 });
 app.use(apiLimiter);
-app.use(bodyParser.json());
+app.use(multiParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(compress());

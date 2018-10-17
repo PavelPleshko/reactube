@@ -35,7 +35,7 @@ const userReducer = (state=initialState,action) => {
 			}
 		break;
 
-		case types.UPDATE_HISTORY_SETTINGS_REQUEST:
+		case types.UPDATE_USER_REQUEST:
 			return {
 				...state,
 				processing:true,
@@ -43,7 +43,7 @@ const userReducer = (state=initialState,action) => {
 			}
 		break;	
 
-		case types.UPDATE_HISTORY_SETTINGS_SUCCESS:
+		case types.UPDATE_USER_SUCCESS:
 			return {
 				...state,
 				processing:false,
@@ -51,7 +51,7 @@ const userReducer = (state=initialState,action) => {
 			}
 		break;
 
-		case types.UPDATE_HISTORY_SETTINGS_ERROR:
+		case types.UPDATE_USER_ERROR:
 			return {
 				...state,
 				processing:false,

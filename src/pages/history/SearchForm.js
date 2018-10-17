@@ -64,6 +64,7 @@ class SearchForm extends Component{
 	componentDidMount = () =>{
 		const {user} = this.props;
 		const {notSaveHistory} = this.state;
+		this.profileForm = new FormData();
 		if(user && !user.saveHistory != notSaveHistory){
 			this.setState({notSaveHistory:!user.saveHistory})
 		}
@@ -97,7 +98,9 @@ class SearchForm extends Component{
 
 	handleSaveHistoryChange = (e)=>{
 		this.setState(({notSaveHistory})=>{
-			this.props.updateHistorySettings({saveHistory:!notSaveHistory == true ? false : true});
+			const saveHistory = !notSaveHistory == true ? false : true;
+			this.profileForm.set('saveHistory',saveHistory);
+			this.props.updateUser(this.profileForm);
 			setTimeout(()=>{
 				this.setState({changesSaved:false});
 			},3000)

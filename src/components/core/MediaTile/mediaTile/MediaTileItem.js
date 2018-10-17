@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component,Fragment} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import WatchLaterIcon from '@material-ui/icons/WatchLater';
 import CheckIcon from '@material-ui/icons/Check';
@@ -155,9 +155,9 @@ class MediaTileItem extends Component{
     const {showWatchLater,addedToWatchlist} = this.state;
 
 	return (
-		<React.Fragment>
+		<Fragment>
             <div className={classes.image}  onClick={this.goToResource} onMouseLeave={this.handleMouseLeave}
-             onMouseOver={this.handleMouseEnter} style={{backgroundImage:`url(${item.thumb_url})`}}
+             onMouseEnter={this.handleMouseEnter} style={{backgroundImage:`url(${item.thumb_url})`}}
                         >
                         <div 
                         onClick={this.addRemoveFromWatchList}
@@ -182,7 +182,7 @@ class MediaTileItem extends Component{
                           </div>
 	                		</div>
 		              	</div>
-                    </React.Fragment>			
+                    </Fragment>			
 	)
 	}
 }

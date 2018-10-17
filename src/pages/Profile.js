@@ -3,7 +3,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {selectUser,selectUserFullname,selectUserChannels} from '../store/states/user';
+import {selectUser,selectUserFullname,selectUserChannels,
+selectIsProcessing} from '../store/states/user';
 import * as userOperations from '../store/states/user/user.operations';
 
 //meterial ui
@@ -13,6 +14,7 @@ import {withStyles} from '@material-ui/core/styles';
 
 
 import UserAvatarBig from '../components/UI/miscellaneous/UserAvatarBig/UserAvatarBig';
+import UserAvatarWithModal from '../components/core/Modals/AvatarWithUpdateModal';
 import MediaTile from '../components/core/MediaTile/MediaTile';
 import ProfileTabs from './profile/ProfileTabs';
 
@@ -32,9 +34,9 @@ const styles = theme => ({
 		alignItems:'center'
 	},
 	userFullname:{
-		fontSize:'1.1rem',
-		fontWeight:500,
-		marginLeft:5
+		fontSize:'1.25rem',
+		fontWeight:700,
+		marginLeft:'1.1rem'
 	},
 	userChannels:{
 		fontSize:'1.1rem',
@@ -42,13 +44,10 @@ const styles = theme => ({
 		alignItems:'center'
 	},
 	channelsNumber:{
-		color:theme.palette.primary.light,
+		color:theme.palette.primary.active,
 		fontSize:'1.9rem',
 		fontWeight:200,
 		marginRight:5
-	},
-	icon:{
-		color:theme.palette.primary.light
 	},
 	mainInfo:{
 
@@ -72,14 +71,26 @@ class Profile extends Component{
 		}
 	}
 
+	updateUserAvatar = formData => {
+		const {updateUser} = this.props;
+		if(formData){
+			updateUser(formData);
+		}
+	}
+
 	render(){
-		const {classes,user,userChannels,userFullName} = this.props;
-		
+		const {classes,user,userChannels,userFullName,processing} = this.props;
+		const userAvatar = user && user.photo;
 	return (
 		<Paper elevation={2} className={classes.root}>
 			<div className={classes.profileMeta}>
 				<div className={classes.avatarGroup}>
-					<UserAvatarBig user={user || {}} classes={{icon:classes.icon}} />		
+					<UserAvatarWithModal 
+					processing={processing}
+					  resourceKey="photo" 
+			           avatar={userAvatar} 
+			           submitForm={this.updateUserAvatar}
+					/>		
 					<div className={classes.userFullname}>{userFullName}</div>
 				</div>
 				{userChannels ?
@@ -104,7 +115,8 @@ const mappedStateToProps = (state) =>(
 {
   user:selectUser(state.user),
   userFullName:selectUserFullname(state.user),
-  userChannels:selectUserChannels(state.user)
+  userChannels:selectUserChannels(state.user),
+  processing:selectIsProcessing(state.user)
 }
   );
 
