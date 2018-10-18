@@ -16,7 +16,6 @@ const userReducer = (state=initialState,action) => {
 				processing:true,
 				isError:null
 			}
-		break;	
 
 		case types.LOGIN_USER_SUCCESS:
 			return {
@@ -24,7 +23,6 @@ const userReducer = (state=initialState,action) => {
 				processing:false,
 				data:payload
 			}
-		break;
 
 		case types.LOGIN_USER_ERROR:
 			return {
@@ -33,7 +31,26 @@ const userReducer = (state=initialState,action) => {
 				isError:payload,
 				data:null
 			}
-		break;
+		case types.LOGOUT_USER_REQUEST:
+			return {
+				...state,
+				processing:true,
+				isError:null
+			}
+
+		case types.LOGOUT_USER_SUCCESS:
+			return {
+				...state,
+				processing:false,
+				data:null
+			}
+
+		case types.LOGOUT_USER_ERROR:
+			return {
+				...state,
+				processing:false,
+				isError:payload
+			}
 
 		case types.UPDATE_USER_REQUEST:
 			return {
@@ -41,7 +58,6 @@ const userReducer = (state=initialState,action) => {
 				processing:true,
 				isError:null
 			}
-		break;	
 
 		case types.UPDATE_USER_SUCCESS:
 			return {
@@ -49,7 +65,6 @@ const userReducer = (state=initialState,action) => {
 				processing:false,
 				data:payload
 			}
-		break;
 
 		case types.UPDATE_USER_ERROR:
 			return {
@@ -57,7 +72,6 @@ const userReducer = (state=initialState,action) => {
 				processing:false,
 				isError:payload
 			}
-		break;
 
 		case types.ADD_TO_WATCH_LATER_REQUEST:
 			return {
@@ -65,7 +79,6 @@ const userReducer = (state=initialState,action) => {
 				processing:true,
 				isError:null
 			}
-		break;
 
 		case types.ADD_TO_WATCH_LATER_SUCCESS:
 			return {
@@ -76,7 +89,6 @@ const userReducer = (state=initialState,action) => {
 					...payload
 				}
 			}
-		break;
 
 		case types.ADD_TO_WATCH_LATER_ERROR:
 			return {
@@ -84,7 +96,6 @@ const userReducer = (state=initialState,action) => {
 				processing:false,
 				isError:payload
 			}
-		break;
 
 		case types.REGISTER_USER_REQUEST:
 			return {
@@ -92,7 +103,6 @@ const userReducer = (state=initialState,action) => {
 				processing:true,
 				isError:null
 			}
-		break;	
 
 		case types.REGISTER_USER_SUCCESS:
 			return {
@@ -101,7 +111,6 @@ const userReducer = (state=initialState,action) => {
 				data:payload,
 				isError:null
 			}
-		break;	
 
 		case types.REGISTER_USER_ERROR:
 			return {
@@ -109,7 +118,6 @@ const userReducer = (state=initialState,action) => {
 				processing:false,
 				isError:payload
 			}
-		break;
 
 		case types.REMOVE_VIEW_HISTORY_REQUEST:
 			return {
@@ -117,7 +125,6 @@ const userReducer = (state=initialState,action) => {
 				processing:true,
 				isError:null
 			}
-		break;
 
 		case types.REMOVE_VIEW_HISTORY_SUCCESS:
 			return {
@@ -125,7 +132,6 @@ const userReducer = (state=initialState,action) => {
 				processing:false,
 				data:payload
 			}
-		break;
 		
 		case types.REMOVE_VIEW_HISTORY_ERROR:
 			return {
@@ -133,7 +139,6 @@ const userReducer = (state=initialState,action) => {
 				processing:false,
 				isError:payload
 			}
-		break;
 
 		case types.GET_USERS_CHANNELS_REQUEST:
 			return {
@@ -141,7 +146,6 @@ const userReducer = (state=initialState,action) => {
 				processing:true,
 				isError:null
 			}
-		break;
 
 		case types.GET_USERS_CHANNELS_SUCCESS:
 			return {
@@ -152,7 +156,6 @@ const userReducer = (state=initialState,action) => {
 					channels:payload
 				}
 			}
-		break;
 		
 		case types.GET_USERS_CHANNELS_ERROR:
 			return {
@@ -160,7 +163,6 @@ const userReducer = (state=initialState,action) => {
 				processing:false,
 				isError:payload
 			}
-		break;
 
 
 		default:

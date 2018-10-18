@@ -6,6 +6,10 @@ import types from './user.types';
 const loginUserRequest = createAction(types.LOGIN_USER_REQUEST,'payload');
 const loginUserSuccess = createAction(types.LOGIN_USER_SUCCESS,'payload');
 const loginUserError = createAction(types.LOGIN_USER_ERROR,'payload'); 
+//logout
+const logoutUserRequest = createAction(types.LOGOUT_USER_REQUEST);
+const logoutUserSuccess = createAction(types.LOGOUT_USER_SUCCESS);
+const logoutUserError = createAction(types.LOGOUT_USER_ERROR,'payload'); 
 
 //update
 const updateUserRequest = createAction(types.UPDATE_USER_REQUEST);
@@ -34,6 +38,7 @@ const getUsersChannelsError = createAction(types.GET_USERS_CHANNELS_ERROR,'paylo
 
 export default {
 	loginUserRequest,loginUserSuccess,loginUserError,
+	logoutUserRequest,logoutUserSuccess,logoutUserError,
 
 	updateUserRequest,updateUserSuccess,updateUserError,
 

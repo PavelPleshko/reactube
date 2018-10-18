@@ -24,11 +24,14 @@ const styles = theme => ({
 	},
 	alignCenter:{
 		textAlign:'center'
-	}
+	},
+  tabIndicator:{
+    backgroundColor:theme.palette.primary.active
+  }
 });
 
 const TabContainer = ({children}) =>{
-	return (<div style={{padding:'1rem 2rem'}}>	
+	return (<div style={{padding:'1rem 2rem',backgroundColor:'#fff'}}>	
 			{children}
 		</div>
 		)
@@ -57,10 +60,11 @@ const { activeTab } = this.state;
           indicatorColor="primary"
           textColor="primary"
           onChange={this.handleTabChange}
-        >
-          <Tab value={0} label="My stats" />          
-          <Tab value={1} label="My channels" />
-          <Tab value={2} label="Main settings" />    
+          classes={{indicator:classes.tabIndicator}}
+          >
+            <Tab value={0} label="My stats" />          
+            <Tab value={1} label="My channels" />
+            <Tab value={2} label="Main settings" />    
         </Tabs>
         	{activeTab === 0 && <TabContainer>
         	<div>

@@ -38,9 +38,15 @@ class Channel extends Component{
 
 
 	componentDidMount = () => {
-		if(!this.props.channel){
 			let slug = this.props.match.params.channelId;
 			this.props.getChannelBySlug(slug);
+	}
+
+	isChannelOwner = (channel,user) =>{
+		if(!channel || !user) return false;
+		if(channel && user){
+			const owner=channel.owner._id || channel.owner;
+			return owner === user._id;
 		}
 	}
 
@@ -48,13 +54,14 @@ class Channel extends Component{
 
 	render(){
 		const {classes,user,channel,processing} = this.props;
-		const owner = channel ? channel.owner : null;
+		const isOwner = this.isChannelOwner(channel,user);
 		const channelBackground = channel ? channel.backgroundImage : null;
 		const channelId = channel ? channel._id : null;
 	return (
 
 		<Paper elevation={1} className={classes.root}>	
-			<ChannelHeader processing={processing} channelId={channelId} channelBackground={channelBackground} />
+			{(!channelBackground && !isOwner) ? null : <ChannelHeader processing={processing} 
+			channelId={channelId} channelBackground={channelBackground} />}
 			<ChannelTabs channel={channel}/>
 		</Paper>
 	)

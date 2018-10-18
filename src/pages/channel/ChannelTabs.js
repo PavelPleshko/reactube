@@ -74,6 +74,9 @@ const styles = theme => ({
     '&:hover':{
       cursor:'pointer'
     }
+  },
+    tabIndicator:{
+    backgroundColor:theme.palette.primary.active
   }
 });
 
@@ -144,12 +147,12 @@ class ChannelTabs extends Component {
        </div>
 			 <Tabs
           value={activeTab}
-          indicatorColor="secondary"
+          classes={{indicator:classes.tabIndicator}}
           textColor="primary"
           onChange={this.handleTabChange}>
-            <Tab value={0} label="Main" />          
-            <Tab value={1} label="Channel media" />
-            <Tab value={2} label="Channel settings" />    
+            <Tab value={0} label="Home" />          
+            <Tab value={1} label="Media" />
+            <Tab value={2} label="Settings" />    
         </Tabs>
         </div>
         	{activeTab === 0 && <TabContainer>

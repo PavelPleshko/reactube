@@ -2,12 +2,12 @@ import User from './user.model';
 import Channel from '../channel/channel.model';
 import extend from 'lodash/extend';
 import errorHandler from '../../helpers/dbErrorHandler';
-import config from './../../config/config';
-import Cloudinary from 'cloudinary';
+import config from '../../config/config';
 import formidable from 'formidable';
 import {sendSuccess,sendError} from '../../helpers/responseHandler';
 import path from 'path';
 import request from 'request';
+import {uploadFileFromPathToCloudinary} from '../../helpers/cloudinaryManager';
 
 const create = (req, res, next) => {
   const user = new User(req.body)
@@ -59,22 +59,16 @@ const read = (req, res) => {
 const update = async (req, res, next) => {
       let user = req.user;
      try{
-        user = extend(user, req.body);
-        user.updated = Date.now();
+        user = extend(user, req.body,{updated:Date.now()});
         const files = req.files;
         if(files && files.photo){
           const pathToPhoto = files.photo.path;
-          Cloudinary.v2.uploader.upload(pathToPhoto,config.cloudinary,async (err,result)=>{
-            if(result){
-              user.photo = result.secure_url;
-              const updatedProfile  = await user.save();
-              sendSuccess(res,'Profile updated')({user:updatedProfile});
-            }
-           })    
-        }else{
+          const previousPath = user.photo;
+          const result = await uploadFileFromPathToCloudinary(pathToPhoto,'photo','image',previousPath);
+          user.photo = result.secure_url;
           const updatedProfile  = await user.save();
           sendSuccess(res,'Profile updated')({user:updatedProfile});
-        }  
+         }
      }catch(err){
         sendError(res)(err);
      }

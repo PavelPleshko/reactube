@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import * as appOperations from '../../../store/states/app/app.operations';
+import * as userOperations from '../../../store/states/user/user.operations';
 import {selectUser} from '../../../store/states/user';
 import {selectPathname} from '../../../store/states/router';
 //material ui
@@ -98,6 +99,12 @@ state = {
     this.props.toggleDrawer();
   }
 
+  logoutUser = () => {
+    const {logout} = this.props;
+    logout();
+    this.handleCloseProfileDropdown();
+  }
+
 
 
   render(){
@@ -144,7 +151,7 @@ state = {
                            <MenuItem onClick={this.handleCloseProfileDropdown}>
                            <Link to="/user/me">My Profile</Link>
                           </MenuItem>
-                          <MenuItem onClick={this.handleCloseProfileDropdown}>
+                          <MenuItem onClick={this.logoutUser}>
                             Logout
                           </MenuItem>
                  </Menu>
@@ -181,7 +188,7 @@ const mapStateToProps = (state)=>{
 }
 
 
-const boundActionCreators = (dispatch) => bindActionCreators({...appOperations},dispatch);
+const boundActionCreators = (dispatch) => bindActionCreators({...appOperations,...userOperations},dispatch);
 
 
 export default connect(mapStateToProps,boundActionCreators)(withRouter(withStyles(styles)(MainNav)));

@@ -1,11 +1,10 @@
 import Channel from './channel.model';
 import Media from '../media/media.model';
 import config from '../../config/config';
-import Cloudinary from 'cloudinary';
 import formidable from 'formidable';
 import extend from 'lodash/extend';
 import {sendSuccess,sendError} from '../../helpers/responseHandler';
-
+import {uploadFileFromPathToCloudinary} from '../../helpers/cloudinaryManager';
 
 const create = async (req, res, next) => {
   try{
@@ -44,46 +43,20 @@ const updateChannel = async (req, res) => {
   try{
     const channelId = req.params.channelId;
     let channel = await Channel.findById(channelId);
-
-    const form = new formidable.IncomingForm();
-    form.keepExtensions = true;
-    form.parse(req, async (err, fields, files) => {
-      if(err) throw err;
-      extend(channel,fields);
+    channel = extend(channel,req.body);
+    const files = req.files;
       if(files){
-        const uploadFileFromPath = (path,key) => {
-          return new Promise((resolve,reject)=>{
-            Cloudinary.v2.uploader.upload(path,config.cloudinary,async (err,result) => {
-            if(err){
-              reject(err);
-            }
-            if(result){
-              let previousUrl = channel[key];
-              if(previousUrl){
-          //TODO make it safer here with Regexp
-                let previousId = /(?:(upload.+))(?:\/)(.+)(?:\.(jpg|jpeg|png))$/gm.exec(previousUrl)[2];
-            if(previousId){
-                    let cloudDelete = await Cloudinary.v2.api
-                .delete_resources([previousId],{...config.cloudinary,resource_type:'image'});                
-            }
-       
-              }
-             
-              let secure_url = result.secure_url;
-              channel[key] = secure_url;
-              resolve(channel);
-            }
-        });
-          });      
-        };
-        for(let fileName in files){
+        for(const fileName in files){
            const pathToPhoto = files[fileName].path;
-           channel = await uploadFileFromPath(pathToPhoto,fileName);
+           const previousPath = channel[fileName];
+           const result = await uploadFileFromPathToCloudinary(pathToPhoto,fileName,'image',previousPath);
+           const secure_url = result.secure_url;
+           channel[fileName] = secure_url;
         }
         const updatedChannel = await channel.save();
         sendSuccess(res)({updatedChannel});
       }
-    });
+  
   }catch(err){
     sendError(res)(err);
   }

@@ -41,8 +41,22 @@ const signin = ({user,csrfToken}) => {
   .then(res=>res.json())
 }
 
+const signout = ({csrfToken}) => {
+  return fetch('/api/auth/signout', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'CSRF-Token': csrfToken
+      },
+      credentials: 'include'
+    })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
 const checkSessionAndSignin = () => {
-  return fetch('/api/auth/signin/', {
+  return fetch('/api/auth/signin', {
       method: 'GET',
       headers: {
         'Accept': 'application/json'
@@ -109,7 +123,7 @@ const addToWatchlater = ({csrfToken,mediaId}) => {
 
 
 export {
-	signin,signup,checkSessionAndSignin,
+	signin,signout,signup,checkSessionAndSignin,
 
   clearHistory,
 

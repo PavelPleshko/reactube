@@ -70,8 +70,8 @@ const checkSessionAndGetUser = (req,res,next) => {
 
 
 const signout = (req, res) => {
-  res.clearCookie("t")
-  sendSuccess(res,'Signed out')({user});
+  res.clearCookie("jwt")
+  sendSuccess(res,'Signed out')({});
 }
 
 

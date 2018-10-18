@@ -20,6 +20,19 @@ const login = credentials => {
 	}
 }
 
+const logout = () => {
+	return (dispatch,getState)=>{
+		dispatch(userActions.logoutUserRequest());
+		let csrfToken = getState().csrf;
+		userApiCalls.signout({csrfToken})
+		.then(response=>{
+		dispatch(userActions.logoutUserSuccess());
+		}).catch((error) => {
+			dispatch(userActions.logoutUserError(error.message));
+		})	
+	}
+}
+
 const checkSession = () => {
 	return (dispatch) =>{
 		userApiCalls.checkSessionAndSignin()
@@ -110,7 +123,7 @@ const clearHistory = () =>{
 
 
 export {
-	login,register,checkSession,
+	login,logout,register,checkSession,
 	clearHistory,
 	addToWatchlater,
 	updateUser,

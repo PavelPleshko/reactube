@@ -18,24 +18,31 @@ getCroppedImg} from '../../utils/image-processing/image-processing';
 
 const RECOMMENDED_IMG_WIDTH=2560;
 const RECOMMENDED_IMG_HEIGHT=1440;
-
+const ASPECT_RATIO = 21/4;
 
 const styles = theme => ({
-	profileMeta:{
+	root:{
 		height:'200px',
 		display:'flex',
 		position:'relative',
 		justifyContent:'space-between',
 		alignItems:'center',
 		padding:'1rem 2rem',
-		backgroundColor:'#fafafa',
+		backgroundColor:theme.palette.primary.textColor,
 		backgroundSize:'cover',
 		backgroundPosition:'50% 50%'
 	},
 		editBackgroundIcon:{
 		position:'absolute',
-		top:0,
-		right:0
+		top:10,
+		right:10,
+		backgroundColor:theme.palette.primary.active,
+		color:'#fff',
+		opacity:.8,
+		'&:hover':{
+			backgroundColor:theme.palette.primary.active,
+			opacity:1
+		}
 	},
 		  modal: {
     position: 'absolute',
@@ -113,7 +120,7 @@ class ChannelHeader extends Component{
 		crop:{
 			  x: 0,
 			  y: 0,
-			  aspect:21/4,
+			  aspect:ASPECT_RATIO,
 			  width: 700
 		},
 		imgWidth:700,
@@ -181,7 +188,7 @@ class ChannelHeader extends Component{
 		const {file,submitted,dataUrl,modalOpened,imgHeight,imgWidth} = this.state;
 		const {classes,processing,channelBackground} = this.props;
 			return (
-				<div className={classes.profileMeta} style={{backgroundImage:channelBackground ? `url(${channelBackground})` : ''}}>
+				<div className={classes.root} style={{backgroundImage:channelBackground ? `url(${channelBackground})` : ''}}>
 					 <Modal
 			          aria-labelledby="edit-channel-background"
 			          aria-describedby="edit-channel-background"
@@ -216,9 +223,9 @@ class ChannelHeader extends Component{
 						</div>
 		        	</Modal>
 					<Tooltip title="Edit background">
-						<IconButton className={classes.editBackgroundIcon} onClick={this.toggleModal}>
+						<Button variant="fab" mini className={classes.editBackgroundIcon} onClick={this.toggleModal}>
 							<EditIcon />
-						</IconButton>
+						</Button>
 					</Tooltip>
 				</div>
 			)

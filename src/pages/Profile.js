@@ -20,14 +20,16 @@ import ProfileTabs from './profile/ProfileTabs';
 
 const styles = theme => ({
 	root:{
-		
+		backgroundColor:'#fff'
 	},
 	profileMeta:{
-		display:'flex',
-		justifyContent:'space-between',
-		alignItems:'center',
-		padding:'1rem 2rem',
 		backgroundColor:'#fafafa'
+	},
+	profileMetaInner:{
+		display:'flex',
+		alignItems:'center',
+		justifyContent:'space-between',
+		padding:'1rem 3rem'
 	},
 	avatarGroup:{
 		display:'flex',
@@ -81,9 +83,12 @@ class Profile extends Component{
 	render(){
 		const {classes,user,userChannels,userFullName,processing} = this.props;
 		const userAvatar = user && user.photo;
+		const userId = user && user._id;
+
 	return (
-		<Paper elevation={2} className={classes.root}>
+		<div className={classes.root}>
 			<div className={classes.profileMeta}>
+				<div className={classes.profileMetaInner}>
 				<div className={classes.avatarGroup}>
 					<UserAvatarWithModal 
 					processing={processing}
@@ -105,8 +110,10 @@ class Profile extends Component{
 				: null
 			}
 			</div>
-		<ProfileTabs userId={user && user._id} />
-		</Paper>
+			<ProfileTabs userId={userId} />
+
+			</div>
+		</div>
 	)
 	}
 }
