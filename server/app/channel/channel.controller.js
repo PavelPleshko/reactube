@@ -5,6 +5,8 @@ import formidable from 'formidable';
 import extend from 'lodash/extend';
 import {sendSuccess,sendError} from '../../helpers/responseHandler';
 import {uploadFileFromPathToCloudinary} from '../../helpers/cloudinaryManager';
+import mongoose from 'mongoose';
+const ObjectId = mongoose.Types.ObjectId;
 
 const create = async (req, res, next) => {
   try{
@@ -42,7 +44,7 @@ const listChannelMedia = async (req, res, next) => {
 const updateChannel = async (req, res) => {
   try{
     const channelId = req.params.channelId;
-    let channel = await Channel.findById(channelId);
+    let channel = req.channel;
     channel = extend(channel,req.body);
     const files = req.files;
       if(files){
@@ -75,17 +77,82 @@ const isOwner = (req,res,next) => {
   }
 }
 
+const notOwner = (req,res,next) => {
+  const user = req.user;
+  const channel = req.channel;
+  if(!user){
+    sendError(res,401,'You have to be signed in.')();
+  }
+  if(user._id.toString() !== channel.owner._id.toString()){
+    return next();
+  }else{
+     sendError(res,401,'You are the owner of this channel.')();
+  }
+}
 
+const subscribe = async (req,res,next) => {
+  const subscriber = req.user;
+  const channel = req.channel;
+  const channelId = channel && channel._id;
+  try{
+      const chSubscribers = channel.subscribers;
+      const subscriberId = subscriber._id;
+      const isSubscribed = chSubscribers.find(sub=>sub.toString() === subscriberId.toString());
+      const hasSubscription = subscriber.subscribed.find(sub=>sub.toString() === channelId.toString());
+      if(!isSubscribed && !hasSubscription){
+        chSubscribers.push(subscriberId);
+        subscriber.subscribed.push(channelId);
+        const updatedChannel = await channel.save();
+        const user = await subscriber.save();
+        sendSuccess(res,'Subscribed to channel')({updatedChannel});
+      }else{
+        const err = new Error('You are already subscribed to this channel');
+        err.code = 403;
+        throw err;
+      }
+  }catch(err){
+    sendError(res)(err)
+  }
+}
 
+const unsubscribe = async (req,res,next) => {
+  const subscriber = req.user;
+  const channel = req.channel;
+  const channelId = channel && channel._id;
+  try{
+      const chSubscribers = channel.subscribers;
+      const subscriberId = subscriber._id;
+      const isSubscribedIdx = chSubscribers.findIndex(sub=>sub.toString() === subscriberId.toString());
+      const hasSubscriptionIdx = subscriber.subscribed.findIndex(sub=>sub.toString() === channelId.toString());
+      if(isSubscribedIdx >= 0 && hasSubscriptionIdx >= 0){
+        chSubscribers.splice(isSubscribedIdx,1);
+        subscriber.subscribed.splice(hasSubscriptionIdx,1);
+        const updatedChannel = await channel.save();
+        const user = await subscriber.save();
+        sendSuccess(res,'Unsubscribed from channel')({updatedChannel});
+      }else{
+        const err = new Error('You are already unsubscribed from this channel');
+        err.code = 403;
+        throw err;
+      }
+  }catch(err){
+    sendError(res)(err)
+  }
+}
 
-
-
-
-
-
+const findById = async (req,res,next)=>{
+   const channelId = req.params.channelId;
+   try{
+    const channel = await Channel.findById(channelId);
+    req.channel = channel;
+    next();
+   }catch(err){
+    sendError(res)(err);
+   }
+}
 
 export default {
   create,readBySlug,listChannelMedia,
-  updateChannel,
-  isOwner
+  updateChannel,subscribe,unsubscribe,
+  isOwner,notOwner,findById
 }

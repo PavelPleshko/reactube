@@ -12,6 +12,12 @@ router.route('/channels/create')
 router.route('/channels/:channelId/media')
   .get(channelCtrl.listChannelMedia);
 
+router.route('/channels/:channelId/subscribe')
+  .post(authCtrl.requireSignin,channelCtrl.notOwner,channelCtrl.subscribe);
+
+router.route('/channels/:channelId/unsubscribe')
+  .post(authCtrl.requireSignin,channelCtrl.notOwner,channelCtrl.unsubscribe);
+
 
 router.route('/channels/:channelId')
   .patch(authCtrl.requireSignin,channelCtrl.updateChannel);
@@ -21,6 +27,7 @@ router.route('/channels/:channelSlug')
 
 
 
+router.param('channelId', channelCtrl.findById)
 
 router.use('/channels',channelTopicRouter);
 

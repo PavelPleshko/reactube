@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Grid from '@material-ui/core/Grid';
+import Tooltip from '@material-ui/core/Tooltip';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Button from '@material-ui/core/Button';
 import {withStyles} from '@material-ui/core/styles';
@@ -77,6 +78,13 @@ const styles = theme => ({
   },
     tabIndicator:{
     backgroundColor:theme.palette.primary.active
+  },
+  disabled:{
+    opacity:.6,
+    '&:hover':{
+       opacity:.6,
+       cursor:'not-allowed'
+    }
   }
 });
 
@@ -106,8 +114,22 @@ class ChannelTabs extends Component {
     }
   }
 
+  subscribe = () =>{
+    const {subscribeToChannel,channel,isSubscribed,isOwner} = this.props;
+    if(channel && !isSubscribed && !isOwner){
+      subscribeToChannel(channel._id);
+    }
+  } 
+
+   unsubscribe = () =>{
+    const {unsubscribeFromChannel,channel,isSubscribed,isOwner} = this.props;
+    if(channel && isSubscribed && !isOwner){
+      unsubscribeFromChannel(channel._id);
+    }
+  }
+
   render(){
-  			const {classes,channel,processing} = this.props;
+  			const {classes,channel,processing,isSubscribed,isOwner} = this.props;
         const channelThumbnail = channel && channel.iconImage;
         const channelId= channel && channel._id;
         const { activeTab } = this.state;
@@ -132,15 +154,19 @@ class ChannelTabs extends Component {
                   }
             </div>
             <div>
-              <Button variant="contained" className={classes.subscribeBtn}>
-                  {`Subscribe ${(channel && channel.subscribers) && channel.subscribers.length}`}
-              </Button>
-              {false &&  <div className={classes.subscribeBtnCont}>
-              <Button className={classes.unsubsribeBtn}>
+             
+              {isSubscribed ?  <div className={classes.subscribeBtnCont}>
+              <Button className={classes.unsubsribeBtn} onClick={this.unsubscribe}>
                     {`You are subscribed ${(channel && channel.subscribers) && channel.subscribers.length}`}
                 </Button>
                 <NotificationsIcon className={classes.notificationsIcon} />
               </div>
+              :
+              <Tooltip title={isOwner && `You can't subscribe to your own channel`}>
+                <Button variant="contained" className={[classes.subscribeBtn,isOwner ? classes.disabled : ''].join(' ')} onClick={this.subscribe}>
+                    {`Subscribe ${(channel && channel.subscribers) && channel.subscribers.length}`}
+                </Button>
+              </Tooltip>
             }
               </div>
           </div>

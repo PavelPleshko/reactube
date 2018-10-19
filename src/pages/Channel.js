@@ -50,6 +50,15 @@ class Channel extends Component{
 		}
 	}
 
+	isSubscribed = (channel,user)=>{
+		if(!channel || !user) return false;
+		if(channel && user){
+			const subscriptions=user.subscribed;
+			console.log(subscriptions);
+			return subscriptions.includes(channel._id);
+		}
+	}
+
 
 
 	render(){
@@ -57,12 +66,13 @@ class Channel extends Component{
 		const isOwner = this.isChannelOwner(channel,user);
 		const channelBackground = channel ? channel.backgroundImage : null;
 		const channelId = channel ? channel._id : null;
+		const isSubscribed = this.isSubscribed(channel,user);
 	return (
 
 		<Paper elevation={1} className={classes.root}>	
 			{(!channelBackground && !isOwner) ? null : <ChannelHeader processing={processing} 
 			channelId={channelId} channelBackground={channelBackground} />}
-			<ChannelTabs channel={channel}/>
+			<ChannelTabs isOwner={isOwner} isSubscribed={isSubscribed} channel={channel}/>
 		</Paper>
 	)
 	}

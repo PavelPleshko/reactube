@@ -23,6 +23,13 @@ const updateChannelRequest = createAction(types.UPDATE_CHANNEL_REQUEST);
 const updateChannelSuccess = createAction(types.UPDATE_CHANNEL_SUCCESS,'payload');
 const updateChannelError = createAction(types.UPDATE_CHANNEL_ERROR,'payload'); 
 
+const subscribeToChannelRequest = createAction(types.SUBSCRIBETO_CHANNEL_REQUEST);
+const subscribeToChannelSuccess = createAction(types.SUBSCRIBETO_CHANNEL_SUCCESS,'payload');
+const subscribeToChannelError = createAction(types.SUBSCRIBETO_CHANNEL_ERROR,'payload'); 
+const unsubscribeFromChannelRequest = createAction(types.UNSUBSCRIBEFROM_CHANNEL_REQUEST);
+const unsubscribeFromChannelSuccess = createAction(types.UNSUBSCRIBEFROM_CHANNEL_SUCCESS,'payload');
+const unsubscribeFromChannelError = createAction(types.UNSUBSCRIBEFROM_CHANNEL_ERROR,'payload'); 
+
 
 
 export default {
@@ -34,5 +41,8 @@ export default {
 
 	getChannelMediaRequest,getChannelMediaSuccess,getChannelMediaError,
 
-	updateChannelRequest,updateChannelSuccess,updateChannelError
+	updateChannelRequest,updateChannelSuccess,updateChannelError,
+
+	subscribeToChannelRequest,subscribeToChannelSuccess,subscribeToChannelError,
+	unsubscribeFromChannelRequest,unsubscribeFromChannelSuccess,unsubscribeFromChannelError
 }

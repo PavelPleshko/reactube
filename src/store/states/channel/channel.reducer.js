@@ -34,6 +34,8 @@ const channelReducer = (state=initialState,action) => {
 
 		case types.CREATE_NEW_CHANNEL_REQUEST:
 		case types.UPDATE_CHANNEL_REQUEST:
+		case types.SUBSCRIBETO_CHANNEL_REQUEST:
+		case types.UNSUBSCRIBEFROM_CHANNEL_REQUEST:
 			return {
 				...state,
 				processing:true,
@@ -42,6 +44,8 @@ const channelReducer = (state=initialState,action) => {
 
 		case types.CREATE_NEW_CHANNEL_SUCCESS:
 		case types.UPDATE_CHANNEL_SUCCESS:
+		case types.SUBSCRIBETO_CHANNEL_SUCCESS:
+		case types.UNSUBSCRIBEFROM_CHANNEL_SUCCESS:
 			return {
 				...state,
 				processing:false,
@@ -50,6 +54,8 @@ const channelReducer = (state=initialState,action) => {
 
 		case types.CREATE_NEW_CHANNEL_ERROR:
 		case types.UPDATE_CHANNEL_ERROR:
+		case types.SUBSCRIBETO_CHANNEL_ERROR:
+		case types.UNSUBSCRIBEFROM_CHANNEL_ERROR:
 			return {
 				...state,
 				processing:false,

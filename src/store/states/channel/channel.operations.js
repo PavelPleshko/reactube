@@ -33,12 +33,12 @@ const getChannelMedia = (channelId) => {
 const createNewChannel = (channelData) => {
 	return (dispatch,getState)=>{
 		dispatch(channelActions.createNewChannelRequest());
-		let csrfToken = getState().csrf;
+		const csrfToken = getState().csrf;
 		channelApiCalls.createNewChannel({channelData,csrfToken})
 		.then(response=>{
-			let newChannel = response.data.newChannel;	
+			const newChannel = response.data.newChannel;	
 			dispatch(channelActions.createNewChannelSuccess(newChannel));
-			let slug = newChannel.slug;
+			const slug = newChannel.slug;
 			dispatch(push(`/channel/${slug}`));
 		}).catch((error) => {
 			dispatch(channelActions.createNewChannelError(error.message));
@@ -49,13 +49,41 @@ const createNewChannel = (channelData) => {
 const updateChannel = (channelPartial,channelId) => {
 	return (dispatch,getState)=>{
 		dispatch(channelActions.updateChannelRequest());
-		let csrfToken = getState().csrf;
+		const csrfToken = getState().csrf;
 		channelApiCalls.updateChannel({channelPartial,channelId,csrfToken})
 		.then(response=>{
-			let updatedChannel = response.data.updatedChannel;	
+			const updatedChannel = response.data.updatedChannel;	
 			dispatch(channelActions.updateChannelSuccess(updatedChannel));
 		}).catch((error) => {
 			dispatch(channelActions.updateChannelError(error.message));
+		})	
+	}
+}
+
+const subscribeToChannel = (channelId) => {
+	return (dispatch,getState)=>{
+		dispatch(channelActions.subscribeToChannelRequest());
+		const csrfToken = getState().csrf;
+		channelApiCalls.subscribeToChannel({channelId,csrfToken})
+		.then(response=>{
+			const updatedChannel = response.data.updatedChannel;	
+			dispatch(channelActions.subscribeToChannelSuccess(updatedChannel));
+		}).catch((error) => {
+			dispatch(channelActions.subscribeToChannelError(error.message));
+		})	
+	}
+}
+
+const unsubscribeFromChannel = (channelId) => {
+	return (dispatch,getState)=>{
+		dispatch(channelActions.unsubscribeFromChannelRequest());
+		const csrfToken = getState().csrf;
+		channelApiCalls.unsubscribeFromChannel({channelId,csrfToken})
+		.then(response=>{
+			const updatedChannel = response.data.updatedChannel;	
+			dispatch(channelActions.unsubscribeFromChannelSuccess(updatedChannel));
+		}).catch((error) => {
+			dispatch(channelActions.unsubscribeFromChannelError(error.message));
 		})	
 	}
 }
@@ -86,5 +114,7 @@ getChannelsTopics,
 getChannelMedia,
 createNewChannel,
 updateChannel,
-getChannelBySlug
+getChannelBySlug,
+unsubscribeFromChannel,
+subscribeToChannel
 }

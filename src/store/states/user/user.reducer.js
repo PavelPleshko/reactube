@@ -1,4 +1,5 @@
 import types from './user.types';
+import channelTypes from '../channel/channel.types';
 
 const initialState = {
 		processing:false,
@@ -162,6 +163,23 @@ const userReducer = (state=initialState,action) => {
 				...state,
 				processing:false,
 				isError:payload
+			}
+
+		case channelTypes.SUBSCRIBETO_CHANNEL_SUCCESS:
+			return {
+				...state,
+				data:{
+					...state.data,
+					subscribed:[...state.data.subscribed,payload._id]
+				}
+			}
+		case channelTypes.UNSUBSCRIBEFROM_CHANNEL_SUCCESS:
+			return {
+				...state,
+				data:{
+					...state.data,
+					subscribed:[...state.data.subscribed].filter(id=>id !== payload._id)
+				}
 			}
 
 

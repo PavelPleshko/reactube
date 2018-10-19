@@ -71,6 +71,32 @@ const updateChannel = ({channelPartial,channelId,csrfToken}) => {
   .then(res=>res.json())
 }
 
+const subscribeToChannel = ({channelId,csrfToken}) => {
+  return fetch(`/api/channels/${channelId}/subscribe`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'CSRF-Token': csrfToken
+      },
+      credentials:'include'
+    })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
+const unsubscribeFromChannel = ({channelId,csrfToken}) => {
+  return fetch(`/api/channels/${channelId}/unsubscribe`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'CSRF-Token': csrfToken
+      },
+      credentials:'include'
+    })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
 
 
 
@@ -80,5 +106,6 @@ export {
   getChannelBySlug,
   getChannelMedia,
   updateChannel,
-  createNewChannel
+  createNewChannel,
+  subscribeToChannel,unsubscribeFromChannel
 }
