@@ -1,9 +1,11 @@
 import User from '../user/user.model';
-import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import config from '../../config/config';
 import {throwIfNoResult,sendSuccess,sendError} from '../../helpers/responseHandler';
 import passport from 'passport';
+import {createJwtToken} from '../../helpers/tokenHelper';
+
+const AUTH_TOKEN_EXP_TIME_MS = 60*60*1000;
 
 const requireSignin = (req,res,next)=>{
     passport.authenticate('jwt',{session:false},(err,user,info)=>{
@@ -32,12 +34,12 @@ const signin = async (req, res) => {
     const doesPasswordsMatch = user.authenticate(req.body.password);
     throwIfNoResult(result=>!result,400,'incorrect','Password is incorrect.')(doesPasswordsMatch);
 
-     const token = jwt.sign({
+     const token = createJwtToken(config.jwtSecret,{
       _id: user._id
-    }, config.jwtSecret);
+    });
 
     res.cookie("jwt", token, {
-      expire:60*60*1000
+      expire:AUTH_TOKEN_EXP_TIME_MS
     });
 
     sendSuccess(res,'User now logged in')({user,token});
@@ -46,14 +48,13 @@ const signin = async (req, res) => {
   } 
 }
 
-const checkSessionAndGetUser = (req,res,next) => {
+const checkSessionAndGetUser = (req,res) => {
   try{
      let user = req.user;
      if(req.user){
-      const token = jwt.sign({
+      const token = createJwtToken(config.jwtSecret,{
       _id: user._id
-    }, config.jwtSecret);
-
+    });
     res.cookie("jwt", token, {
       expire:60*60*1000
     });
@@ -61,18 +62,19 @@ const checkSessionAndGetUser = (req,res,next) => {
   }else{
     sendError(res)({message:'User session expired'});
   }
-   
   }catch(err){
     sendError(res)(error);
   }
- 
 }
-
 
 const signout = (req, res) => {
   res.clearCookie("jwt")
   sendSuccess(res,'Signed out')({});
 }
 
-
-export default { signin, signout,checkSessionAndGetUser, requireSignin, hasAuthorization }
+export default { 
+  signin, signout,
+  checkSessionAndGetUser, 
+  requireSignin, 
+  hasAuthorization 
+}

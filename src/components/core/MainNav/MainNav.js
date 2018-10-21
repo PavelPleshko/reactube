@@ -110,6 +110,8 @@ state = {
   render(){
     const open = !!(this.state.anchorEl);
     const {classes,user,pathname} = this.props;
+    const userAvatar = user && user.photo;
+
     return (
   <AppBar position="fixed" className={classes.root}>
       <IconButton onClick={this.openDrawerNav} className={classes.menuIcon}>
@@ -134,7 +136,7 @@ state = {
               user.token &&
               <React.Fragment>
                 <div>Hi, <strong>{user.firstName}</strong></div>
-                 <UserAvatarSmall handleClick={this.handleOpenProfileDropdown} user={user}/>
+                 <UserAvatarSmall handleClick={this.handleOpenProfileDropdown} userId={user && user._id} avatar={userAvatar}/>
                   <Menu 
                   id="menu-appbar" 
                   anchorEl={this.state.anchorEl} 

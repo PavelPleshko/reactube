@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import crypto from 'crypto';
 
 const ObjectId = mongoose.Schema.ObjectId;
+const mixedType = mongoose.Schema.Types.Mixed;
 
 const HistoryEntrySchema = new mongoose.Schema({
   id:String,
@@ -47,7 +48,7 @@ const UserSchema = new mongoose.Schema({
   subscriptions: [{type: ObjectId, ref: 'User'}],
   subscribed: [{type: ObjectId, ref: 'Channel'}],
   verified:{
-    type:Boolean,
+    type:mixedType,
     default:false
   },
   history:[HistoryEntrySchema],

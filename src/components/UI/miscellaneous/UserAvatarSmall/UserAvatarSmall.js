@@ -15,7 +15,7 @@ const styles = theme => ({
 })
 
 const userAvatarSmall = (props)=>{
-	const {user,open,handleClick,link=false,classes} = props;
+	const {avatar,userId,open,handleClick,link=false,classes} = props;
 	return (
 		         <IconButton
                           aria-owns={open ? 'menu-appbar' : null}
@@ -23,11 +23,11 @@ const userAvatarSmall = (props)=>{
                           onClick={handleClick}
                           color="inherit"
                         >
-                        {link && <Link to={`/profile/${user._id}`}>
-                          {user.avatar ? <Avatar src={user.avatar} /> : <AccountCircle className={classes.icon}/>}
+                        {link && <Link to={`/profile/${userId}`}>
+                          {avatar ? <Avatar src={avatar} /> : <AccountCircle className={classes.icon}/>}
                          </Link>}  
                         {!link && 
-                          (user.avatar ? <Avatar src={user.avatar} /> : <AccountCircle className={classes.icon}/>)
+                          (avatar ? <Avatar src={avatar} /> : <AccountCircle className={classes.icon}/>)
                         }
                           </IconButton>
 		)

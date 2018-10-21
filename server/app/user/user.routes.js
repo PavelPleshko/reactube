@@ -8,6 +8,9 @@ const router = express.Router();
 router.route('/users/signup')
   .post(userCtrl.create)
 
+router.route('/users/verify/:token')
+  .get(userCtrl.verify)
+
 
 router.route('/users/profile/update')
   .patch(authCtrl.requireSignin,userCtrl.update)

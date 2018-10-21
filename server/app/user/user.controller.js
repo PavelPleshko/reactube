@@ -1,4 +1,5 @@
 import User from './user.model';
+import Token from './token.model';
 import Channel from '../channel/channel.model';
 import extend from 'lodash/extend';
 import errorHandler from '../../helpers/dbErrorHandler';
@@ -8,9 +9,16 @@ import {sendSuccess,sendError} from '../../helpers/responseHandler';
 import path from 'path';
 import request from 'request';
 import {uploadFileFromPathToCloudinary} from '../../helpers/cloudinaryManager';
+import {createJwtToken,verifyToken} from '../../helpers/tokenHelper';
+import {emailService} from '../../seneca';
 
-const create = (req, res, next) => {
-  const user = new User(req.body)
+const create = async (req, res, next) => {
+  const user = new User(req.body);
+  const twoDays = 1000*60*60*48;
+  const inTwoDays = new Date(Date.now()+twoDays);
+  const tokenString = createJwtToken('confirm_email',{_id:user._id},'48h');
+  const token = new Token({value:tokenString,expireAt:inTwoDays});
+  await token.save();
   user.save((err, newUser) => {
     if (err) {
       return res.status(400).json({status:400,data:null,
@@ -19,6 +27,12 @@ const create = (req, res, next) => {
     }
     delete newUser.hashed_password;
     delete newUser.salt;
+    emailService.act({area:'email',action:'send',type:'confirm_user',
+      to:user.email,name:user.firstName,
+      link:`http://localhost:8080/api/users/verify/${tokenString}`},
+      (err,res)=>{
+      console.log(res);
+    })
     res.status(200).json({status:200,data:newUser});
   })
 }
@@ -72,6 +86,42 @@ const update = async (req, res, next) => {
      }catch(err){
         sendError(res)(err);
      }
+}
+
+const verify = async (req,res)=>{
+  const tokenString = req.params.token;
+  try{
+     const token = await Token.findOne({value:tokenString});
+     res.writeHead(200, { "Content-Type": "text/html" });
+     if(token){
+      const result = await verifyToken(token.value,'confirm_email');
+      const userId = result._id;
+      const user = await User.findById(userId);
+      const userEmail = user.email;
+      const userFirstName = user.firstName;
+      if(user.verified === true){
+        return res.end(`<h3 style="text-align:center;">
+        Error. Email ${userEmail} has already been verified.
+        </h3>`);
+      }else{
+        user.verified = true;
+        const newUser = await user.save();
+        token.remove();
+         res.end(`<h3 style="text-align:center;">
+          Thank you, ${userFirstName}. Email ${userEmail} has been verified successfully
+          </h3>`);
+      }
+     }else{
+       res.end(`<h3 style="text-align:center;">
+        Token has expired
+        </h3>`);
+     } 
+  }catch(err){
+      res.end(`<h3 style="text-align:center;">
+        ${err.message}
+        </h3>`);
+  }
+ 
 }
 
 
@@ -237,7 +287,6 @@ export default {
   addFollower,addFollowing,
   addWatchlater,
   addToHistory,clearHistory,
-  listUserChannels
-  
-
+  listUserChannels,
+  verify
 }

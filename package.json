@@ -94,6 +94,7 @@
     "request": "^2.87.0",
     "reselect": "^3.0.1",
     "screenfull": "^3.3.2",
+    "seneca": "^3.7.0",
     "slug": "^0.9.1",
     "spdy": "^3.4.7",
     "victory": "^30.4.1",

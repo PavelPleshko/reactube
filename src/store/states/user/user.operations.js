@@ -96,7 +96,7 @@ const addToWatchlater = (mediaId) => {
 const register = (credentials) =>{
 	return (dispatch,getState)=>{
 		dispatch(userActions.loginUserRequest(credentials));
-		let csrfToken = getState().csrf;
+		const csrfToken = getState().csrf;
 		userApiCalls.signup({user:credentials,csrfToken})
 		.then(response=>{
 		dispatch(userActions.registerUserSuccess(response.data));
