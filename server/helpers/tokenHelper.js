@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const DEFAULT_EXPIRATION = 1;
+const DEFAULT_EXPIRATION = 60*60*24;
 
 const createJwtToken = (secret,payload,expires=DEFAULT_EXPIRATION) => {
   const token= jwt.sign(payload, secret,{expiresIn:expires});
@@ -24,11 +24,11 @@ const verifyToken = (token,secret)=>{
 			}else{
 				resolve(res)
 			}
-	});
-	
+	});	
 })
 }
 
 export {
-	createJwtToken,verifyToken
+	createJwtToken,
+	verifyToken
 }

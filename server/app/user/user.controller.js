@@ -16,28 +16,26 @@ const create = async (req, res, next) => {
   const user = new User(req.body);
   const twoDays = 1000*60*60*48;
   const inTwoDays = new Date(Date.now()+twoDays);
-  const tokenString = createJwtToken('confirm_email',{_id:user._id},'48h');
-  const token = new Token({value:tokenString,expireAt:inTwoDays});
-  await token.save();
-  user.save((err, newUser) => {
-    if (err) {
-      return res.status(400).json({status:400,data:null,
-        message: errorHandler.getErrorMessage(err)
-      })
-    }
-    delete newUser.hashed_password;
-    delete newUser.salt;
-    emailService.act({area:'email',action:'send',type:'confirm_user',
-      to:user.email,name:user.firstName,
-      link:`http://localhost:8080/api/users/verify/${tokenString}`},
+  try{
+      const tokenString = createJwtToken('confirm_email',{_id:user._id},'48h');
+      const token = new Token({value:tokenString,expireAt:inTwoDays});  
+      await token.save();
+      const newUser = await user.save();
+      emailService.act({
+        area:'email',action:'send',
+        type:'confirm_user',
+        to:newUser.email,name:newUser.firstName,
+        link:`http://localhost:8080/api/users/verify/${tokenString}`},
       (err,res)=>{
-      console.log(res);
-    })
-    res.status(200).json({status:200,data:newUser});
-  })
+       console.log(res);
+      })
+     delete newUser.hashed_password;
+     delete newUser.salt;
+     sendSuccess(res,'User registered')({user:newUser});
+  }catch(err){
+    sendError(res)(err);
+  }
 }
-
-
 
 
 const list = (req, res) => {
@@ -94,34 +92,36 @@ const verify = async (req,res)=>{
      const token = await Token.findOne({value:tokenString});
      res.writeHead(200, { "Content-Type": "text/html" });
      if(token){
-      const result = await verifyToken(token.value,'confirm_email');
-      const userId = result._id;
-      const user = await User.findById(userId);
-      const userEmail = user.email;
-      const userFirstName = user.firstName;
-      if(user.verified === true){
-        return res.end(`<h3 style="text-align:center;">
-        Error. Email ${userEmail} has already been verified.
-        </h3>`);
-      }else{
-        user.verified = true;
-        const newUser = await user.save();
-        token.remove();
-         res.end(`<h3 style="text-align:center;">
-          Thank you, ${userFirstName}. Email ${userEmail} has been verified successfully
-          </h3>`);
-      }
+       const verifyTokenAndFindUserTask = (async()=>{
+          const result = await verifyToken(token.value,'confirm_email');
+          const userId = result._id;
+          const user = await User.findById(userId);
+          if(user.verified){
+            throw new Error(`Email ${user.email} has already been verified`);
+          }
+          return user;
+      })(); 
+        const verifyUserTask = (async()=>{
+          const user = await verifyTokenAndFindUserTask;
+          user.verified = true;
+          const newUser = await user.save();
+          token.remove();
+          return newUser;
+          })();
+        const {firstName,email} = await verifyUserTask;
+         res.end(`<h3 style="text-align:center; color:rgba(0,0,0,.6)">
+          Thank you, ${firstName}. Email ${email} has been verified successfully
+          </h3>`);      
      }else{
-       res.end(`<h3 style="text-align:center;">
+       res.end(`<h3 style="text-align:center;color:rgba(0,0,0,.6)">
         Token has expired
         </h3>`);
      } 
   }catch(err){
-      res.end(`<h3 style="text-align:center;">
+      res.end(`<h3 style="text-align:center; color:rgba(0,0,0,.6)">
         ${err.message}
         </h3>`);
   }
- 
 }
 
 

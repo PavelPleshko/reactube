@@ -99,7 +99,8 @@ const register = (credentials) =>{
 		const csrfToken = getState().csrf;
 		userApiCalls.signup({user:credentials,csrfToken})
 		.then(response=>{
-		dispatch(userActions.registerUserSuccess(response.data));
+		const user = response.data.user;
+		dispatch(userActions.registerUserSuccess(user));
 		}).catch((error) => {
 			dispatch(userActions.registerUserError(error.message));
 		})	
