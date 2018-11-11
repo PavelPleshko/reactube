@@ -13,7 +13,7 @@ const create = async (req, res, next) => {
     let owner = req.user && req.user._id;
     let data = {...req.body,owner};
     const channel = new Channel(data);
-    let newChannel = await channel.save();
+    const newChannel = await channel.save();
     sendSuccess(res)({newChannel});
   }catch(err){
     console.log(err);
@@ -31,7 +31,7 @@ const readBySlug = async (req, res, next) => {
   }
 }
 
-const listChannelMedia = async (req, res, next) => {
+const listChannelMedia = async (req, res) => {
   try{
     const channelId = req.params.channelId;
     const media = await Media.find({channel:channelId});
@@ -39,6 +39,26 @@ const listChannelMedia = async (req, res, next) => {
   }catch(err){
     sendError(res)(err);
   }
+}
+
+const listChannels = async (req,res)=>{
+	try{
+		const channels = await Channel.find();
+		sendSuccess(res)({channels});
+	}catch(err){
+		sendError(res)(err);
+	}
+}
+
+const listSubscriptions = async (req,res)=>{
+	try{
+		const user = req.user;
+		const subscriptions = user.subscribed;
+		const channels = await Channel.find({_id:{$in:subscriptions}});
+		sendSuccess(res)({channels});
+	}catch(err){
+		sendError(res)(err);
+	}
 }
 
 const updateChannel = async (req, res) => {
@@ -102,8 +122,7 @@ const subscribe = async (req,res,next) => {
       if(!isSubscribed && !hasSubscription){
         chSubscribers.push(subscriberId);
         subscriber.subscribed.push(channelId);
-        const updatedChannel = await channel.save();
-        const user = await subscriber.save();
+        const [updatedChannel,user] = await Promise.all([channel.save(),subscriber.save()]);
         sendSuccess(res,'Subscribed to channel')({updatedChannel});
       }else{
         const err = new Error('You are already subscribed to this channel');
@@ -127,8 +146,7 @@ const unsubscribe = async (req,res,next) => {
       if(isSubscribedIdx >= 0 && hasSubscriptionIdx >= 0){
         chSubscribers.splice(isSubscribedIdx,1);
         subscriber.subscribed.splice(hasSubscriptionIdx,1);
-        const updatedChannel = await channel.save();
-        const user = await subscriber.save();
+        const [updatedChannel,user] = await Promise.all([channel.save(),subscriber.save()]);
         sendSuccess(res,'Unsubscribed from channel')({updatedChannel});
       }else{
         const err = new Error('You are already unsubscribed from this channel');
@@ -152,7 +170,7 @@ const findById = async (req,res,next)=>{
 }
 
 export default {
-  create,readBySlug,listChannelMedia,
+  create,readBySlug,listChannelMedia,listChannels,listSubscriptions,
   updateChannel,subscribe,unsubscribe,
   isOwner,notOwner,findById
 }

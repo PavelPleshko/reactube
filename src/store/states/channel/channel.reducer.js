@@ -5,6 +5,7 @@ const initialState = {
 		isError:false,
 		data:null,
 		single:null,
+		subscriptions:null,
 		topics:[]
 	};
 
@@ -26,6 +27,27 @@ const channelReducer = (state=initialState,action) => {
 			}
 
 		case types.GET_CHANNELS_TOPICS_ERROR:
+			return {
+				...state,
+				processing:false,
+				isError:payload				
+			}
+
+		case types.GET_USER_SUBSCRIPTIONS_REQUEST:
+			return {
+				...state,
+				processing:true,
+				isError:null
+			}
+
+		case types.GET_USER_SUBSCRIPTIONS_SUCCESS:
+			return {
+				...state,
+				processing:false,
+				subscriptions:payload
+			}
+
+		case types.GET_USER_SUBSCRIPTIONS_ERROR:
 			return {
 				...state,
 				processing:false,

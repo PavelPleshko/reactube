@@ -42,6 +42,19 @@ const getChannelBySlug = (slug) => {
   .then(res=>res.json())
 }
 
+const getUserSubscriptions = () => {
+  console.log('here')
+  return fetch(`/api/channels/subscriptions`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json'
+      },
+      credentials:'include'
+    })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
 const createNewChannel = ({channelData,csrfToken}) => {
   return fetch('/api/channels/create', {
       method: 'POST',
@@ -103,6 +116,7 @@ const unsubscribeFromChannel = ({channelId,csrfToken}) => {
 
 export {
 	getChannelsTopics,
+  getUserSubscriptions,
   getChannelBySlug,
   getChannelMedia,
   updateChannel,

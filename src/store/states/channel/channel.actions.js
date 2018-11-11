@@ -7,6 +7,10 @@ const getChannelsTopicsRequest = createAction(types.GET_CHANNELS_TOPICS_REQUEST)
 const getChannelsTopicsSuccess = createAction(types.GET_CHANNELS_TOPICS_SUCCESS,'payload');
 const getChannelsTopicsError = createAction(types.GET_CHANNELS_TOPICS_ERROR,'payload'); 
 
+const getUserSubscriptionsRequest = createAction(types.GET_USER_SUBSCRIPTIONS_REQUEST);
+const getUserSubscriptionsSuccess = createAction(types.GET_USER_SUBSCRIPTIONS_SUCCESS,'payload');
+const getUserSubscriptionsError = createAction(types.GET_USER_SUBSCRIPTIONS_ERROR,'payload'); 
+
 const createNewChannelRequest = createAction(types.CREATE_NEW_CHANNEL_REQUEST);
 const createNewChannelSuccess = createAction(types.CREATE_NEW_CHANNEL_SUCCESS,'payload');
 const createNewChannelError = createAction(types.CREATE_NEW_CHANNEL_ERROR,'payload'); 
@@ -34,6 +38,7 @@ const unsubscribeFromChannelError = createAction(types.UNSUBSCRIBEFROM_CHANNEL_E
 
 export default {
 	getChannelsTopicsRequest,getChannelsTopicsSuccess,getChannelsTopicsError,
+	getUserSubscriptionsRequest,getUserSubscriptionsSuccess,getUserSubscriptionsError,
 
 	createNewChannelRequest,createNewChannelSuccess,createNewChannelError,
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 
 import classNames from 'classnames';
@@ -24,10 +24,13 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import * as appOperations from '../../../store/states/app/app.operations';
+import * as channelOperations from '../../../store/states/channel/channel.operations';
+import {selectSubscribedChannels} from '../../../store/states/channel';
 import {selectDrawerOpened} from '../../../store/states/app';
 import {selectPathname} from '../../../store/states/router';
 import {primaryMenu,secondaryMenu} from '../../../settings/drawer/drawerMenu';
 import Logo from '../../UI/miscellaneous/Logo/Logo';
+import Subscriptions from './drawerNav/Subscriptions';
 
 const drawerWidth = 240;
 
@@ -115,7 +118,7 @@ const isActive = (activePath, path) => {
   return activePath === path;
 }
 
-class DrawerNav extends React.Component {
+class DrawerNav extends Component {
 
 
  persistentDrawer = (history, paths) => {
@@ -136,7 +139,14 @@ class DrawerNav extends React.Component {
     this.props.toggleDrawer();
   }
 
+  componentDidMount = () =>{
+    if(!this.props.subscriptions){
+      this.props.getUserSubscriptions();
+    }
+  }
+
   componentDidUpdate = (prevProps) =>{
+    console.log(this.props);
     if(prevProps.location && prevProps.location.pathname !== this.props.location.pathname){
       if(!this.persistentDrawer(this.props.history,['/search/medias','/history/medias','/user/me','/channel/*'])){
         this.props.closeDrawer();
@@ -148,7 +158,7 @@ class DrawerNav extends React.Component {
   }
 
   render() {
-    const { classes, theme,drawerOpened,history,pathName} = this.props;
+    const { classes, theme,drawerOpened,history,pathName,subscriptions} = this.props;
     const isPersistentDrawer = this.persistentDrawer(history,['/search/medias','/history/medias','/user/me','/channel/*']);
     const drawer = (
       <Drawer
@@ -192,6 +202,7 @@ class DrawerNav extends React.Component {
                    </Link>
           })}
         </List>
+        <Subscriptions subscriptions={subscriptions} />
       </Drawer>
     );
 
@@ -224,12 +235,13 @@ class DrawerNav extends React.Component {
 const mappedStateToProps = (state) =>(
 {
   drawerOpened:selectDrawerOpened(state.app),
-  pathName:selectPathname(state.router)
+  pathName:selectPathname(state.router),
+  subscriptions:selectSubscribedChannels(state.channel)
 }
   );
 
 
-const boundActionCreators = (dispatch) => bindActionCreators({...appOperations},dispatch);
+const boundActionCreators = (dispatch) => bindActionCreators({...appOperations,...channelOperations},dispatch);
 
 
 export default connect(mappedStateToProps,boundActionCreators)

@@ -108,7 +108,7 @@ app.get("/*", (req, res, next) => {
   res.cookie("csrfToken", csrfToken, { sameSite: true, httpOnly: true });
   const context = {};
 
-  const theme = createMuiTheme({
+const theme = createMuiTheme({
   palette: {
     primary: {
     light: '#fff',
@@ -122,11 +122,12 @@ app.get("/*", (req, res, next) => {
     standard:deepPurple[500],
     standardHover:deepPurple[600],
     grey:'#8091a5',
+    mediumGrey:'#eeeeee',
     lightGrey:'#f8f8f8',
   }
 },
  typography:{
-    mainFont:'Roboto Condensed, sans-serif'
+    fontFamily:'Roboto Condensed, sans-serif'
   }
 });
   const sheetsRegistry = new SheetsRegistry();

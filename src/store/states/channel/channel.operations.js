@@ -30,6 +30,19 @@ const getChannelMedia = (channelId) => {
 	}
 }
 
+const getUserSubscriptions = () => {
+	return (dispatch)=>{
+		dispatch(channelActions.getUserSubscriptionsRequest());
+		channelApiCalls.getUserSubscriptions()
+		.then(response=>{
+			let subscriptions = response.data.channels;	
+			dispatch(channelActions.getUserSubscriptionsSuccess(subscriptions));
+		}).catch((error) => {
+			dispatch(channelActions.getUserSubscriptionsError(error.message));
+		})	
+	}
+}
+
 const createNewChannel = (channelData) => {
 	return (dispatch,getState)=>{
 		dispatch(channelActions.createNewChannelRequest());
@@ -111,6 +124,7 @@ const getChannelBySlug = (slug) => {
 
 export {
 getChannelsTopics,
+getUserSubscriptions,
 getChannelMedia,
 createNewChannel,
 updateChannel,
