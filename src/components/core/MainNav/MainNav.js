@@ -17,6 +17,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 //router
 import {Link, withRouter} from 'react-router-dom';
 
@@ -28,6 +29,7 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
     backgroundColor:theme.palette.primary.light,
+
     boxShadow:'0px 0px 2px 2px rgba(0,0,0,.1)',
     position:'fixed',
     left:0,
@@ -70,7 +72,11 @@ const styles = theme => ({
   },
   avatarContainer:{
     display:'flex',
-    alignItems:'center'
+    alignItems:'center',
+    color:theme.palette.primary.contrastText
+  },
+  greeting:{
+    padding:'0 1rem'
   }
 });
 
@@ -135,7 +141,10 @@ state = {
             user && (
               user.token &&
               <React.Fragment>
-                <div>Hi, <strong>{user.firstName}</strong></div>
+              <IconButton title='Notifications'>
+                 <NotificationsIcon />
+              </IconButton>
+                <div className={classes.greeting}>Hi, <strong>{user.firstName}</strong></div>
                  <UserAvatarSmall handleClick={this.handleOpenProfileDropdown} userId={user && user._id} avatar={userAvatar}/>
                   <Menu 
                   id="menu-appbar" 

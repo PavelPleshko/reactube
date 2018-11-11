@@ -28,6 +28,7 @@ import * as channelOperations from '../../../store/states/channel/channel.operat
 import {selectSubscribedChannels} from '../../../store/states/channel';
 import {selectDrawerOpened} from '../../../store/states/app';
 import {selectPathname} from '../../../store/states/router';
+import {selectIsAuthenticated} from '../../../store/states/user';
 import {primaryMenu,secondaryMenu} from '../../../settings/drawer/drawerMenu';
 import Logo from '../../UI/miscellaneous/Logo/Logo';
 import Subscriptions from './drawerNav/Subscriptions';
@@ -140,13 +141,10 @@ class DrawerNav extends Component {
   }
 
   componentDidMount = () =>{
-    if(!this.props.subscriptions){
-      this.props.getUserSubscriptions();
-    }
+    this.updateSubscriptions();
   }
 
   componentDidUpdate = (prevProps) =>{
-    console.log(this.props);
     if(prevProps.location && prevProps.location.pathname !== this.props.location.pathname){
       if(!this.persistentDrawer(this.props.history,['/search/medias','/history/medias','/user/me','/channel/*'])){
         this.props.closeDrawer();
@@ -154,11 +152,18 @@ class DrawerNav extends Component {
         this.props.openDrawer();
       }
     }
+    this.updateSubscriptions();
+  }
 
+  updateSubscriptions = (prevProps)=>{
+    const {authenticated,subscriptions,getUserSubscriptions} = this.props;
+    if(authenticated && !subscriptions){
+      getUserSubscriptions();
+    }
   }
 
   render() {
-    const { classes, theme,drawerOpened,history,pathName,subscriptions} = this.props;
+    const { classes, theme,drawerOpened,history,pathName,subscriptions,authenticated} = this.props;
     const isPersistentDrawer = this.persistentDrawer(history,['/search/medias','/history/medias','/user/me','/channel/*']);
     const drawer = (
       <Drawer
@@ -202,7 +207,7 @@ class DrawerNav extends Component {
                    </Link>
           })}
         </List>
-        <Subscriptions subscriptions={subscriptions} />
+        {authenticated && <Subscriptions subscriptions={subscriptions} />}
       </Drawer>
     );
 
@@ -236,7 +241,8 @@ const mappedStateToProps = (state) =>(
 {
   drawerOpened:selectDrawerOpened(state.app),
   pathName:selectPathname(state.router),
-  subscriptions:selectSubscribedChannels(state.channel)
+  subscriptions:selectSubscribedChannels(state.channel),
+  authenticated:selectIsAuthenticated(state.user)
 }
   );
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import List from '@material-ui/core/List';
+import {withStyles} from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -8,8 +9,16 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import ImageIcon from '@material-ui/icons/Image';
 
+const styles = theme => ({
+	title:{
+		textOverflow:'ellipsis',
+		overflow:'hidden',
+		whiteSpace:'nowrap'
+	}
+})
+
 const subscriptions = (props) => {
-	const {subscriptions} = props;
+	const {subscriptions,classes} = props;
 
 	return (
 		        <List subheader={<ListSubheader component="div">Subscriptions</ListSubheader>}>
@@ -21,7 +30,7 @@ const subscriptions = (props) => {
                        <ListItemIcon>
                     	   	<ImageIcon />
                       </ListItemIcon>}
-                      <ListItemText primary={item.title} />
+                      <ListItemText primary={item.title} classes={{primary:classes.title}} />
                     </ListItem>
                    </Link>
           })}
@@ -30,4 +39,4 @@ const subscriptions = (props) => {
 }
 
 
-export default subscriptions;
+export default withStyles(styles)(subscriptions);
