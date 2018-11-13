@@ -10,6 +10,7 @@ import {bindActionCreators} from 'redux';
 import { push } from 'connected-react-router'
 
 import * as mediaOperations from '../store/states/media/media.operations';
+import * as userOperations from '../store/states/user/user.operations';
 import {selectSingleMedia,selectMedias} from '../store/states/media/media.selectors';
 import {selectUser} from '../store/states/user/user.selectors';
 
@@ -31,8 +32,9 @@ const styles = theme =>({
 class SingleMedia extends Component{
 	
 	state = {
-		autoplay:false,
+		autoplay:false
 	}
+
 	loadMedia = (mediaId)=>{
 		this.props.readMedia(mediaId);
 		this.props.listRelatedMedia(mediaId);
@@ -60,7 +62,6 @@ class SingleMedia extends Component{
 
 	if(playlist.length > 1){
 		let nextUrl = `/media/${media._id}`;
-		console.log(this.props);
 		this.props.pushHistory(nextUrl);
 	}else{
 		this.props.listRelatedMedia(media._id);
@@ -71,16 +72,25 @@ class SingleMedia extends Component{
 		this.setState({autoplay:e.target.checked})
 	}
 
+	componentWillUnmount = () => {
+		this.addToListIfNotEnded();
+	}
+
+	addToListIfNotEnded = () => {
+		console.log('aaa');
+	}
+
 
 
 	render(){
 		const {classes,media,relatedMedia,user} = this.props;
 		const nextUrl = relatedMedia.length > 0
-          ? `/media/${relatedMedia[0]._id}` : ''
+          ? `/media/${relatedMedia[0]._id}` : '';
+          const mediaId = this.props.match.params.mediaId;
 	return (
 		<Grid className={classes.root} container spacing={24}>
 			<Grid item sm={7} xs={12}>
-				<MediaPlayer media={media} user={user} nextUrl={nextUrl} handleAutoplay={this.handleAutoplay} /> 
+				<MediaPlayer mediaId={mediaId} media={media} user={user} nextUrl={nextUrl} handleAutoplay={this.handleAutoplay} /> 
 				{media && <CommentList mediaId={media._id}/>}
 			</Grid>
 			<Grid item sm={5} xs={12}>
@@ -102,6 +112,9 @@ const mappedStateToProps = (state) =>(
   );
 
 
-const boundActionCreators = (dispatch) => bindActionCreators({...mediaOperations,pushHistory:push},dispatch);
+const boundActionCreators = (dispatch) => bindActionCreators({
+	...mediaOperations,
+	...userOperations,
+	pushHistory:push},dispatch);
 
 export default connect(mappedStateToProps,boundActionCreators)(withStyles(styles)(SingleMedia));

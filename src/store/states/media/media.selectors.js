@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 const selectMediasByKey = (state,key)=>{
+	if(!state[key]) return null;
 	let byId = state[key].byId;
 	let allIds = state[key].allIds;
 	return allIds.map(id=>byId[id]);

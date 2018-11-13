@@ -42,6 +42,13 @@ const initialState = {
         currentPage:0,
         total:0,
         pageSize:4
+    }, 
+   continueWatching:{
+        allIds:[],
+        byId:{},
+        currentPage:0,
+        total:0,
+        pageSize:6
     },
     user:{
         allIds:[],

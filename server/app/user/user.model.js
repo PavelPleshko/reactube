@@ -12,6 +12,15 @@ const HistoryEntrySchema = new mongoose.Schema({
   }
 })
 
+const ContinueWatchingSchema = new mongoose.Schema({
+  id:String,
+  fromTime:String,
+  added:{
+    type:Date,
+    default:Date.now
+  }
+})
+
 const WatchlaterEntrySchema = new mongoose.Schema({
   id:String,
   added:{
@@ -47,7 +56,7 @@ const UserSchema = new mongoose.Schema({
   },
   subscriptions: [{type: ObjectId, ref: 'User'}],
   subscribed: [{type: ObjectId, ref: 'Channel'}],
-  continueWatching:[{type: ObjectId, ref: 'Media'}],
+  continueWatching:[ContinueWatchingSchema],
   verified:{
     type:mixedType,
     default:false

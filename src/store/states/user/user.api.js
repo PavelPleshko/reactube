@@ -121,6 +121,21 @@ const addToWatchlater = ({csrfToken,mediaId}) => {
   .then(res=>res.json())
 }
 
+const addToContinueWatching = ({mediaId,fromTime,csrfToken}) => {
+  return fetch(`/api/users/continue-watching/${mediaId}`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'CSRF-Token': csrfToken
+    },
+    credentials: 'include',
+    body: JSON.stringify({fromTime})
+  })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
 
 export {
 	signin,signout,signup,checkSessionAndSignin,
@@ -128,6 +143,8 @@ export {
   clearHistory,
 
   addToWatchlater,
+
+  addToContinueWatching,
   
   update,
 

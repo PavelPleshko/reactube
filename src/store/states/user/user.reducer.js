@@ -182,6 +182,27 @@ const userReducer = (state=initialState,action) => {
 				}
 			}
 
+		case types.ADD_TO_CONTINUE_WATCHING_REQUEST:
+			return {
+				...state,
+				processing:true,
+				isError:false
+			}
+
+		case types.ADD_TO_CONTINUE_WATCHING_SUCCESS:
+		
+			return {
+				...state,
+				processing:false
+			}
+
+		case types.ADD_TO_CONTINUE_WATCHING_ERROR:
+			return {
+				...state,
+				processing:false,
+			    isError:payload
+			}
+
 
 		default:
 			return state;

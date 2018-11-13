@@ -122,11 +122,28 @@ const clearHistory = () =>{
 	}
 }
 
+const addToContinueWatching = (mediaId,fromTime) => {
+	return (dispatch)=>{
+		dispatch(userActions.addToContinueWatchingRequest());
+		let csrfToken = getState().csrf;
+		userApiCalls.addToContinueWatching({mediaId,fromTime,csrfToken})
+		.then(response=>{
+			console.log(response);			
+			dispatch(userActions.addToContinueWatchingSuccess({}));
+		})
+		.catch((error)=>{
+			dispatch(userActions.addToContinueWatchingError(error.message));
+		})
+	}
+}
+
+
 
 export {
 	login,logout,register,checkSession,
 	clearHistory,
 	addToWatchlater,
 	updateUser,
-	getUserChannels
+	getUserChannels,
+	addToContinueWatching
 }

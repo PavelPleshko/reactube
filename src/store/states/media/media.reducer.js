@@ -8,14 +8,15 @@ import tagReducer from './tag';
 import initialState from './media.initial-state';
 
 
-import createMedia from './media-reducers/create-media.reducer';
 import getMediaList from './media-reducers/get-media-list.reducer';
 import historyMediaList from './media-reducers/history.reducer';
 import channelMediaList from './media-reducers/channel-media.reducer';
 import watchlaterMediaList from './media-reducers/watchlater.reducer';
 import getPopularMediaList from './media-reducers/popular-medias.reducer';
 import getRelatedMediaList from './media-reducers/related-media.reducer';
+import continueWatching from './media-reducers/continue-watching.reducer';
 //crud
+import createMedia from './media-reducers/CRUD/create-media.reducer';
 import removeMedia from './media-reducers/CRUD/remove-media.reducer';
 import readMedia from './media-reducers/CRUD/read-media.reducer';
 import updateMedia from './media-reducers/CRUD/update-media.reducer';
@@ -57,7 +58,8 @@ const mediaReducer = reduceReducers(
 	updateMedia,
 	removeMedia,
 	likeDislikeMedia,
-	searchMedia
+	searchMedia,
+	continueWatching
 	);
 
 const mainMediaReducer = combineReducers({

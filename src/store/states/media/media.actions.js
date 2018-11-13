@@ -221,6 +221,8 @@ const searchWatchlaterError = (error)=>({
 	payload:error
 })
 
+
+
 const resetHistoryList = () =>({
 	type:types.RESET_HISTORY_LIST,
 })

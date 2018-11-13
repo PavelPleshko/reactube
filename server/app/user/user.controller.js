@@ -278,14 +278,15 @@ const addWatchlater = async(req,res)=>{
 const addToContinueWatching = async(req,res)=>{
   let user = req.user;
   const mediaId = req.params.mediaId;
+  const fromTime = req.body.fromTime || 0;
   if(!user.continueWatching){
     user.continueWatching = [];
   }
   let continueWatching = user.continueWatching;
   try{
-    const found = continueWatching.findIndex(itemId => itemId === mediaId);
+    const found = continueWatching.findIndex(item => itemId.id === mediaId);
     if(~found){
-      continueWatching.unshift(mediaId);
+      continueWatching.unshift({id:mediaId,fromTime});
       user = await user.save();
     }
     console.log(user);

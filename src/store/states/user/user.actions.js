@@ -36,6 +36,11 @@ const getUsersChannelsRequest = createAction(types.GET_USERS_CHANNELS_REQUEST);
 const getUsersChannelsSuccess = createAction(types.GET_USERS_CHANNELS_SUCCESS,'payload');
 const getUsersChannelsError = createAction(types.GET_USERS_CHANNELS_ERROR,'payload');
 
+const addToContinueWatchingRequest = createAction(types.ADD_TO_CONTINUE_WATCHING_REQUEST);
+const addToContinueWatchingSuccess = createAction(types.ADD_TO_CONTINUE_WATCHING_SUCCESS,'payload');
+const addToContinueWatchingError = createAction(types.ADD_TO_CONTINUE_WATCHING_ERROR,'payload');
+
+
 export default {
 	loginUserRequest,loginUserSuccess,loginUserError,
 	logoutUserRequest,logoutUserSuccess,logoutUserError,
@@ -48,5 +53,8 @@ export default {
 
 	addWatchLaterRequest,addWatchLaterSuccess,addWatchLaterError,
 
-	getUsersChannelsRequest,getUsersChannelsSuccess,getUsersChannelsError
+	getUsersChannelsRequest,getUsersChannelsSuccess,getUsersChannelsError,
+
+	addToContinueWatchingRequest,addToContinueWatchingSuccess,addToContinueWatchingError,
+
 }

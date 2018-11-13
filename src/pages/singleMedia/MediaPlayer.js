@@ -74,6 +74,19 @@ componentDidMount = () => {
   }
 }
 
+componentDidUpdate = (prevProps) => {
+  const {mediaId} = this.props;
+  const prevMediaId = prevProps.mediaId;
+  console.log(mediaId,prevMediaId);
+  if(mediaId && prevMediaId && (mediaId !== prevMediaId)){
+    this.onVideoHasChanged();
+  }
+}
+
+componentWillUnmount = () => {
+  this.onVideoHasChanged();
+}
+
 ref = player => {
       this.player = player;
 }
@@ -136,6 +149,15 @@ onDuration = (duration) => {
 
 onClickFullscreen = () => {
    screenfull.request(findDOMNode(this.player))
+}
+
+onVideoHasChanged = () => {
+  const {played,duration} = this.state;
+  const {videoHasChangedOrDestroyed,user} = this.props;
+  if(true){
+    const stoppedAtSec = duration * played;
+    console.log(stoppedAtSec);
+  }
 }
 
 	render(){
