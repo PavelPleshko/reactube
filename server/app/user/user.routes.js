@@ -12,6 +12,13 @@ router.route('/users/verify/:token')
   .get(userCtrl.verify)
 
 
+router.route('/users/continue-watching/:mediaId')
+  .post(userCtrl.addToContinueWatching)
+
+router.route('/users/media-completed/:mediaId')
+  .post(userCtrl.removeFromContinueWatching)
+
+
 router.route('/users/profile/update')
   .patch(authCtrl.requireSignin,userCtrl.update)
 

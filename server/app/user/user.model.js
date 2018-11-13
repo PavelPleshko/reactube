@@ -47,6 +47,7 @@ const UserSchema = new mongoose.Schema({
   },
   subscriptions: [{type: ObjectId, ref: 'User'}],
   subscribed: [{type: ObjectId, ref: 'Channel'}],
+  continueWatching:[{type: ObjectId, ref: 'Media'}],
   verified:{
     type:mixedType,
     default:false

@@ -251,7 +251,7 @@ const removeFollower = (req, res) => {
 
 const addWatchlater = async(req,res)=>{
   let user = req.user;
-  let mediaId = req.body.mediaId;
+  const mediaId = req.body.mediaId;
   if(!user){
     
   } else{
@@ -262,7 +262,7 @@ const addWatchlater = async(req,res)=>{
       let message = 'You have already added this media to watchlist';
       let watchlater = user.watchlater;
       let found = watchlater.findIndex(item=>item.id===mediaId);
-      if(found === -1){
+      if(~found){
         message = 'Successfully added to watchlist';
         watchlater.unshift({id:mediaId});
         user = await user.save();
@@ -273,6 +273,31 @@ const addWatchlater = async(req,res)=>{
     sendError(res)(err);
   }
   }
+}
+
+const addToContinueWatching = async(req,res)=>{
+  let user = req.user;
+  const mediaId = req.params.mediaId;
+  if(!user.continueWatching){
+    user.continueWatching = [];
+  }
+  let continueWatching = user.continueWatching;
+  try{
+    const found = continueWatching.findIndex(itemId => itemId === mediaId);
+    if(~found){
+      continueWatching.unshift(mediaId);
+      user = await user.save();
+    }
+    console.log(user);
+    sendSuccess(res)({user});
+  }catch(err){
+    sendError(res)(err);
+  }
+}
+
+const removeFromContinueWatching = async(req,res)=>{
+   const user = req.user;
+   const mediaId = req.params.mediaId;
 }
 
 
@@ -288,5 +313,7 @@ export default {
   addWatchlater,
   addToHistory,clearHistory,
   listUserChannels,
-  verify
+  verify,
+  addToContinueWatching,
+  removeFromContinueWatching
 }
