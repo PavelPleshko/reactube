@@ -10,15 +10,19 @@ const HistoryEntrySchema = new mongoose.Schema({
     type:Date,
     default:Date.now
   }
+},{
+  _id:false
 })
 
 const ContinueWatchingSchema = new mongoose.Schema({
-  id:String,
+  mediaId:String,
   fromTime:String,
   added:{
     type:Date,
     default:Date.now
   }
+},{
+  _id:false
 })
 
 const WatchlaterEntrySchema = new mongoose.Schema({
@@ -27,6 +31,8 @@ const WatchlaterEntrySchema = new mongoose.Schema({
     type:Date,
     default:Date.now
   }
+},{
+  _id:false
 })
 
 const UserSchema = new mongoose.Schema({

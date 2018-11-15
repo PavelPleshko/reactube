@@ -76,8 +76,11 @@ class SingleMedia extends Component{
 		this.addToListIfNotEnded();
 	}
 
-	addToListIfNotEnded = () => {
-		console.log('aaa');
+	addToListIfNotEnded = (mediaId,fromTimeSec) => {
+		if(mediaId && fromTimeSec){
+			const {addToContinueWatching} = this.props;
+			addToContinueWatching(mediaId,fromTimeSec);
+		}
 	}
 
 
@@ -90,7 +93,7 @@ class SingleMedia extends Component{
 	return (
 		<Grid className={classes.root} container spacing={24}>
 			<Grid item sm={7} xs={12}>
-				<MediaPlayer mediaId={mediaId} media={media} user={user} nextUrl={nextUrl} handleAutoplay={this.handleAutoplay} /> 
+				<MediaPlayer mediaChangedOrDestroyed={this.addToListIfNotEnded} mediaId={mediaId} media={media} user={user} nextUrl={nextUrl} handleAutoplay={this.handleAutoplay} /> 
 				{media && <CommentList mediaId={media._id}/>}
 			</Grid>
 			<Grid item sm={5} xs={12}>

@@ -21,6 +21,9 @@ router.route('/media/all')
 router.route('/media/history')
         .get(authCtrl.requireSignin,mediaCtrl.getOwnMediaList);
 
+router.route('/media/continue-watching')
+        .get(authCtrl.requireSignin,mediaCtrl.getContinueWatchingList);
+
 router.route('/media/history/search')
         .get(authCtrl.requireSignin,mediaCtrl.getOwnMediaBySearch);
 

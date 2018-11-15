@@ -77,14 +77,14 @@ componentDidMount = () => {
 componentDidUpdate = (prevProps) => {
   const {mediaId} = this.props;
   const prevMediaId = prevProps.mediaId;
-  console.log(mediaId,prevMediaId);
   if(mediaId && prevMediaId && (mediaId !== prevMediaId)){
-    this.onVideoHasChanged();
+    this.onVideoHasChanged(prevMediaId);
   }
 }
 
 componentWillUnmount = () => {
-  this.onVideoHasChanged();
+  const {mediaId} = this.props;
+  this.onVideoHasChanged(mediaId);
 }
 
 ref = player => {
@@ -151,12 +151,12 @@ onClickFullscreen = () => {
    screenfull.request(findDOMNode(this.player))
 }
 
-onVideoHasChanged = () => {
+onVideoHasChanged = (fromVideoId) => {
   const {played,duration} = this.state;
-  const {videoHasChangedOrDestroyed,user} = this.props;
-  if(true){
+  const {videoHasChangedOrDestroyed,user,mediaChangedOrDestroyed} = this.props;
+  if(user){
     const stoppedAtSec = duration * played;
-    console.log(stoppedAtSec);
+    mediaChangedOrDestroyed(fromVideoId,stoppedAtSec);
   }
 }
 

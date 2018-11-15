@@ -83,6 +83,21 @@ const listByUser = async (req, res) => {
   }
 }
 
+const getContinueWatchingList = async (req, res) => {
+  const user = req.user;
+  const mediaList = user ? user.continueWatching : [];
+  const mediaListIds = mediaList.map(item=>item.mediaId);
+  const total = mediaListIds.length;
+  try{
+    const medias = await Media.find({_id:{$in:mediaListIds}})
+                             .populate('postedBy', '_id firstName lastName')
+                             
+    sendSuccess(res,`Continue watching medias`)({medias,total});
+  } catch(err){
+    sendError(res)(err);
+  }
+}
+
 const getOwnMediaList = async (req,res) => {
   let user = req.user;
   let {pageNumber=0,pageSize=5,searchField='history'} = req.query;
@@ -352,6 +367,7 @@ export default {
   create,
   read,incrementViews,
   list,listPopular,listByUser,listRelated,getOwnMediaList,
+  getContinueWatchingList,
   getUploadDetails,
   mediaByID,
   isPoster,

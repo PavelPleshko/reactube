@@ -80,6 +80,20 @@ const listPopular = () => {
   .then(res=>res.json())
 }
 
+const listContinueWatching = (params) => {
+    let query = queryString.stringify(params);
+  return fetch(`${serverUrl}/api/media/continue-watching?${query}`, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+     credentials: 'include'
+  })
+  .then(handleErrors)
+  .then(res=>res.json())
+}
+
 const listHistoryMedia = (params) => {
   let query = queryString.stringify(params);
   return fetch(`${serverUrl}/api/media/history?${query}`, {
@@ -256,6 +270,7 @@ export {
 
   listPopular,listByUser,listRelated,
   listHistoryMedia,listWatchlaterMedia,
+  listContinueWatching,
   
   read,
   update,

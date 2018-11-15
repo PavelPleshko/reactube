@@ -221,6 +221,21 @@ const searchWatchlaterError = (error)=>({
 	payload:error
 })
 
+//List continue watching vids
+const listContinueWatchingRequest = () =>({
+	type:types.LIST_CONTINUE_WATCHING_REQUEST
+})
+
+const listContinueWatchingSuccess = (items)=>({
+	type:types.LIST_CONTINUE_WATCHING_SUCCESS,
+	payload:items
+})
+
+const listContinueWatchingError = (error)=>({
+	type:types.LIST_CONTINUE_WATCHING_ERROR,
+	payload:error
+})
+
 
 
 const resetHistoryList = () =>({
@@ -237,6 +252,7 @@ export default {
 	listHistoryMediaRequest,listHistoryMediaSuccess,listHistoryMediaError,
 	listWatchlaterMediaRequest,listWatchlaterMediaSuccess,listWatchlaterMediaError,
 	listUserMediaRequest,listUserMediaSuccess,listUserMediaError,
+	listContinueWatchingRequest,listContinueWatchingSuccess,listContinueWatchingError,
 	
 	//list manipulations
 	replaceMediaFromList,

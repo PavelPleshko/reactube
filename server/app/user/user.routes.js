@@ -13,10 +13,10 @@ router.route('/users/verify/:token')
 
 
 router.route('/users/continue-watching/:mediaId')
-  .post(userCtrl.addToContinueWatching)
+  .post(authCtrl.requireSignin,userCtrl.addToContinueWatching)
 
 router.route('/users/media-completed/:mediaId')
-  .post(userCtrl.removeFromContinueWatching)
+  .post(authCtrl.requireSignin,userCtrl.removeFromContinueWatching)
 
 
 router.route('/users/profile/update')

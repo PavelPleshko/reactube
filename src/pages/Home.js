@@ -17,7 +17,10 @@ import MediaTile from '../components/core/MediaTile/MediaTile';
 class Home extends Component{
 
 	componentDidMount = () =>{
-		if(this.props.popularMedias.length < 1) this.props.listPopularMedia();
+		const {popularMedias,listPopularMedia,
+			continueWatchingMedias,listContinueWatchingMedia} = this.props;
+		if(popularMedias.length < 1) listPopularMedia();
+		if(continueWatchingMedias.length < 1) listContinueWatchingMedia();
 	}
 	
 	render(){
@@ -30,11 +33,11 @@ class Home extends Component{
 					<h3>Recommended</h3>
 				} />
 			</Grid>		
-			{continueWatchingMedias && <Grid item sm={12}>
+			{(continueWatchingMedias && continueWatchingMedias.length) ? <Grid item sm={12}>
 				<MediaTile columns={6} show={6} items={continueWatchingMedias} resourceKey={'popular'} title={
 					<h3>Continue watching</h3>
 				} />
-			</Grid>
+			</Grid> : null
 			}
 			</Grid>
 		</div>
@@ -43,11 +46,9 @@ class Home extends Component{
 }
 
 const boundActionCreators = (dispatch) => bindActionCreators({...mediaOperations},dispatch);
-const mappedStateToProps = (state) =>(
-{
+const mappedStateToProps = (state) =>({
   popularMedias:selectMedias(state.media.medias,'popular'),
   continueWatchingMedias:selectMedias(state.media.medias,'continueWatching')
-}
-  );
+});
 
 export default connect(mappedStateToProps,boundActionCreators)(Home);

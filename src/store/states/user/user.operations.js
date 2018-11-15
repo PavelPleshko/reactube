@@ -41,6 +41,8 @@ const checkSession = () => {
 			if(response.data.token){
 				user.token = response.data.token;
 			}
+			dispatch(appOperations.showSnackbar({message:`Session restored. Welcome back ${user.firstName}`,
+				variant:'success'}));
 			dispatch(userActions.loginUserSuccess(user));
 		}).catch((error) => {
 		console.log(error);
@@ -61,7 +63,7 @@ const getUserChannels = userId => { //TODO put it in channel store
 	}
 }
 
-const updateUser = partialProfile => {
+const updateUser = (partialProfile,notify=false) => {
 	return (dispatch,getState)=>{
 		dispatch(userActions.updateUserRequest());
 		let csrfToken = getState().csrf;
@@ -71,6 +73,10 @@ const updateUser = partialProfile => {
 			let user = response.data.user;
 			user.token = token;
 			dispatch(userActions.updateUserSuccess(user));
+			if(notify){
+				dispatch(appOperations.showSnackbar({message:'User information successfully updated',
+				variant:'success'}));
+			}
 		}).catch((error) => {
 			dispatch(userActions.updateUserError(error.message));
 		})	
@@ -123,7 +129,7 @@ const clearHistory = () =>{
 }
 
 const addToContinueWatching = (mediaId,fromTime) => {
-	return (dispatch)=>{
+	return (dispatch,getState)=>{
 		dispatch(userActions.addToContinueWatchingRequest());
 		let csrfToken = getState().csrf;
 		userApiCalls.addToContinueWatching({mediaId,fromTime,csrfToken})
