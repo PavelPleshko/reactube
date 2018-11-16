@@ -143,7 +143,7 @@ const addToHistory = async (req,res,next)=>{
     if(user.saveHistory){
       let history = user.history;
       let found = history.findIndex(item=>item.id===mediaId);
-      if(found === -1){
+      if(!~found){
         history.unshift({id:mediaId});
         await user.save();
       }
@@ -156,10 +156,10 @@ const addToHistory = async (req,res,next)=>{
 }
 
 const clearHistory = async (req,res,next) =>{
-  let user = req.user;
+  const user = req.user;
   user.history = [];
   try{
-    let updatedUser = await user.save();
+    const updatedUser = await user.save();
     sendSuccess(res,'History cleared')({user:updatedUser});
   }catch(err){
     sendError(res)(err);
@@ -279,17 +279,29 @@ const addToContinueWatching = async (req,res)=>{
   const user = req.user;
   const mediaId = req.params.mediaId;
   const fromTime = req.body.fromTime || 0;
+  
   if(!user.continueWatching){
     user.continueWatching = [];
   }
   let continueWatching = user.continueWatching;
   try{
-    const found = continueWatching.findIndex(item => item.mediaId === mediaId);
-    let newUser;
-    if(!~found){
+    let index,newUser;
+    const found = continueWatching.find((item,idx) => {
+      if(item.mediaId === mediaId){
+        index = idx;
+        return true;
+      }
+      return false;
+    });
+    if(!found){
       continueWatching.unshift({mediaId,fromTime});
       newUser = await user.save();
-    }
+    }else{
+      const newElement = continueWatching[index];
+      newElement.fromTime = fromTime;
+      continueWatching.set(index,newElement);
+      newUser = await user.save();
+    }  
     sendSuccess(res)({user:newUser});
   }catch(err){
     sendError(res)(err);

@@ -10,9 +10,7 @@ import {selectMedias} from '../store/states/media/media.selectors';
 //meterial ui
 import Grid from '@material-ui/core/Grid';
 
-
 import MediaTile from '../components/core/MediaTile/MediaTile';
-
 
 class Home extends Component{
 
@@ -34,7 +32,7 @@ class Home extends Component{
 				} />
 			</Grid>		
 			{(continueWatchingMedias && continueWatchingMedias.length) ? <Grid item sm={12}>
-				<MediaTile columns={6} show={6} items={continueWatchingMedias} resourceKey={'popular'} title={
+				<MediaTile columns={6} show={6} withTimeline={true} items={continueWatchingMedias} resourceKey={'popular'} title={
 					<h3>Continue watching</h3>
 				} />
 			</Grid> : null
@@ -44,6 +42,8 @@ class Home extends Component{
 	)
 	}
 }
+
+
 
 const boundActionCreators = (dispatch) => bindActionCreators({...mediaOperations},dispatch);
 const mappedStateToProps = (state) =>({

@@ -8,7 +8,7 @@ import Cloudinary from 'cloudinary';
 import formidable from 'formidable';
 import path from 'path';
 import mongoose from 'mongoose';
-
+const toObjectId = mongoose.Types.ObjectId;
 //lists 
 
 const list = async (req, res) => {
@@ -86,12 +86,30 @@ const listByUser = async (req, res) => {
 const getContinueWatchingList = async (req, res) => {
   const user = req.user;
   const mediaList = user ? user.continueWatching : [];
-  const mediaListIds = mediaList.map(item=>item.mediaId);
+  const mediaListIds = mediaList.map(item=>toObjectId(item.mediaId));
   const total = mediaListIds.length;
+    let query = [
+             {$match: {_id: {$in: mediaListIds}}},
+             {$addFields: {"__order": {$indexOfArray: [mediaListIds, "$_id" ]}}},
+             {$sort: {"__order": 1}},
+             {$lookup:{
+                  from:"users",
+                  localField:"postedBy",
+                  foreignField:"_id",
+                  as:"postedBy"
+              }},
+            {$unwind:"$postedBy"},
+            {$lookup:{
+                  from:"categories",
+                  localField:"category",
+                  foreignField:"_id",
+                  as:"category"
+            }},
+            {$unwind:"$category"}
+           ];
   try{
-    const medias = await Media.find({_id:{$in:mediaListIds}})
-                             .populate('postedBy', '_id firstName lastName')
-                             
+    let medias = await Media.aggregate(query);
+    medias = medias.map((media,idx)=>Object.assign({},media,{fromTime:mediaList[idx].fromTime}));
     sendSuccess(res,`Continue watching medias`)({medias,total});
   } catch(err){
     sendError(res)(err);
@@ -104,7 +122,7 @@ const getOwnMediaList = async (req,res) => {
   let start = Number(pageNumber*pageSize);
   let end = start+Number(pageSize);
   let searchArrSlice = user[searchField] ? user[searchField].slice(start,end) : [];
-  let ids = searchArrSlice.map(el=>mongoose.Types.ObjectId(el.id));
+  let ids = searchArrSlice.map(el=>toObjectId(el.id));
   let total = user[searchField].length;
   let query = [
              {$match: {_id: {$in: ids}}},
