@@ -1,100 +1,54 @@
+import createActionStrings from '../utils/create-action-strings';
 
 
-const CREATE_MEDIA_REQUEST = 'Newmedia page/CREATE_MEDIA_REQUEST';
-const CREATE_MEDIA_SUCCESS = 'Api response/CREATE_MEDIA_SUCCESS';
-const CREATE_MEDIA_ERROR = 'Api response/CREATE_MEDIA_ERROR';
-
-const LIST_POPULAR_MEDIA_REQUEST = 'Home page/LIST_POPULAR_MEDIA_REQUEST';
-const LIST_POPULAR_MEDIA_SUCCESS = 'Api response/LIST_POPULAR_MEDIA_SUCCESS';
-const LIST_POPULAR_MEDIA_ERROR = 'Api response/LIST_POPULAR_MEDIA_ERROR';
-
-const LIST_USER_MEDIA_REQUEST = 'Profile page/LIST_USER_MEDIA_REQUEST';
-const LIST_USER_MEDIA_SUCCESS = 'Api response/LIST_USER_MEDIA_SUCCESS';
-const LIST_USER_MEDIA_ERROR = 'Api response/LIST_USER_MEDIA_ERROR';
-
-const LIST_RELATED_MEDIA_REQUEST = 'Single media page/LIST_RELATED_MEDIA_REQUEST';
-const LIST_RELATED_MEDIA_SUCCESS = 'Api response/LIST_RELATED_MEDIA_SUCCESS';
-const LIST_RELATED_MEDIA_ERROR = 'Api response/LIST_RELATED_MEDIA_ERROR';
-
-const LIST_HISTORY_MEDIA_REQUEST = 'History media page/LIST_HISTORY_MEDIA_REQUEST';
-const LIST_HISTORY_MEDIA_SUCCESS = 'Api response/LIST_HISTORY_MEDIA_SUCCESS';
-const LIST_HISTORY_MEDIA_ERROR = 'Api response/LIST_HISTORY_MEDIA_ERROR';
-
-const LIST_WATCHLATER_MEDIA_REQUEST = 'Watch later media page/LIST_WATCHLATER_MEDIA_REQUEST';
-const LIST_WATCHLATER_MEDIA_SUCCESS = 'Api response/LIST_WATCHLATER_MEDIA_SUCCESS';
-const LIST_WATCHLATER_MEDIA_ERROR = 'Api response/LIST_WATCHLATER_MEDIA_ERROR';
-
-const LIST_MEDIA_BY_CHANNEL_REQUEST = 'Channel page/LIST_MEDIA_BY_CHANNEL_REQUEST';
-const LIST_MEDIA_BY_CHANNEL_SUCCESS = 'Api response/LIST_MEDIA_BY_CHANNEL_SUCCESS';
-const LIST_MEDIA_BY_CHANNEL_ERROR = 'Api response/LIST_MEDIA_BY_CHANNEL_ERROR';
-
-const LIST_CONTINUE_WATCHING_REQUEST = 'Home page/LIST_CONTINUE_WATCHING_REQUEST';
-const LIST_CONTINUE_WATCHING_SUCCESS = 'Api response/LIST_CONTINUE_WATCHING_SUCCESS';
-const LIST_CONTINUE_WATCHING_ERROR = 'Api response/LIST_CONTINUE_WATCHING_ERROR';
+const createMediaTypes = createActionStrings('CREATE_MEDIA','Newmedia page');
+const listPopularMediaTypes = createActionStrings('LIST_POPULAR_MEDIA','Home page');
+const listUserMediaTypes = createActionStrings('LIST_USER_MEDIA','Profile page');
+const listRelatedMediaTypes = createActionStrings('LIST_RELATED_MEDIA','Single media page');
+const listHistoryMediaTypes = createActionStrings('LIST_HISTORY_MEDIA','History media page');
+const listWatchLaterMediaTypes = createActionStrings('LIST_WATCHLATER_MEDIA','Watch later media page');
+const listMediaByChannelTypes = createActionStrings('LIST_MEDIA_BY_CHANNEL','Channel page');
 
 const REPLACE_MEDIA_FROM_LIST = 'Single media page autoplay/REPLACE_MEDIA_FROM_LIST';
 
-const READ_MEDIA_REQUEST = 'Single media page/READ_MEDIA_REQUEST';
-const READ_MEDIA_SUCCESS = 'Api response/READ_MEDIA_SUCCESS';
-const READ_MEDIA_ERROR = 'Api response/READ_MEDIA_ERROR';
-
-const UPDATE_MEDIA_REQUEST = 'Edit media page/UPDATE_MEDIA_REQUEST';
-const UPDATE_MEDIA_SUCCESS = 'Api response/UPDATE_MEDIA_SUCCESS';
-const UPDATE_MEDIA_ERROR = 'Api response/UPDATE_MEDIA_ERROR';
-
-const REMOVE_MEDIA_REQUEST = 'Single media page/REMOVE_MEDIA_REQUEST';
-const REMOVE_MEDIA_SUCCESS = 'Api response/REMOVE_MEDIA_SUCCESS';
-const REMOVE_MEDIA_ERROR = 'Api response/REMOVE_MEDIA_ERROR';
-
-const LIKE_MEDIA_REQUEST = 'Single media page/LIKE_MEDIA_REQUEST';
-const LIKE_MEDIA_SUCCESS = 'Api response/LIKE_MEDIA_SUCCESS';
-const LIKE_MEDIA_ERROR = 'Api response/LIKE_MEDIA_ERROR';
-
-const DISLIKE_MEDIA_REQUEST = 'Single media page/DISLIKE_MEDIA_REQUEST';
-const DISLIKE_MEDIA_SUCCESS = 'Api response/DISLIKE_MEDIA_SUCCESS';
-const DISLIKE_MEDIA_ERROR = 'Api response/DISLIKE_MEDIA_ERROR';
+const listContinueWatchingTypes = createActionStrings('LIST_CONTINUE_WATCHING','Home page');
+const readMediaTypes = createActionStrings('READ_MEDIA','Single media page');
 
 
-const SEARCH_MEDIA_REQUEST = 'Main nav search/SEARCH_MEDIA_REQUEST';
-const SEARCH_MEDIA_SUCCESS = 'Api response/SEARCH_MEDIA_SUCCESS';
-const SEARCH_MEDIA_ERROR = 'Api response/SEARCH_MEDIA_ERROR';
+const removeMediaTypes = createActionStrings('REMOVE_MEDIA','Single media page');
+const updateMediaTypes = createActionStrings('UPDATE_MEDIA','Edit media page');
 
-const SEARCH_HISTORY_REQUEST = 'History page search/SEARCH_HISTORY_REQUEST';
-const SEARCH_HISTORY_SUCCESS = 'Api response/SEARCH_HISTORY_SUCCESS';
-const SEARCH_HISTORY_ERROR = 'Api response/SEARCH_HISTORY_ERROR';
+const likeMediaTypes = createActionStrings('LIKE_MEDIA','Single media page');
+const dislikeMediaTypes = createActionStrings('DISLIKE_MEDIA','Single media page');
 
-const SEARCH_WATCHLATER_REQUEST = 'WATCHLATER page search/SEARCH_WATCHLATER_REQUEST';
-const SEARCH_WATCHLATER_SUCCESS = 'Api response/SEARCH_WATCHLATER_SUCCESS';
-const SEARCH_WATCHLATER_ERROR = 'Api response/SEARCH_WATCHLATER_ERROR';
+
+const searchMediaTypes = createActionStrings('SEARCH_MEDIA','Main nav search');
+const searchHistoryTypes = createActionStrings('SEARCH_HISTORY','History page search');
+const searchWatchLaterTypes = createActionStrings('SEARCH_WATCHLATER','Watchlater page search');
 
 const RESET_HISTORY_LIST = 'History page search/RESET_HISTORY_LIST';
 
 export default {
-	CREATE_MEDIA_REQUEST,CREATE_MEDIA_SUCCESS,CREATE_MEDIA_ERROR,
+	...createMediaTypes,
 
-	LIST_RELATED_MEDIA_REQUEST,LIST_RELATED_MEDIA_SUCCESS,LIST_RELATED_MEDIA_ERROR,
-	LIST_POPULAR_MEDIA_REQUEST,LIST_POPULAR_MEDIA_SUCCESS,LIST_POPULAR_MEDIA_ERROR,
-	LIST_USER_MEDIA_REQUEST,LIST_USER_MEDIA_SUCCESS,LIST_USER_MEDIA_ERROR,
-	LIST_HISTORY_MEDIA_REQUEST,LIST_HISTORY_MEDIA_SUCCESS,LIST_HISTORY_MEDIA_ERROR,
-	LIST_WATCHLATER_MEDIA_REQUEST,LIST_WATCHLATER_MEDIA_SUCCESS,LIST_WATCHLATER_MEDIA_ERROR,
-	LIST_MEDIA_BY_CHANNEL_REQUEST,LIST_MEDIA_BY_CHANNEL_SUCCESS,LIST_MEDIA_BY_CHANNEL_ERROR,
-	LIST_CONTINUE_WATCHING_REQUEST,LIST_CONTINUE_WATCHING_SUCCESS,LIST_CONTINUE_WATCHING_ERROR,
-
+	...listPopularMediaTypes,
+	...listUserMediaTypes,
+	...listRelatedMediaTypes,
+	...listHistoryMediaTypes,
+	...listWatchLaterMediaTypes,
+	...listMediaByChannelTypes,
+	...listContinueWatchingTypes,
 	REPLACE_MEDIA_FROM_LIST,
+	...readMediaTypes,
+	...searchMediaTypes,
+	...searchHistoryTypes,
+	...updateMediaTypes,
+	...removeMediaTypes,
 
-	READ_MEDIA_REQUEST,READ_MEDIA_SUCCESS,READ_MEDIA_ERROR,
+	...likeMediaTypes,
+	...dislikeMediaTypes,
 
-	UPDATE_MEDIA_REQUEST,UPDATE_MEDIA_SUCCESS,UPDATE_MEDIA_ERROR,
-
-	REMOVE_MEDIA_REQUEST,REMOVE_MEDIA_SUCCESS,REMOVE_MEDIA_ERROR,
-
-	LIKE_MEDIA_REQUEST,LIKE_MEDIA_SUCCESS,LIKE_MEDIA_ERROR,
-	DISLIKE_MEDIA_REQUEST,DISLIKE_MEDIA_SUCCESS,DISLIKE_MEDIA_ERROR,
-
-	SEARCH_MEDIA_REQUEST,SEARCH_MEDIA_SUCCESS,SEARCH_MEDIA_ERROR,
-
-	SEARCH_HISTORY_REQUEST,SEARCH_HISTORY_SUCCESS,SEARCH_HISTORY_ERROR,
-	SEARCH_WATCHLATER_REQUEST,SEARCH_WATCHLATER_SUCCESS,SEARCH_WATCHLATER_ERROR,
+	...searchWatchLaterTypes,
 
 	RESET_HISTORY_LIST
 }

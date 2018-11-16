@@ -28,7 +28,6 @@ const continueWatching = (state=initialState,action) => {
 			items.forEach(item=>{
 				byIds[item._id] = {...item,type:'media'};
 			});
-			console.log(byIds);
 			return {
 					...state,
 				processing:{
