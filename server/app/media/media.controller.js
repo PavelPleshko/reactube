@@ -8,6 +8,8 @@ import Cloudinary from 'cloudinary';
 import formidable from 'formidable';
 import path from 'path';
 import mongoose from 'mongoose';
+import MongoAggregator from '../../helpers/mongoose-aggregator';
+
 const toObjectId = mongoose.Types.ObjectId;
 //lists 
 
@@ -36,34 +38,17 @@ const listPopular = async (req, res) => {
 
 const listRelated = async (req, res) => {
   try{
-    let medias = await Media.aggregate(
-                          [{ $match: 
-                            { _id: {$ne:req.media._id },
-                            category:req.media.category}
-                          },
-                          {$sample:{size:6}},
-                          {$lookup:{
-                            from:"users",
-                            localField:"postedBy",
-                            foreignField:"_id",
-                            as:"postedBy"
-                          }},
-                          {$unwind:"$postedBy"},
-                          {$lookup:{
-                            from:"categories",
-                            localField:"category",
-                            foreignField:"_id",
-                            as:"category"
-                          }},
-                          {$unwind:"$category"},
-                          {$project:{
-                            "postedBy.hashed_password":0,
-                            "postedBy.salt":0,
-                            "postedBy.created":0,
-                            "postedBy.verified":0,
-                            "postedBy.email":0
-                          }}        
-                          ]);
+    const query = MongoAggregator()
+                    .match({ _id: {$ne:req.media._id },
+                          category:req.media.category})
+                    .sample(6)
+                    .populate('users','postedBy','_id')
+                    .populate('categories','category','_id')
+                    .project(null,['postedBy.hashed_password','postedBy.salt',
+                      'postedBy.created','postedBy.email'])
+                    .value();
+
+    let medias = await Media.aggregate(query);
     sendSuccess(res,'Related medias')({medias});
   }catch(err){
     sendError(res)(err);
@@ -88,25 +73,13 @@ const getContinueWatchingList = async (req, res) => {
   const mediaList = user ? user.continueWatching : [];
   const mediaListIds = mediaList.map(item=>toObjectId(item.mediaId));
   const total = mediaListIds.length;
-    let query = [
-             {$match: {_id: {$in: mediaListIds}}},
-             {$addFields: {"__order": {$indexOfArray: [mediaListIds, "$_id" ]}}},
-             {$sort: {"__order": 1}},
-             {$lookup:{
-                  from:"users",
-                  localField:"postedBy",
-                  foreignField:"_id",
-                  as:"postedBy"
-              }},
-            {$unwind:"$postedBy"},
-            {$lookup:{
-                  from:"categories",
-                  localField:"category",
-                  foreignField:"_id",
-                  as:"category"
-            }},
-            {$unwind:"$category"}
-           ];
+
+    const query = MongoAggregator().match({_id: {$in: mediaListIds}})
+                                    .addFields({'__order': {$indexOfArray: [mediaListIds, '$_id' ]}})
+                                    .sort('__order')
+                                    .populate('users','postedBy','_id')
+                                    .populate('categories','category','_id')
+                                    .value();
   try{
     let medias = await Media.aggregate(query);
     medias = medias.map((media,idx)=>Object.assign({},media,{fromTime:mediaList[idx].fromTime}));
@@ -124,25 +97,12 @@ const getOwnMediaList = async (req,res) => {
   let searchArrSlice = user[searchField] ? user[searchField].slice(start,end) : [];
   let ids = searchArrSlice.map(el=>toObjectId(el.id));
   let total = user[searchField].length;
-  let query = [
-             {$match: {_id: {$in: ids}}},
-             {$addFields: {"__order": {$indexOfArray: [ids, "$_id" ]}}},
-             {$sort: {"__order": 1}},
-             {$lookup:{
-                  from:"users",
-                  localField:"postedBy",
-                  foreignField:"_id",
-                  as:"postedBy"
-              }},
-            {$unwind:"$postedBy"},
-            {$lookup:{
-                  from:"categories",
-                  localField:"category",
-                  foreignField:"_id",
-                  as:"category"
-            }},
-            {$unwind:"$category"}
-           ];
+  const query = MongoAggregator().match({_id: {$in: ids}})
+                                    .addFields({'__order': {$indexOfArray: [ids, '$_id' ]}})
+                                    .sort('__order')
+                                    .populate('users','postedBy','_id')
+                                    .populate('categories','category','_id')
+                                    .value();
    try{
     let medias = await Media.aggregate(query);  
     sendSuccess(res,`Medias of user ${user.firstName} ${user.lastName}`)({medias,total});
@@ -211,7 +171,7 @@ const read = (req, res) => {
 }
 
 const incrementViews = async (req, res, next) => {
-  let media = req.media;
+  const media = req.media;
   try{
    let result = await Media.findByIdAndUpdate(media._id, {$inc: {"views": 1}}, 
     {new: true})
@@ -261,7 +221,6 @@ const update = async (req, res, next) => {
     let updateMedia = await media.save();
     sendSuccess(res,'media was updated')({media:updateMedia})
   }catch(err){
-    console.log(err);
     sendError(res)(err);
   }
 }
@@ -326,7 +285,7 @@ const dislike = async (req,res,next)=>{
 
 
 const isPoster = (req, res, next) => {
-  let isPoster = req.media && req.user 
+  const isPoster = req.media && req.user 
   && req.media.postedBy.toString() == req.user._id.toString();
   if(!isPoster){
     return sendError(res,403,'User is not authorized')();
@@ -336,8 +295,7 @@ const isPoster = (req, res, next) => {
 
 const mediaByID = async (req, res, next, id) => {
   try{
-      req.media = await Media.findById(id);
-      
+      req.media = await Media.findById(id);   
       next()
   }catch(err){
      sendError(res,404,'Resource is not found')(err);
@@ -361,7 +319,7 @@ const getSuggestions = async (req,res,next)=>{
 
 const searchByKeywords = async (req,res,next) =>{
   let searchTerm = req.query.input;
-  let query = {
+  const query = {
     $or:[
       {title:{$regex:searchTerm,$options:'i'}},
       {description:{$regex:searchTerm,$options:'i'}}
@@ -370,11 +328,10 @@ const searchByKeywords = async (req,res,next) =>{
   try{
     let medias = await Media.find(query).limit(10).sort()
     .populate('postedBy','_id firstName lastName');
-    let isSearchSuccessful = medias && medias.length>0;
+    const isSearchSuccessful = medias && medias.length>0;
     if(isSearchSuccessful){
       keywordCtrl.create(req.user,{text:searchTerm});
     }
-
     sendSuccess(res,'Requested medias')({medias});
   }catch(err){
     sendError(res)(err);

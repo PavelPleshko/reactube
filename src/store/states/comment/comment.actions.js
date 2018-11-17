@@ -10,7 +10,7 @@ const postCommentSuccess = createAction(types.POST_COMMENT_SUCCESS,'payload');
 const postReplySuccess = createAction(types.POST_REPLY_SUCCESS,'payload'); 
 const postCommentError = createAction(types.POST_COMMENT_ERROR,'payload');
 
-const getRepliesByCommentRequest = createAction(types.GET_REPLIES_BY_COMMENT,'payload');
+const getRepliesByCommentRequest = createAction(types.GET_REPLIES_BY_COMMENT_REQUEST,'payload');
 const getRepliesByCommentSuccess = createAction(types.GET_REPLIES_BY_COMMENT_SUCCESS,'payload');
 const getRepliesByCommentError = createAction(types.GET_REPLIES_BY_COMMENT_ERROR,'payload');
 
