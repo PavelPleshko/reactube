@@ -24,6 +24,9 @@ import SearchForm from './history/SearchForm';
 
 
 const styles = theme =>({
+	root:{
+		padding:'1.5rem 4rem'
+	},
 	search:{
 		backgroundColor:'rgba(0,0,0,.04)',
 		height:'100%',
@@ -49,13 +52,26 @@ class History extends Component{
 
 	componentDidMount = () =>{
 	 if(this.props.loggedIn){
-	 	let {currentPage,pageSize,historyMedias,listHistoryMedia} = this.props;
-			if(historyMedias.length < 1) listHistoryMedia(currentPage,pageSize);
+	 	const {historyMedias} = this.props;
+			if(historyMedias.length < 1) this.fetchHistoryMedias();
 	 }
+	}
+
+	componentDidUpdate = (prevProps) => {
+		const {historyMedias,loggedIn} = this.props;
+		const wasLoggedIn = prevProps.loggedIn;
+		if(!wasLoggedIn && loggedIn && historyMedias.length < 1){
+			this.fetchHistoryMedias();
+		}
 	}
 	
 	clearHistory = () =>{	
 		this.props.clearHistory();
+	}
+
+	fetchHistoryMedias = () =>{
+		const {currentPage,pageSize,listHistoryMedia} = this.props;
+		listHistoryMedia(currentPage,pageSize);
 	}
 
 
@@ -82,7 +98,7 @@ class History extends Component{
 		const {classes,historyMedias,loggedIn,isProcessing,itemsRequested,total,noMoreItems,location} = this.props;
 
 	return (
-		<Grid container spacing={24}>
+		<Grid container spacing={24} className={classes.root}>
 		<Grid item sm={12}>
 			<h3>Medias that you viewed 
 			{loggedIn && <span className={classes.total}>

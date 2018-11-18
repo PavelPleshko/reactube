@@ -8,7 +8,7 @@ import Cloudinary from 'cloudinary';
 import formidable from 'formidable';
 import path from 'path';
 import mongoose from 'mongoose';
-import MongoAggregator from '../../helpers/mongoose-aggregator';
+import MongoAggregator,{Facet as FacetBuilder} from '../../helpers/mongoose-aggregator';
 
 const toObjectId = mongoose.Types.ObjectId;
 //lists 
@@ -117,43 +117,25 @@ const getOwnMediaBySearch = async (req,res) => {
   let skip = +(page*pageSize);
   let searchArrSlice = user[searchField] ? user[searchField] : [];
   let ids = searchArrSlice.map(el=>mongoose.Types.ObjectId(el.id));
- 
-  let query = [
-             {$match: {_id: {$in: ids},
-             $or:[
-             {title:{$regex:input,$options:'i'}},
-             {description:{$regex:input,$options:'i'}}
-             ]
-           }},
-             {$addFields: {"__order": {$indexOfArray: [ids, "$_id" ]}}},
-             {$sort: {"__order": 1}},
-             {$facet:{
-              results:[
-              {$skip:skip},
-             {$limit:pageSize},
-             {$lookup:{
-                  from:"users",
-                  localField:"postedBy",
-                  foreignField:"_id",
-                  as:"postedBy"
-              }},
-            {$unwind:"$postedBy"},
-            {$lookup:{
-                  from:"categories",
-                  localField:"category",
-                  foreignField:"_id",
-                  as:"category"
-            }},
-            {$unwind:"$category"}
-            ],
-            count:[
-            {$group:{
-              _id:null,
-              total:{$sum:1}
-            }}
-           ]
-             }}             
-           ];
+  const facet = FacetBuilder()
+                .newField('results')
+                .skip(skip)
+                .limit(pageSize)
+                .populate('users','postedBy','_id')
+                .populate('categories','category','_id')
+                .newField('count')
+                .count();
+  const query = MongoAggregator()
+                  .match({_id: {$in: ids},
+                     $or:[
+                     {title:{$regex:input,$options:'i'}},
+                     {description:{$regex:input,$options:'i'}}
+                     ]
+                   })
+                  .addFields({'__order': {$indexOfArray: [ids, '$_id' ]}})
+                  .sort('__order')
+                  .facet(facet)
+                  .value();
    try{
     let data = await Media.aggregate(query);
     data = data[0];   

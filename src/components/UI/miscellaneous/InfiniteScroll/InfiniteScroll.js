@@ -57,7 +57,7 @@ class InfiniteScroll extends Component{
 }
 
 InfiniteScroll.defaultProps = {
-    gap:50,
+    gap:30,
     containerHeight:window.innerHeight
 }
 
