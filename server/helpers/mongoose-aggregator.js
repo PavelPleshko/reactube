@@ -149,6 +149,8 @@ class MongooseAggregator{
 	}
 
 
+
+
 export const Facet = function(){
 	let _value = {};
 	let _currentField = null;
@@ -192,6 +194,30 @@ class FacetAggregator extends MongooseAggregator{
 
 
 
+}
+
+//operators
+//can be used in combination with some reduce function
+// export function or(){
+// 	let conditions = Array.from(arguments).slice();
+// 	if(conditions.length === 1 && conditions[0] instanceof Array){
+// 		conditions = conditions[0];
+// 	}
+// 	const combined=[];
+// 	conditions.forEach(condition=>{
+// 		combined.push(condition);
+// 	})
+// 	const result = {$or:combined};
+// 	return result;
+// }
+
+export function in(arr){
+	let result;
+	if(!(arr instanceof Array)){
+		throw Error('Argument should be a valid Array');
+	}
+	result = arr;
+	return {$in:result};
 }
 
 
