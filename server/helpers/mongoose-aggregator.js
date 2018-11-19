@@ -212,11 +212,10 @@ class FacetAggregator extends MongooseAggregator{
 // }
 
 export function inArray(arr){
-	let result;
 	if(!(arr instanceof Array)){
 		throw Error('Argument should be a valid Array');
 	}
-	result = arr;
+	let result = arr;
 	return {$in:result};
 }
 

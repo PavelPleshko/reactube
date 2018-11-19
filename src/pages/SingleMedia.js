@@ -76,10 +76,10 @@ class SingleMedia extends Component{
 		this.addToListIfNotEnded();
 	}
 
-	addToListIfNotEnded = (mediaId,fromTimeSec) => {
+	addToListIfNotEnded = (mediaId,fromTimeSec,duration) => {
 		if(mediaId && fromTimeSec){
 			const {addToContinueWatching} = this.props;
-			addToContinueWatching(mediaId,fromTimeSec);
+			addToContinueWatching(mediaId,fromTimeSec,duration);
 		}
 	}
 

@@ -128,13 +128,12 @@ const clearHistory = () =>{
 	}
 }
 
-const addToContinueWatching = (mediaId,fromTime) => {
+const addToContinueWatching = (mediaId,fromTime,duration) => {
 	return (dispatch,getState)=>{
 		dispatch(userActions.addToContinueWatchingRequest());
 		let csrfToken = getState().csrf;
-		userApiCalls.addToContinueWatching({mediaId,fromTime,csrfToken})
+		userApiCalls.addToContinueWatching({mediaId,fromTime,duration,csrfToken})
 		.then(response=>{
-			console.log(response);			
 			dispatch(userActions.addToContinueWatchingSuccess({}));
 		})
 		.catch((error)=>{

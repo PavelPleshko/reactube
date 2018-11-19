@@ -156,7 +156,7 @@ onVideoHasChanged = (fromVideoId) => {
   const {videoHasChangedOrDestroyed,user,mediaChangedOrDestroyed} = this.props;
   if(user){
     const stoppedAtSec = duration * played;
-    mediaChangedOrDestroyed(fromVideoId,stoppedAtSec);
+    mediaChangedOrDestroyed(fromVideoId,stoppedAtSec,duration);
   }
 }
 

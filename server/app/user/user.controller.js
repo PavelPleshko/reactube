@@ -279,7 +279,8 @@ const addToContinueWatching = async (req,res)=>{
   const user = req.user;
   const mediaId = req.params.mediaId;
   const fromTime = req.body.fromTime || 0;
-  
+  const duration = req.body.duration || 0;
+
   if(!user.continueWatching){
     user.continueWatching = [];
   }
@@ -293,15 +294,17 @@ const addToContinueWatching = async (req,res)=>{
       }
       return false;
     });
-    if(!found){
-      continueWatching.unshift({mediaId,fromTime});
-      newUser = await user.save();
-    }else{
+    const finishedWatching = fromTime/duration >= .95;
+    if(!found && !finishedWatching){
+      continueWatching.unshift({mediaId,fromTime});    
+    }else if(found && !finishedWatching){
       const newElement = continueWatching[index];
       newElement.fromTime = fromTime;
       continueWatching.set(index,newElement);
-      newUser = await user.save();
-    }  
+    }else if (found && finishedWatching) {
+      continueWatching.splice(index,1);
+    }
+     newUser = await user.save();
     sendSuccess(res)({user:newUser});
   }catch(err){
     sendError(res)(err);

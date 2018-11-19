@@ -121,7 +121,7 @@ const addToWatchlater = ({csrfToken,mediaId}) => {
   .then(res=>res.json())
 }
 
-const addToContinueWatching = ({mediaId,fromTime,csrfToken}) => {
+const addToContinueWatching = ({mediaId,fromTime,duration,csrfToken}) => {
   return fetch(`/api/users/continue-watching/${mediaId}`, {
     method: 'POST',
     headers: {
@@ -130,7 +130,7 @@ const addToContinueWatching = ({mediaId,fromTime,csrfToken}) => {
       'CSRF-Token': csrfToken
     },
     credentials: 'include',
-    body: JSON.stringify({fromTime})
+    body: JSON.stringify({fromTime,duration})
   })
   .then(handleErrors)
   .then(res=>res.json())
