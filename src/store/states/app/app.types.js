@@ -1,6 +1,7 @@
-const SEARCH_SUGGESTIONS_REQUEST = 'Main nav search/SEARCH_SUGGESTIONS_REQUEST';
-const SEARCH_SUGGESTIONS_SUCCESS = 'Api response/SEARCH_SUGGESTIONS_SUCCESS';
-const SEARCH_SUGGESTIONS_ERROR = 'Api response/SEARCH_SUGGESTIONS_ERROR';
+import createActionStrings from '../utils/create-action-strings';
+
+
+const searchSuggestionsTypes = createActionStrings('SEARCH_SUGGESTIONS','Main nav search');
 
 const OPEN_DRAWER = 'Main nav/OPEN_DRAWER';
 const CLOSE_DRAWER = 'Drawer nav/CLOSE_DRAWER';
@@ -9,8 +10,7 @@ const SHOW_SNACKBAR = 'App page/SHOW_SNACKBAR';
 const HIDE_SNACKBAR = 'App page/HIDE_SNACKBAR';
 
 export default {
-	SEARCH_SUGGESTIONS_REQUEST,SEARCH_SUGGESTIONS_SUCCESS,SEARCH_SUGGESTIONS_ERROR,
-
+	...searchSuggestionsTypes,
 	OPEN_DRAWER,CLOSE_DRAWER,
 	SHOW_SNACKBAR,HIDE_SNACKBAR
 }

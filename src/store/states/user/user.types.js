@@ -1,50 +1,22 @@
+import createActionStrings from '../utils/create-action-strings';
 
+const loginUserTypes = createActionStrings('LOGIN_USER','Signin page');
+const logoutUserTypes = createActionStrings('LOGOUT_USER','Navbar component');
+const registerUserTypes = createActionStrings('REGISTER_USER','Signup page');
+const updateUserTypes = createActionStrings('UPDATE_USER','Profile/history page');
+const getUsersChannelsTypes = createActionStrings('GET_USERS_CHANNELS','Channels component');
+const removeViewHistoryTypes = createActionStrings('REMOVE_VIEW_HISTORY','History page');
+const addToWatchLaterTypes = createActionStrings('ADD_TO_WATCH_LATER','Watch later page');
+const addToContinueWatchingTypes = createActionStrings('ADD_TO_CONTINUE_WATCHING','Single media page');
 
-const LOGIN_USER_REQUEST = 'Signin page/LOGIN_USER_REQUEST';
-const LOGIN_USER_SUCCESS = 'Api response/LOGIN_USER_SUCCESS';
-const LOGIN_USER_ERROR = 'Api response/LOGIN_USER_ERROR';
-
-const LOGOUT_USER_REQUEST = 'Navbar component/LOGOUT_USER_REQUEST';
-const LOGOUT_USER_SUCCESS = 'Api response/LOGOUT_USER_SUCCESS';
-const LOGOUT_USER_ERROR = 'Api response/LOGOUT_USER_ERROR';
-
-const REGISTER_USER_REQUEST = 'Signup page/REGISTER_USER_REQUEST';
-const REGISTER_USER_SUCCESS = 'Api response/REGISTER_USER_SUCCESS';
-const REGISTER_USER_ERROR = 'Api response/REGISTER_USER_ERROR';
-
-const UPDATE_USER_REQUEST = 'Profile/history page/UPDATE_USER_REQUEST';
-const UPDATE_USER_SUCCESS = 'Api response/UPDATE_USER_SUCCESS';
-const UPDATE_USER_ERROR = 'Api response/UPDATE_USER_ERROR';
-
-const GET_USERS_CHANNELS_REQUEST = 'Channels component/GET_USERS_CHANNELS_REQUEST';
-const GET_USERS_CHANNELS_SUCCESS = 'Api response/GET_USERS_CHANNELS_SUCCESS';
-const GET_USERS_CHANNELS_ERROR = 'Api response/GET_USERS_CHANNELS_ERROR';
-
-
-const REMOVE_VIEW_HISTORY_REQUEST = 'History page/REMOVE_VIEW_HISTORY_REQUEST';
-const REMOVE_VIEW_HISTORY_SUCCESS = 'Api response/REMOVE_VIEW_HISTORY_SUCCESS';
-const REMOVE_VIEW_HISTORY_ERROR = 'Api response/REMOVE_VIEW_HISTORY_ERROR';
-
-const ADD_TO_WATCH_LATER_REQUEST = 'Watch later page/ADD_TO_WATCH_LATER_REQUEST';
-const ADD_TO_WATCH_LATER_SUCCESS = 'Api response/ADD_TO_WATCH_LATER_SUCCESS';
-const ADD_TO_WATCH_LATER_ERROR = 'Api response/ADD_TO_WATCH_LATER_ERROR';
-
-const ADD_TO_CONTINUE_WATCHING_REQUEST = 'Single media page/ADD_TO_CONTINUE_WATCHING_REQUEST';
-const ADD_TO_CONTINUE_WATCHING_SUCCESS = 'Api response/ADD_TO_CONTINUE_WATCHING_SUCCESS';
-const ADD_TO_CONTINUE_WATCHING_ERROR = 'Api response/ADD_TO_CONTINUE_WATCHING_ERROR';
 
 export default {
-	LOGIN_USER_REQUEST,LOGIN_USER_SUCCESS,LOGIN_USER_ERROR,
-	LOGOUT_USER_REQUEST,LOGOUT_USER_SUCCESS,LOGOUT_USER_ERROR,
-
-	REGISTER_USER_REQUEST,REGISTER_USER_SUCCESS,REGISTER_USER_ERROR,
-
-	UPDATE_USER_REQUEST,UPDATE_USER_SUCCESS,UPDATE_USER_ERROR,
-	REMOVE_VIEW_HISTORY_REQUEST,REMOVE_VIEW_HISTORY_SUCCESS,REMOVE_VIEW_HISTORY_ERROR,
-
-	ADD_TO_WATCH_LATER_REQUEST,ADD_TO_WATCH_LATER_SUCCESS,ADD_TO_WATCH_LATER_ERROR,
-
-	GET_USERS_CHANNELS_REQUEST,GET_USERS_CHANNELS_SUCCESS,GET_USERS_CHANNELS_ERROR,
-
-	ADD_TO_CONTINUE_WATCHING_REQUEST,ADD_TO_CONTINUE_WATCHING_SUCCESS,ADD_TO_CONTINUE_WATCHING_ERROR
+	...loginUserTypes,
+	...logoutUserTypes,
+	...registerUserTypes,
+	...updateUserTypes,
+	...getUsersChannelsTypes,
+	...removeViewHistoryTypes,
+	...addToWatchLaterTypes,
+	...addToContinueWatchingTypes
 }
