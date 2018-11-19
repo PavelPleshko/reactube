@@ -211,7 +211,7 @@ class FacetAggregator extends MongooseAggregator{
 // 	return result;
 // }
 
-export function in(arr){
+export function inArray(arr){
 	let result;
 	if(!(arr instanceof Array)){
 		throw Error('Argument should be a valid Array');

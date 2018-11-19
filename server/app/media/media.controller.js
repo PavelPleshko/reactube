@@ -8,7 +8,7 @@ import Cloudinary from 'cloudinary';
 import formidable from 'formidable';
 import path from 'path';
 import mongoose from 'mongoose';
-import MongoAggregator,{Facet as FacetBuilder,in} from '../../helpers/mongoose-aggregator';
+import MongoAggregator,{Facet as FacetBuilder,inArray} from '../../helpers/mongoose-aggregator';
 import {removeResourceFromCloudinary,getResourceIdFromLink} from '../../helpers/cloudinaryManager';
 
 const toObjectId = mongoose.Types.ObjectId;
@@ -75,7 +75,7 @@ const getContinueWatchingList = async (req, res) => {
   const mediaListIds = mediaList.map(item=>toObjectId(item.mediaId));
   const total = mediaListIds.length;
 
-    const query = MongoAggregator().match({_id: in(mediaListIds)})
+    const query = MongoAggregator().match({_id: inArray(mediaListIds)})
                                     .addFields({'__order': {$indexOfArray: [mediaListIds, '$_id' ]}})
                                     .sort('__order')
                                     .populate('users','postedBy','_id')
@@ -98,7 +98,7 @@ const getOwnMediaList = async (req,res) => {
   const searchArrSlice = user[searchField] ? user[searchField].slice(start,end) : [];
   const ids = searchArrSlice.map(el=>toObjectId(el.id));
   const total = user[searchField].length;
-  const query = MongoAggregator().match({_id: in(ids)})
+  const query = MongoAggregator().match({_id: inArray(ids)})
                                     .addFields({'__order': {$indexOfArray: [ids, '$_id' ]}})
                                     .sort('__order')
                                     .populate('users','postedBy','_id')
@@ -127,7 +127,7 @@ const getOwnMediaBySearch = async (req,res) => {
                 .newField('count')
                 .count();
   const query = MongoAggregator()
-                  .match({_id: in(ids),
+                  .match({_id: inArray(ids),
                      $or:[
                      {title:{$regex:input,$options:'i'}},
                      {description:{$regex:input,$options:'i'}}
