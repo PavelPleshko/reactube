@@ -35,6 +35,21 @@ const WatchlaterEntrySchema = new mongoose.Schema({
   _id:false
 })
 
+const InterestSchema = new mongoose.Schema({
+  channelId:String,
+  topicId:String,
+  weight:{
+    type:Number,
+    default:0
+    },
+  updated:{
+    type:Date,
+    default:Date.now()
+  }
+  },{
+    _id:false
+  })
+
 const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -69,6 +84,7 @@ const UserSchema = new mongoose.Schema({
   },
   history:[HistoryEntrySchema],
   watchlater:[WatchlaterEntrySchema],
+  interests:[InterestSchema],
   saveHistory:{
     type:Boolean,
     default:true

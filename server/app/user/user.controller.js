@@ -1,6 +1,8 @@
 import User from './user.model';
 import Token from './token.model';
 import Channel from '../channel/channel.model';
+import Media from '../media/media.model';
+import {updateInterests} from '../interest/interest.controller';
 import extend from 'lodash/extend';
 import errorHandler from '../../helpers/dbErrorHandler';
 import config from '../../config/config';
@@ -11,6 +13,10 @@ import request from 'request';
 import {uploadFileFromPathToCloudinary} from '../../helpers/cloudinaryManager';
 import {createJwtToken,verifyToken} from '../../helpers/tokenHelper';
 import {emailService} from '../../seneca';
+
+
+
+
 
 const create = async (req, res, next) => {
   const user = new User(req.body);
@@ -129,7 +135,7 @@ const verify = async (req,res)=>{
 
 const addToHistory = async (req,res,next)=>{
   let user = req.user;
-  let mediaId = req.params.mediaId;
+  const mediaId = req.params.mediaId;
   if(!user){
     next();
   } else{
@@ -141,8 +147,8 @@ const addToHistory = async (req,res,next)=>{
       user.saveHistory = true;
     }
     if(user.saveHistory){
-      let history = user.history;
-      let found = history.findIndex(item=>item.id===mediaId);
+      const history = user.history;
+      const found = history.findIndex(item=>item.id===mediaId);
       if(!~found){
         history.unshift({id:mediaId});
         await user.save();
@@ -260,11 +266,12 @@ const addWatchlater = async(req,res)=>{
       user.watchlater = [];
     }
       let message = 'You have already added this media to watchlist';
-      let watchlater = user.watchlater;
-      let found = watchlater.findIndex(item=>item.id===mediaId);
-      if(~found){
+      const watchlater = user.watchlater;
+      const found = watchlater.findIndex(item => item.id.toString() === mediaId);
+      if(!~found){
         message = 'Successfully added to watchlist';
         watchlater.unshift({id:mediaId});
+        user = await updateInterests(user,null,'watchLater',null,mediaId);
         user = await user.save();
       }
     
@@ -274,6 +281,7 @@ const addWatchlater = async(req,res)=>{
   }
   }
 }
+
 
 const addToContinueWatching = async (req,res)=>{
   const user = req.user;
