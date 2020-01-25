@@ -2,5 +2,5 @@
 
 ## Reactube
 ![home](home.png)
-![single](single-media.png)
-![newvideo](new-media.png)
+![single](singlemedia.png)
+![newvideo](newmedia.png)
