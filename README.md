@@ -4,3 +4,4 @@
 ![home](home.png)
 ![single](singlemedia.png)
 ![newvideo](newmedia.png)
+![comments](comments.png)
